@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0B0F1A}
+::selection{background:#2E6FE0;color:#fff}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes drawLine{to{stroke-dashoffset:0}}
+@keyframes pulseRing{0%{transform:scale(1);opacity:.55}70%{transform:scale(2.4);opacity:0}100%{opacity:0}}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (max-width:820px){[data-navfull]{display:none!important}[data-navtoggle]{display:inline-flex!important}}
+</style>
+</helmet>
+<div data-root style="--ink:#0B0F1A;--ink-soft:#1A2230;--paper:#FFFFFF;--paper-soft:#F4F6FA;--blue:#1452C4;--blue-bright:#2E6FE0;--muted:#5B6577;--line:#E3E8F0;font-family:'Inter Tight',system-ui,sans-serif;color:#0B0F1A;background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;">
+
+  <!-- ============ FLOATING WHATSAPP ============ -->
+  <a href="{{ waMain }}" target="_blank" rel="noopener" style="position:fixed;right:18px;bottom:18px;z-index:90;display:inline-flex;align-items:center;gap:10px;background:#1452C4;color:#fff;text-decoration:none;padding:13px 18px 13px 15px;border-radius:999px;font-weight:600;font-size:15px;box-shadow:0 12px 30px rgba(20,82,196,.34);" aria-label="Hubungi via WhatsApp">
+    <span style="display:inline-flex;width:22px;height:22px;border-radius:50%;background:#fff;align-items:center;justify-content:center;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#1452C4"><path d="M12 2a10 10 0 0 0-8.6 15.05L2 22l5.1-1.34A10 10 0 1 0 12 2Zm5.3 14.2c-.22.62-1.3 1.2-1.8 1.24-.46.05-.46.38-2.9-.6-2.46-.98-4-3.5-4.12-3.66-.12-.16-.98-1.3-.98-2.48 0-1.18.62-1.76.84-2 .22-.24.48-.3.64-.3l.46.01c.15.01.35-.06.54.42l.76 1.86c.06.13.1.28.01.45l-.28.46-.4.44c-.13.13-.27.27-.12.53.16.26.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.16 1.34.26.13.42.11.57-.07l.82-.96c.2-.26.36-.2.6-.12l1.72.82c.26.13.42.19.48.3.06.1.06.6-.16 1.22Z"/></svg>
+    </span>
+    <span data-navfull>WhatsApp</span>
+  </a>
+
+  <!-- ============ HEADER ============ -->
+  <header style="position:sticky;top:0;z-index:80;background:{{ headerBg }};backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid {{ headerBorder }};transition:background .3s,border-color .3s,padding .3s;">
+    <div style="width:min(1200px,92vw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:{{ headerPad }};transition:padding .3s;">
+      <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;">
+        <span style="display:inline-flex;width:38px;height:38px;border-radius:10px;background:#1452C4;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(20,82,196,.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5a2 2 0 0 1 1.9-1.4h5.2a2 2 0 0 1 1.9 1.4L19 17"/><circle cx="7.5" cy="17.5" r="1.4"/><circle cx="16.5" cy="17.5" r="1.4"/></svg>
+        </span>
+        <span style="line-height:1;">
+          <span style="display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.02em;color:{{ headerText }};">Arasya Rent Car</span>
+          <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:{{ headerSub }};margin-top:3px;text-transform:uppercase;">Chauffeur · Bogor · Jabodetabek</span>
+        </span>
+      </a>
+
+      <nav data-navfull style="display:flex;align-items:center;gap:4px;">
+        <sc-for list="{{ nav }}" as="item" hint-placeholder-count="6">
+          <a href="#" onClick="{{ item.go }}" style="text-decoration:none;font-size:14.5px;font-weight:{{ item.weight }};color:{{ item.color }};padding:9px 13px;border-radius:8px;background:{{ item.bg }};transition:color .2s;">{{ item.label }}</a>
+        </sc-for>
+        <a href="{{ waMain }}" target="_blank" rel="noopener" style="margin-left:8px;text-decoration:none;background:#1452C4;color:#fff;font-weight:600;font-size:14px;padding:10px 16px;border-radius:9px;box-shadow:0 6px 16px rgba(20,82,196,.28);">Booking</a>
+      </nav>
+
+      <button data-navtoggle onClick="{{ toggleNav }}" style="display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;border:1px solid {{ headerBorder }};background:transparent;cursor:pointer;color:{{ headerText }};">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <sc-if value="{{ mobileNav }}" hint-placeholder-val="{{ false }}">
+      <div style="border-top:1px solid var(--line);background:#fff;padding:10px 0;">
+        <div style="width:min(1200px,92vw);margin:0 auto;display:flex;flex-direction:column;gap:2px;">
+          <sc-for list="{{ navMobile }}" as="item" hint-placeholder-count="6">
+            <a href="#" onClick="{{ item.go }}" style="text-decoration:none;color:#0B0F1A;font-weight:600;font-size:16px;padding:13px 12px;border-radius:9px;background:{{ item.bg }};">{{ item.label }}</a>
+          </sc-for>
+          <a href="{{ waMain }}" target="_blank" rel="noopener" style="margin-top:6px;text-align:center;text-decoration:none;background:#1452C4;color:#fff;font-weight:600;font-size:15px;padding:13px;border-radius:10px;">Booking via WhatsApp</a>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+
+  <!-- ============ BERANDA ============ -->
+  <sc-if value="{{ isBeranda }}" hint-placeholder-val="{{ true }}">
+  <main>
+
+    <!-- HERO -->
+    <section style="position:relative;background:#0B0F1A;color:#fff;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 85% 10%, rgba(46,111,224,.22), transparent 60%);"></div>
+      <div style="position:relative;width:min(1200px,92vw);margin:0 auto;padding:clamp(40px,7vw,86px) 0 clamp(46px,7vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(34px,5vw,64px);align-items:center;">
+        <div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#9DB6E8;border:1px solid rgba(157,182,232,.28);border-radius:999px;padding:7px 13px;opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:.04s;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#2E6FE0;box-shadow:0 0 0 4px rgba(46,111,224,.25);"></span>Sewa Mobil + Driver · Terpercaya
+          </div>
+          <h1 data-reveal style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(36px,6vw,62px);line-height:1.02;letter-spacing:-.03em;margin:20px 0 0;opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:.12s;">Perjalanan rapi,<br><span style="color:#5E93F2;">supir profesional.</span></h1>
+          <p data-reveal style="font-size:clamp(15.5px,1.6vw,18.5px);line-height:1.6;color:#B9C4D6;max-width:30em;margin:20px 0 0;opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:.22s;">Armada terawat dan driver berpengalaman untuk dalam kota, antar kota, hingga bandara — di Bogor, Jabodetabek, Bandung, dan kota besar lainnya. Satu kanal resmi, harga transparan.</p>
+          <div data-reveal style="display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:.32s;">
+            <a href="{{ waMain }}" target="_blank" rel="noopener" style="text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:16px;padding:15px 24px;border-radius:11px;box-shadow:0 14px 30px rgba(46,111,224,.4);">Booking via WhatsApp</a>
+            <a href="#" onClick="{{ scrollArmada }}" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:600;font-size:16px;padding:15px 24px;border-radius:11px;">Lihat Armada</a>
+          </div>
+          <div data-reveal style="display:flex;flex-wrap:wrap;gap:26px;margin-top:34px;opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:.42s;">
+            <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;">14</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8FA1BC;text-transform:uppercase;margin-top:3px;">Unit Armada</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.12);"></div>
+            <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;">24/7</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8FA1BC;text-transform:uppercase;margin-top:3px;">Support Admin</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.12);"></div>
+            <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;">2 Tarif</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8FA1BC;text-transform:uppercase;margin-top:3px;">12-Jam / All-in</div></div>
+          </div>
+        </div>
+
+        <!-- ROUTE-LINE MOTIF -->
+        <div data-reveal style="position:relative;opacity:0;transform:translateY(20px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1);transition-delay:.3s;">
+          <div style="position:relative;border:1px solid rgba(157,182,232,.2);border-radius:22px;background:linear-gradient(160deg,#11192B,#0B0F1A);padding:22px;overflow:hidden;">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(157,182,232,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(157,182,232,.05) 1px,transparent 1px);background-size:34px 34px;"></div>
+            <div style="position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7E92B4;text-transform:uppercase;">Live Corridor</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5E93F2;"><span style="width:6px;height:6px;border-radius:50%;background:#5E93F2;box-shadow:0 0 0 0 rgba(94,147,242,.7);animation:pulseRing 1.8s ease-out infinite;"></span>ON ROUTE</span>
+            </div>
+            <svg viewBox="0 0 380 270" width="100%" style="position:relative;display:block;">
+              <path d="M40 215 C 110 150, 90 90, 175 95 S 300 70, 338 48" fill="none" stroke="rgba(157,182,232,.16)" stroke-width="2.5"/>
+              <path d="M40 215 C 110 150, 90 90, 175 95 S 300 70, 338 48" fill="none" stroke="#2E6FE0" stroke-width="3" stroke-linecap="round"/>
+              <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#C7D4EC">
+                <circle cx="40" cy="215" r="6" fill="#0B0F1A" stroke="#5E93F2" stroke-width="2.5"/><text x="40" y="240" text-anchor="middle">BOGOR</text>
+                <circle cx="175" cy="95" r="5" fill="#0B0F1A" stroke="#7E92B4" stroke-width="2"/><text x="175" y="80" text-anchor="middle" fill="#8FA1BC">SEMARANG</text>
+                <circle cx="338" cy="48" r="6" fill="#0B0F1A" stroke="#5E93F2" stroke-width="2.5"/><text x="338" y="36" text-anchor="middle">JOGJA</text>
+              </g>
+              <circle r="5" fill="#fff" style="filter:drop-shadow(0 0 6px rgba(94,147,242,.9));">
+                <animateMotion dur="3.4s" begin="1s" repeatCount="indefinite" rotate="auto" path="M40 215 C 110 150, 90 90, 175 95 S 300 70, 338 48"/>
+              </circle>
+            </svg>
+            <div style="position:relative;display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:13px 16px;border-radius:13px;background:rgba(46,111,224,.12);border:1px solid rgba(46,111,224,.28);">
+              <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:#8FA1BC;text-transform:uppercase;">Bogor → Jogja · All-in</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin-top:3px;">Innova Reborn</div></div>
+              <div style="text-align:right;"><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:#9DC0FF;">Rp 1.500.000</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8FA1BC;">/hari · est.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTIMATOR -->
+    <section id="estimator" style="background:#0B0F1A;padding:0 0 clamp(50px,7vw,86px);">
+      <div style="width:min(1100px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:#fff;border-radius:22px;box-shadow:0 30px 70px rgba(7,12,28,.5);padding:clamp(22px,3vw,34px);margin-top:-28px;position:relative;border:1px solid var(--line);">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px;">
+            <div>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Cek Estimasi Harga</span>
+              <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:8px 0 0;">Hitung perkiraan, lanjut ke WhatsApp</h2>
+            </div>
+            <div style="display:inline-flex;background:var(--paper-soft);border:1px solid var(--line);border-radius:11px;padding:4px;">
+              <button onClick="{{ estTierDk }}" style="border:none;cursor:pointer;font-family:'Inter Tight';font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;background:{{ estDkBg }};color:{{ estDkColor }};transition:.2s;">Dalam Kota 12-Jam</button>
+              <button onClick="{{ estTierAi }}" style="border:none;cursor:pointer;font-family:'Inter Tight';font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;background:{{ estAiBg }};color:{{ estAiColor }};transition:.2s;">All-in</button>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;">
+            <label style="display:block;">
+              <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Dari</span>
+              <select value="{{ estOrigin }}" onChange="{{ setEstOrigin }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;color:var(--ink);padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;">
+                <sc-for list="{{ origins }}" as="o" hint-placeholder-count="6"><option value="{{ o }}">{{ o }}</option></sc-for>
+              </select>
+            </label>
+            <label style="display:block;">
+              <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Tujuan</span>
+              <select value="{{ estDest }}" onChange="{{ setEstDest }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;color:var(--ink);padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;">
+                <sc-for list="{{ dests }}" as="d" hint-placeholder-count="8"><option value="{{ d }}">{{ d }}</option></sc-for>
+              </select>
+            </label>
+            <label style="display:block;">
+              <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Kendaraan</span>
+              <select value="{{ estVeh }}" onChange="{{ setEstVeh }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;color:var(--ink);padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;">
+                <sc-for list="{{ vehicleOptions }}" as="v" hint-placeholder-count="14"><option value="{{ v.idx }}">{{ v.name }}</option></sc-for>
+              </select>
+            </label>
+            <div style="display:block;">
+              <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Durasi (hari)</span>
+              <div style="display:flex;align-items:center;gap:8px;background:var(--paper-soft);border:1px solid var(--line);border-radius:11px;padding:6px;">
+                <button onClick="{{ decDays }}" style="width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px;color:var(--ink);line-height:1;">−</button>
+                <div style="flex:1;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;">{{ estDays }}</div>
+                <button onClick="{{ incDays }}" style="width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px;color:var(--ink);line-height:1;">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px;align-items:center;background:linear-gradient(135deg,#0B0F1A,#1A2230);border-radius:16px;padding:clamp(18px,2.4vw,26px);">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8FA1BC;text-transform:uppercase;">{{ estRouteLabel }} · {{ estTierLabel }}</div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,5vw,44px);color:#fff;line-height:1.05;margin-top:6px;">{{ estTotalLabel }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9DB6E8;margin-top:6px;">{{ estBreakdown }}</div>
+            </div>
+            <a href="{{ estWa }}" target="_blank" rel="noopener" style="justify-self:end;text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:15.5px;padding:15px 22px;border-radius:12px;box-shadow:0 12px 26px rgba(46,111,224,.4);white-space:nowrap;">Lanjut Booking →</a>
+          </div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin:14px 0 0;line-height:1.6;">* Estimasi dari tarif resmi per unit × jumlah hari. Harga final & ketersediaan dikonfirmasi admin via WhatsApp. Bukan harga otomatis real-time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERIFIED CHANNELS -->
+    <section style="background:#fff;padding:clamp(48px,7vw,84px) 0;">
+      <div style="width:min(1100px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));">
+          <div style="background:#0B0F1A;color:#fff;padding:clamp(26px,3.4vw,42px);">
+            <div style="display:inline-flex;align-items:center;gap:9px;background:rgba(46,111,224,.16);border:1px solid rgba(46,111,224,.35);color:#9DC0FF;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:999px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9DC0FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Verified Channel
+            </div>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;margin:18px 0 0;">Waspada penipuan. Pastikan kanal resmi.</h2>
+            <p style="color:#B9C4D6;font-size:15px;line-height:1.6;margin:14px 0 0;">Arasya Rent Car <strong style="color:#fff;">hanya</strong> bertransaksi lewat nomor WhatsApp resmi di bawah dan rekening atas nama PT yang tercantum. Kami tidak memakai nomor atau rekening lain. Jika ada yang mengaku Arasya dengan data berbeda, abaikan dan konfirmasi ke kami.</p>
+          </div>
+          <div style="background:var(--paper-soft);padding:clamp(24px,3vw,38px);display:flex;flex-direction:column;gap:14px;justify-content:center;">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;">WhatsApp Resmi</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(17px,2.2vw,21px);color:var(--ink);">
+                <span>0821 2402 4281</span><span style="color:var(--line);">·</span><span>0822 9885 4855</span><span style="color:var(--line);">·</span><span>0821 5028 8603</span>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;">Rekening Resmi</div>
+              <div style="margin-top:8px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(20px,2.6vw,26px);color:var(--blue);">BCA 095 484 0782</div>
+              <div style="font-family:'Inter Tight';font-weight:600;font-size:14px;color:var(--ink);margin-top:2px;">a.n. PT. Ayomi Raya</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEET -->
+    <section id="armada" style="background:var(--paper-soft);padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;">
+          <div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Armada Kami · 14 Unit</span>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Pilih kendaraan, lihat tarif</h2>
+          </div>
+          <div style="display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;">
+            <button onClick="{{ tierDk }}" style="border:none;cursor:pointer;font-family:'Inter Tight';font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;background:{{ dkBg }};color:{{ dkColor }};transition:.2s;">Dalam Kota</button>
+            <button onClick="{{ tierAi }}" style="border:none;cursor:pointer;font-family:'Inter Tight';font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;background:{{ aiBg }};color:{{ aiColor }};transition:.2s;">All-in</button>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.go }}" style="border:1px solid {{ f.border }};cursor:pointer;font-family:'Inter Tight';font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:999px;background:{{ f.bg }};color:{{ f.color }};transition:.2s;">{{ f.label }}</button>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:24px;">
+          <sc-for list="{{ fleet }}" as="v" hint-placeholder-count="8">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;display:flex;flex-direction:column;" style-hover="transform:translateY(-6px);box-shadow:0 20px 44px rgba(11,15,26,.13);">
+              <div style="position:relative;aspect-ratio:3/2;overflow:hidden;background:#EEF2F8;">
+                <img src="{{ v.img }}" alt="{{ v.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+                <span style="position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;color:var(--blue);background:rgba(255,255,255,.92);border:1px solid var(--line);padding:4px 9px;border-radius:999px;">{{ v.type }}</span>
+              </div>
+              <div style="padding:16px 16px 18px;display:flex;flex-direction:column;flex:1;">
+                <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;margin:0;">{{ v.name }}</h3>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:7px;font-size:12.5px;color:var(--muted);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6577" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3 19a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M21 19a6 6 0 0 0-4-5.6"/></svg>
+                  <span>{{ v.pax }} penumpang · Durasi 12 jam</span>
+                </div>
+                <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;">{{ tierNote }}</div>
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:23px;color:var(--ink);margin-top:3px;">{{ v.price }}</div>
+                </div>
+                <a href="{{ v.wa }}" target="_blank" rel="noopener" style="margin-top:14px;text-align:center;text-decoration:none;background:var(--ink);color:#fff;font-weight:600;font-size:14.5px;padding:12px;border-radius:11px;transition:background .2s;" style-hover="background:#1452C4;">Pesan Sekarang</a>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin:20px 0 0;line-height:1.6;">Dalam Kota = 12 jam, belum termasuk BBM, toll, parkir & makan driver. All-in = sudah termasuk BBM, toll & makan driver. Kapasitas sudah termasuk jasa driver.</p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="layanan" style="background:#fff;padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;max-width:34em;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Layanan</span>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Satu operator, semua kebutuhan perjalanan</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:28px;">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+            <a href="{{ s.wa }}" target="_blank" rel="noopener" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-decoration:none;color:inherit;background:var(--paper-soft);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;transition:transform .3s,box-shadow .3s,border-color .3s;" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,15,26,.1);border-color:#C9D6EC;">
+              <span dangerouslySetInnerHTML="{{ s.iconHtml }}" style="display:inline-flex;width:46px;height:46px;border-radius:13px;background:#fff;border:1px solid var(--line);align-items:center;justify-content:center;color:var(--blue);"></span>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:4px 0 0;letter-spacing:-.01em;">{{ s.title }}</h3>
+              <p style="font-size:14px;line-height:1.55;color:var(--muted);margin:0;">{{ s.desc }}</p>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;margin-top:auto;">Tanya layanan →</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR ROUTES -->
+    <section id="rute" style="background:#0B0F1A;color:#fff;padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;">
+          <div style="max-width:32em;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:#5E93F2;text-transform:uppercase;">Rute Populer</span>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Korridor antar kota, berangkat dari basis kami</h2>
+          </div>
+          <a href="#" onClick="{{ goTravel }}" style="text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.2);font-weight:600;font-size:14px;padding:12px 18px;border-radius:10px;">Semua rute travel →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-top:26px;">
+          <sc-for list="{{ routes }}" as="r" hint-placeholder-count="6">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:#131C2E;border:1px solid rgba(157,182,232,.16);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;">
+                <span>{{ r.from }}</span>
+                <svg width="22" height="14" viewBox="0 0 28 14" fill="none" stroke="#5E93F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h24M20 2l5 5-5 5"/></svg>
+                <span>{{ r.to }}</span>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8FA1BC;">
+                <span style="background:rgba(157,182,232,.08);padding:5px 10px;border-radius:7px;">⏱ {{ r.dur }}</span>
+                <span style="background:rgba(157,182,232,.08);padding:5px 10px;border-radius:7px;">{{ r.veh }}</span>
+              </div>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;padding-top:6px;">
+                <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7E92B4;text-transform:uppercase;letter-spacing:.08em;">All-in mulai</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:#9DC0FF;">{{ r.price }}</div></div>
+                <a href="{{ r.wa }}" target="_blank" rel="noopener" style="text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:13.5px;padding:10px 15px;border-radius:10px;">Book rute</a>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7E92B4;margin:18px 0 0;">* Estimasi durasi & harga; final dikonfirmasi via WhatsApp.</p>
+      </div>
+    </section>
+
+    <!-- LANGKAH PEMESANAN -->
+    <section style="background:#fff;padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-align:center;max-width:34em;margin:0 auto;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Langkah Pemesanan</span>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Tujuh langkah, semua via WhatsApp</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:30px;">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="7">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--paper-soft);">
+              <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;color:#fff;background:var(--blue);width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;">{{ st.n }}</div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16.5px;margin:14px 0 0;">{{ st.title }}</h3>
+              <p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:8px 0 0;">{{ st.desc }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section style="background:var(--paper-soft);padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;max-width:34em;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Kenapa Arasya</span>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Reputasi dibangun dari ketepatan</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:26px;">
+          <sc-for list="{{ whyus }}" as="w" hint-placeholder-count="4">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;">
+              <span dangerouslySetInnerHTML="{{ w.iconHtml }}" style="display:inline-flex;width:44px;height:44px;border-radius:50%;background:rgba(20,82,196,.08);align-items:center;justify-content:center;color:var(--blue);"></span>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;margin:14px 0 0;">{{ w.title }}</h3>
+              <p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:6px 0 0;">{{ w.desc }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="galeri" style="background:#fff;padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;">
+          <div><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Galeri</span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:10px 0 0;">Armada & layanan kami</h2></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);">Klik untuk perbesar</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:24px;">
+          <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="7">
+            <button onClick="{{ g.open }}" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;border:1px solid var(--line);cursor:pointer;padding:0;border-radius:14px;overflow:hidden;aspect-ratio:{{ g.ratio }};background-image:repeating-linear-gradient(135deg,#EAEFF7 0 16px,#F4F7FC 16px 32px);position:relative;display:block;">
+              <span style="position:absolute;left:10px;bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8294B2;background:rgba(255,255,255,.78);padding:4px 8px;border-radius:6px;">{{ g.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS / CANCELLATION -->
+    <section style="background:var(--paper-soft);padding:clamp(48px,7vw,86px) 0;">
+      <div style="width:min(1100px,92vw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Kebijakan Pembatalan</span>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;margin:10px 0 18px;">Transparan sejak awal</h2>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ cancel }}" as="c" hint-placeholder-count="3">
+              <div style="background:#fff;border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:12px;padding:15px 17px;">
+                <div style="font-weight:600;font-size:14.5px;">{{ c.when }}</div>
+                <div style="font-size:13.5px;color:var(--muted);margin-top:4px;">{{ c.fee }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:#0B0F1A;color:#fff;border-radius:20px;padding:clamp(26px,3.4vw,40px);display:flex;flex-direction:column;justify-content:center;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5E93F2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8;"><path d="M3 5h6v6H3zM3 5c0 0 0 9 6 9"/></svg>
+          <p style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(18px,2.4vw,24px);line-height:1.4;letter-spacing:-.01em;margin:18px 0 0;">"Mobil siap tepat waktu, driver rapi dan paham rute. Booking simpel lewat WhatsApp, harga sesuai yang disepakati."</p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8FA1BC;margin-top:18px;">— Tamu Arasya · layanan antar kota</div>
+          <a href="{{ waMain }}" target="_blank" rel="noopener" style="margin-top:24px;align-self:flex-start;text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:15px;padding:13px 22px;border-radius:11px;">Mulai booking →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <!-- ============ TRAVEL ============ -->
+  <sc-if value="{{ isTravel }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="background:#0B0F1A;color:#fff;padding:clamp(40px,6vw,72px) 0 clamp(40px,6vw,64px);position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 80% at 80% 0%,rgba(46,111,224,.22),transparent 58%);"></div>
+      <div style="position:relative;width:min(1100px,92vw);margin:0 auto;text-align:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9DB6E8;text-transform:uppercase;">Travel Antar Kota</span>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,5.4vw,56px);line-height:1.04;letter-spacing:-.03em;margin:14px auto 0;max-width:14em;">Carter mobil + driver ke luar kota</h1>
+        <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:#B9C4D6;max-width:34em;margin:18px auto 0;">Tentukan rute dan durasi, lihat estimasi tarif resmi, lalu kunci lewat WhatsApp. Berangkat dari Bogor, Jakarta, Depok, Bekasi, Tangerang & Bandung.</p>
+      </div>
+    </section>
+
+    <section style="background:#0B0F1A;padding:0 0 clamp(48px,7vw,80px);">
+      <div style="width:min(1100px,92vw);margin:0 auto;">
+        <div style="background:#fff;border-radius:22px;box-shadow:0 30px 70px rgba(7,12,28,.5);padding:clamp(22px,3vw,34px);margin-top:-20px;border:1px solid var(--line);">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0;">Estimasi travel Anda</h2>
+            <div style="display:inline-flex;background:var(--paper-soft);border:1px solid var(--line);border-radius:11px;padding:4px;">
+              <button onClick="{{ estTierDk }}" style="border:none;cursor:pointer;font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;background:{{ estDkBg }};color:{{ estDkColor }};font-family:'Inter Tight';">12-Jam</button>
+              <button onClick="{{ estTierAi }}" style="border:none;cursor:pointer;font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;background:{{ estAiBg }};color:{{ estAiColor }};font-family:'Inter Tight';">All-in</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;">
+            <label><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Dari</span><select value="{{ estOrigin }}" onChange="{{ setEstOrigin }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;"><sc-for list="{{ origins }}" as="o" hint-placeholder-count="6"><option value="{{ o }}">{{ o }}</option></sc-for></select></label>
+            <label><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Tujuan</span><select value="{{ estDest }}" onChange="{{ setEstDest }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;"><sc-for list="{{ dests }}" as="d" hint-placeholder-count="8"><option value="{{ d }}">{{ d }}</option></sc-for></select></label>
+            <label><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Kendaraan</span><select value="{{ estVeh }}" onChange="{{ setEstVeh }}" style="width:100%;font-family:'Inter Tight';font-size:15px;font-weight:600;padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--paper-soft);cursor:pointer;appearance:none;"><sc-for list="{{ vehicleOptions }}" as="v" hint-placeholder-count="14"><option value="{{ v.idx }}">{{ v.name }}</option></sc-for></select></label>
+            <div><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Durasi (hari)</span><div style="display:flex;align-items:center;gap:8px;background:var(--paper-soft);border:1px solid var(--line);border-radius:11px;padding:6px;"><button onClick="{{ decDays }}" style="width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px;line-height:1;">−</button><div style="flex:1;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;">{{ estDays }}</div><button onClick="{{ incDays }}" style="width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px;line-height:1;">+</button></div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px;align-items:center;background:linear-gradient(135deg,#0B0F1A,#1A2230);border-radius:16px;padding:clamp(18px,2.4vw,26px);">
+            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8FA1BC;text-transform:uppercase;">{{ estRouteLabel }} · {{ estTierLabel }}</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,5vw,44px);color:#fff;margin-top:6px;line-height:1.05;">{{ estTotalLabel }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9DB6E8;margin-top:6px;">{{ estBreakdown }}</div></div>
+            <a href="{{ estWa }}" target="_blank" rel="noopener" style="justify-self:end;text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:15.5px;padding:15px 22px;border-radius:12px;white-space:nowrap;">Lanjut Booking →</a>
+          </div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin:14px 0 0;line-height:1.6;">* Estimasi dari tarif resmi per unit × jumlah hari. Final & ketersediaan dikonfirmasi admin via WhatsApp.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#fff;padding:clamp(40px,6vw,76px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Rute Favorit</span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.8vw,38px);letter-spacing:-.025em;margin:10px 0 0;">Korridor yang paling sering dipesan</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-top:24px;">
+          <sc-for list="{{ routes }}" as="r" hint-placeholder-count="6">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:var(--paper-soft);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;"><span>{{ r.from }}</span><svg width="22" height="14" viewBox="0 0 28 14" fill="none" stroke="#1452C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h24M20 2l5 5-5 5"/></svg><span>{{ r.to }}</span></div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);"><span style="background:#fff;border:1px solid var(--line);padding:5px 10px;border-radius:7px;">⏱ {{ r.dur }}</span><span style="background:#fff;border:1px solid var(--line);padding:5px 10px;border-radius:7px;">{{ r.veh }}</span></div>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;"><div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">All-in mulai</div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:var(--blue);">{{ r.price }}</div></div><a href="{{ r.wa }}" target="_blank" rel="noopener" style="text-decoration:none;background:var(--ink);color:#fff;font-weight:600;font-size:13.5px;padding:10px 15px;border-radius:10px;">Book rute</a></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--paper-soft);padding:clamp(40px,6vw,76px) 0;">
+      <div style="width:min(900px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-align:center;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">FAQ Travel</span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.8vw,38px);letter-spacing:-.025em;margin:10px 0 24px;">Pertanyaan yang sering muncul</h2></div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
+            <button onClick="{{ q.toggle }}" style="text-align:left;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16.5px;color:var(--ink);">{{ q.q }}</span><span style="font-size:22px;color:var(--blue);line-height:1;transform:{{ q.rot }};transition:transform .25s;">+</span></div>
+              <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}"><p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:12px 0 0;">{{ q.a }}</p></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ TENTANG ============ -->
+  <sc-if value="{{ isTentang }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="background:#0B0F1A;color:#fff;padding:clamp(40px,6vw,76px) 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 80% at 15% 0%,rgba(46,111,224,.2),transparent 58%);"></div>
+      <div style="position:relative;width:min(1000px,92vw);margin:0 auto;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9DB6E8;text-transform:uppercase;">Tentang Kami</span>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,5vw,54px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 0;max-width:16em;">Sewa mobil profesional dengan pelayanan bintang 5</h1>
+        <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:#B9C4D6;max-width:42em;margin:20px 0 0;">Arasya Rent Car adalah penyedia jasa sewa mobil profesional dan terpercaya. Kami menyediakan layanan lengkap — mobil + driver, antar jemput bandara, dan mobil travel antar kota — dengan komitmen menjaga armada bersih, ketepatan waktu kesiapan dan penjemputan, serta harga terjangkau tanpa mengorbankan kualitas pelayanan.</p>
+      </div>
+    </section>
+
+    <section style="background:#fff;padding:clamp(44px,6vw,80px) 0;">
+      <div style="width:min(1100px,92vw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+        <sc-for list="{{ whyus }}" as="w" hint-placeholder-count="4">
+          <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:var(--paper-soft);border:1px solid var(--line);border-radius:16px;padding:24px;"><span dangerouslySetInnerHTML="{{ w.iconHtml }}" style="display:inline-flex;width:44px;height:44px;border-radius:50%;background:rgba(20,82,196,.08);align-items:center;justify-content:center;color:var(--blue);"></span><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;margin:14px 0 0;">{{ w.title }}</h3><p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:6px 0 0;">{{ w.desc }}</p></div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:var(--paper-soft);padding:clamp(44px,6vw,80px) 0;">
+      <div style="width:min(1100px,92vw);margin:0 auto;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-align:center;max-width:32em;margin:0 auto;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Langkah Pemesanan</span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.8vw,38px);letter-spacing:-.025em;margin:10px 0 0;">Dari inquiry sampai keberangkatan</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:28px;">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="7">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;border:1px solid var(--line);border-radius:16px;padding:22px;background:#fff;"><div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;color:#fff;background:var(--blue);width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;">{{ st.n }}</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16.5px;margin:14px 0 0;">{{ st.title }}</h3><p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:8px 0 0;">{{ st.desc }}</p></div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#fff;padding:clamp(44px,6vw,80px) 0;">
+      <div style="width:min(1000px,92vw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;">Kebijakan Pembatalan</span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.02em;margin:10px 0 18px;">Jelas & adil</h2><div style="display:flex;flex-direction:column;gap:10px;"><sc-for list="{{ cancel }}" as="c" hint-placeholder-count="3"><div style="background:var(--paper-soft);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:12px;padding:15px 17px;"><div style="font-weight:600;font-size:14.5px;">{{ c.when }}</div><div style="font-size:13.5px;color:var(--muted);margin-top:4px;">{{ c.fee }}</div></div></sc-for></div></div>
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:#0B0F1A;color:#fff;border-radius:20px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;justify-content:center;">
+          <div style="display:inline-flex;align-items:center;gap:9px;background:rgba(46,111,224,.16);border:1px solid rgba(46,111,224,.35);color:#9DC0FF;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:999px;align-self:flex-start;">Entitas Resmi</div>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(20px,2.6vw,26px);margin:16px 0 0;">PT. Ayomi Raya</h3>
+          <p style="color:#B9C4D6;font-size:14px;line-height:1.6;margin:10px 0 0;">Selakopi Hijau blok F no 3-4, Pasir Mulya, Bogor Barat, Kota Bogor, 16118.</p>
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9DC0FF;">Rekening resmi · BCA 095 484 0782</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ KONTAK ============ -->
+  <sc-if value="{{ isKontak }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="background:#0B0F1A;color:#fff;padding:clamp(40px,6vw,72px) 0 clamp(40px,6vw,60px);position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 80% at 85% 0%,rgba(46,111,224,.2),transparent 58%);"></div>
+      <div style="position:relative;width:min(1100px,92vw);margin:0 auto;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9DB6E8;text-transform:uppercase;">Kontak</span>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,5vw,54px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 0;">Satu kanal resmi. Balasan cepat.</h1>
+      </div>
+    </section>
+    <section style="background:#fff;padding:clamp(40px,6vw,72px) 0;">
+      <div style="width:min(1100px,92vw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="4">
+            <a href="{{ c.href }}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:14px;background:var(--paper-soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;transition:border-color .2s,transform .2s;" style-hover="border-color:#C9D6EC;transform:translateY(-2px);">
+              <span dangerouslySetInnerHTML="{{ c.iconHtml }}" style="display:inline-flex;width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);align-items:center;justify-content:center;color:var(--blue);flex:none;"></span>
+              <span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">{{ c.label }}</span><span style="display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin-top:3px;">{{ c.value }}</span></span>
+            </a>
+          </sc-for>
+          <div style="background:#0B0F1A;color:#fff;border-radius:16px;padding:20px;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#9DC0FF;text-transform:uppercase;">Verified · Anti-impersonation</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:#9DC0FF;margin-top:8px;">BCA 095 484 0782</div>
+            <div style="font-weight:600;font-size:14px;margin-top:2px;">a.n. PT. Ayomi Raya</div>
+            <p style="color:#9FB0C9;font-size:12.5px;line-height:1.55;margin:10px 0 0;">Hanya nomor & rekening di atas yang resmi. Abaikan pihak lain yang mengatasnamakan Arasya.</p>
+          </div>
+        </div>
+        <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;background:var(--paper-soft);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,30px);">
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:0 0 4px;">Kirim pesan cepat</h2>
+          <p style="font-size:13.5px;color:var(--muted);margin:0 0 18px;">Isi di bawah — kami buatkan pesan WhatsApp yang siap dikirim ke admin.</p>
+          <label style="display:block;margin-bottom:14px;"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Nama</span><input value="{{ formName }}" onInput="{{ setFormName }}" placeholder="Nama Anda" style="width:100%;font-family:'Inter Tight';font-size:15px;padding:13px 14px;border-radius:11px;border:1px solid var(--line);background:#fff;"/></label>
+          <label style="display:block;margin-bottom:18px;"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:7px;">Pesan</span><textarea value="{{ formMsg }}" onInput="{{ setFormMsg }}" placeholder="Mau booking unit / rute apa, tanggal, jumlah penumpang…" rows="4" style="width:100%;font-family:'Inter Tight';font-size:15px;padding:13px 14px;border-radius:11px;border:1px solid var(--line);background:#fff;resize:vertical;"></textarea></label>
+          <a href="{{ formWa }}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;background:#2E6FE0;color:#fff;font-weight:600;font-size:15.5px;padding:15px;border-radius:12px;box-shadow:0 12px 26px rgba(46,111,224,.32);">Kirim via WhatsApp →</a>
+        </div>
+      </div>
+      <div style="width:min(1100px,92vw);margin:22px auto 0;">
+        <div style="border:1px solid var(--line);border-radius:18px;aspect-ratio:24/7;background-image:repeating-linear-gradient(135deg,#EAEFF7 0 18px,#F4F7FC 18px 36px);display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8294B2;background:rgba(255,255,255,.78);padding:7px 14px;border-radius:8px;">peta · Selakopi Hijau, Bogor Barat</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ BLOG ============ -->
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="background:#0B0F1A;color:#fff;padding:clamp(40px,6vw,72px) 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 80% at 50% 0%,rgba(46,111,224,.18),transparent 58%);"></div>
+      <div style="position:relative;width:min(1100px,92vw);margin:0 auto;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#9DB6E8;text-transform:uppercase;">Blog & Panduan</span>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(32px,5vw,54px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 0;max-width:15em;">Panduan sewa mobil & tips perjalanan</h1>
+      </div>
+    </section>
+    <section style="background:#fff;padding:clamp(40px,6vw,72px) 0;">
+      <div style="width:min(1200px,92vw);margin:0 auto;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;">
+          <sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
+            <a href="{{ p.wa }}" target="_blank" rel="noopener" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,15,26,.1);">
+              <div style="aspect-ratio:16/9;background-image:repeating-linear-gradient(135deg,#EAEFF7 0 16px,#F4F7FC 16px 32px);position:relative;"><span style="position:absolute;left:12px;top:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#fff;background:var(--blue);padding:5px 10px;border-radius:999px;text-transform:uppercase;">{{ p.cat }}</span></div>
+              <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
+                <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em;margin:0;">{{ p.title }}</h3>
+                <p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:10px 0 0;">{{ p.excerpt }}</p>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;margin-top:16px;">Konsultasi via WA →</span>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin:22px 0 0;">Artikel panduan adalah contoh struktur konten top-funnel. Isi final ditulis bersama tim Arasya.</p>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#070B14;color:#fff;padding:clamp(44px,6vw,70px) 0 28px;">
+    <div style="width:min(1200px,92vw);margin:0 auto;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:11px;">
+            <span style="display:inline-flex;width:38px;height:38px;border-radius:10px;background:#1452C4;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5a2 2 0 0 1 1.9-1.4h5.2a2 2 0 0 1 1.9 1.4L19 17"/><circle cx="7.5" cy="17.5" r="1.4"/><circle cx="16.5" cy="17.5" r="1.4"/></svg></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;">Arasya Rent Car</span>
+          </div>
+          <p style="color:#8FA1BC;font-size:13.5px;line-height:1.6;margin:14px 0 0;max-width:24em;">Rental mobil profesional dengan driver berpengalaman. Bogor · Jabodetabek · Bandung & kota besar Indonesia.</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#5E93F2;text-transform:uppercase;margin-bottom:14px;">Navigasi</div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <sc-for list="{{ navMobile }}" as="item" hint-placeholder-count="6"><a href="#" onClick="{{ item.go }}" style="text-decoration:none;color:#C7D2E2;font-size:14px;">{{ item.label }}</a></sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#5E93F2;text-transform:uppercase;margin-bottom:14px;">Kontak</div>
+          <div style="display:flex;flex-direction:column;gap:9px;color:#C7D2E2;font-size:14px;">
+            <span>0821 2402 4281</span><span>0822 9885 4855</span><span>0821 5028 8603</span><span>arasyarentcar@gmail.com</span>
+            <a href="https://www.instagram.com/arasyarentcar/" target="_blank" rel="noopener" style="color:#9DC0FF;text-decoration:none;">@arasyarentcar</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#5E93F2;text-transform:uppercase;margin-bottom:14px;">Resmi · Verified</div>
+          <div style="background:#0E1626;border:1px solid rgba(157,182,232,.16);border-radius:12px;padding:14px;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:16px;color:#9DC0FF;">BCA 095 484 0782</div>
+            <div style="font-size:13px;color:#C7D2E2;margin-top:2px;">a.n. PT. Ayomi Raya</div>
+            <div style="font-size:12px;color:#8FA1BC;margin-top:10px;line-height:1.5;">Selakopi Hijau blok F no 3-4, Pasir Mulya, Bogor Barat, Kota Bogor 16118</div>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:20px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6F809B;">
+        <span>© 2026 Arasya Rent Car · PT. Ayomi Raya · All rights reserved</span>
+        <span>Redesign prototype</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:120;background:rgba(7,11,20,.92);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);">
+      <button onClick="{{ closeLightbox }}" style="position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:22px;line-height:1;">×</button>
+      <button onClick="{{ prevImg }}" style="position:absolute;left:14px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:22px;">‹</button>
+      <div style="max-width:min(900px,92vw);width:100%;">
+        <div style="aspect-ratio:{{ lightboxRatio }};border-radius:16px;background-image:repeating-linear-gradient(135deg,#1A2230 0 22px,#222C3D 22px 44px);box-shadow:0 30px 80px rgba(0,0,0,.6);display:flex;align-items:flex-end;padding:18px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#C7D4EC;background:rgba(11,15,26,.6);padding:7px 13px;border-radius:8px;">{{ lightboxLabel }}</span>
+        </div>
+      </div>
+      <button onClick="{{ nextImg }}" style="position:absolute;right:14px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:22px;">›</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  vehicles = [
+    {name:'Toyota Avanza', pax:7, dk:500000, ai:1250000, type:'MPV', slug:'avanza', img:'assets/armada/avanza.png'},
+    {name:'Toyota Zenix', pax:7, dk:1000000, ai:1800000, type:'MPV', slug:'zenix', img:'assets/armada/zenix.png'},
+    {name:'Toyota Innova Venturer', pax:6, dk:1000000, ai:1800000, type:'MPV', slug:'innova-venturer', img:'assets/armada/innova-venturer.png'},
+    {name:'Toyota Innova Reborn', pax:7, dk:700000, ai:1500000, type:'MPV', slug:'innova-reborn', img:'assets/armada/innova-reborn.png'},
+    {name:'Suzuki Ertiga', pax:7, dk:500000, ai:1250000, type:'MPV', slug:'ertiga', img:'assets/armada/ertiga.png'},
+    {name:'Mitsubishi Xpander', pax:7, dk:600000, ai:1350000, type:'MPV', slug:'xpander', img:'assets/armada/xpander.png'},
+    {name:'Daihatsu Terios', pax:7, dk:600000, ai:1350000, type:'SUV', slug:'terios', img:'assets/armada/terios.png'},
+    {name:'Toyota Rush', pax:7, dk:600000, ai:1350000, type:'SUV', slug:'rush', img:'assets/armada/rush.png'},
+    {name:'Toyota Fortuner', pax:6, dk:1500000, ai:2200000, type:'Premium', slug:'fortuner', img:'assets/armada/fortuner.png'},
+    {name:'Toyota Zenix Q Hybrid Modellista', pax:6, dk:1300000, ai:null, type:'Premium', slug:'zenix-hybrid', img:'assets/armada/zenix-hybrid.png'},
+    {name:'Toyota Hiace Commuter', pax:14, dk:1500000, ai:null, type:'Bus & Van', slug:'hiace-commuter', img:'assets/armada/hiace-commuter.png'},
+    {name:'Toyota Hiace Premio', pax:14, dk:null, ai:null, type:'Bus & Van', slug:'hiace-premio', img:'assets/armada/hiace-premio.png'},
+    {name:'Toyota Alphard', pax:6, dk:null, ai:null, type:'Premium', slug:'alphard', img:'assets/armada/alphard.png'},
+    {name:'Isuzu Elf Long', pax:19, dk:null, ai:null, type:'Bus & Van', slug:'elf-long', img:'assets/armada/elf-long.png'}
+  ];
+  filterList = ['Semua','MPV','SUV','Premium','Bus & Van'];
+  origins = ['Bogor','Jakarta','Depok','Bekasi','Tangerang','Bandung'];
+  dests = ['Bandung','Jogja','Semarang','Solo','Surabaya','Malang','Pangandaran','Cirebon','Pekalongan','Madiun','Jakarta','Bogor'];
+  routesRaw = [
+    {from:'Jakarta', to:'Bandung', dur:'± 3 jam', veh:'Toyota Avanza', price:1250000},
+    {from:'Bogor', to:'Bandung', dur:'± 4 jam', veh:'Suzuki Ertiga', price:1250000},
+    {from:'Jakarta', to:'Jogja', dur:'± 9 jam', veh:'Innova Reborn', price:1500000},
+    {from:'Bogor', to:'Jogja', dur:'± 10 jam', veh:'Innova Reborn', price:1500000},
+    {from:'Bandung', to:'Jakarta', dur:'± 3 jam', veh:'Toyota Zenix', price:1800000},
+    {from:'Depok', to:'Semarang', dur:'± 8 jam', veh:'Hiace Commuter', price:null}
+  ];
+  servicesRaw = [
+    {title:'Mobil + Driver', desc:'Sewa mobil dengan driver berpengalaman untuk kebutuhan harian dalam kota.', svc:'Sewa Mobil + Driver', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17l1.5-5a2 2 0 0 1 1.9-1.4h5.2a2 2 0 0 1 1.9 1.4L19 17"/><circle cx="7.5" cy="17.5" r="1.4"/><circle cx="16.5" cy="17.5" r="1.4"/></svg>'},
+    {title:'Antar Jemput Bandara', desc:'Layanan antar jemput bandara siap 24 jam, tepat waktu dan nyaman.', svc:'Antar Jemput Bandara', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l9-2 4-9 2 1-2 8 6 2v2l-8-1-3 4-2-1 1-4z"/></svg>'},
+    {title:'Travel Antar Kota', desc:'Carter mobil untuk perjalanan ke luar kota dari korridor kami.', svc:'Travel Antar Kota', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M14 5l7 7-7 7"/></svg>'},
+    {title:'Wedding Car', desc:'Mobil bersih dan elegan untuk hari spesial Anda, dengan driver rapi.', svc:'Wedding Car', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/></svg>'},
+    {title:'Corporate', desc:'Transportasi karyawan & tamu bisnis dengan layanan terjadwal.', svc:'Corporate / Bisnis', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-4 8 4v13M9 21v-6h6v6"/></svg>'},
+    {title:'Tour & Wisata', desc:'Paket perjalanan wisata dengan driver yang paham rute & destinasi.', svc:'Tour & Wisata', icon:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>'}
+  ];
+  stepsRaw = [
+    {n:'01', title:'Isi formulir pemesanan', desc:'Lengkapi data pemesanan melalui WhatsApp.'},
+    {n:'02', title:'Kirim foto identitas', desc:'Kirim foto KTP/SIM melalui WhatsApp.'},
+    {n:'03', title:'Pembuatan invoice', desc:'Kami buatkan invoice berisi rincian layanan.'},
+    {n:'04', title:'Transfer DP 20%', desc:'Transfer DP sesuai invoice, kirim bukti via WA.'},
+    {n:'05', title:'Konfirmasi detail', desc:'Kami kirim data kendaraan (merk/plat) & nama + nomor driver.'},
+    {n:'06', title:'Driver tiba', desc:'Driver menghubungi saat menuju lokasi & bertemu tamu.'},
+    {n:'07', title:'Pelunasan', desc:'Pelunasan saat driver tiba sebelum keberangkatan (tunai/transfer/QR).'}
+  ];
+  cancelRaw = [
+    {when:'Pembatalan hingga H-1', fee:'Uang muka (DP) 20% tidak dapat dikembalikan.'},
+    {when:'Hari-H sebelum driver tiba / sebelum 10.00', fee:'Biaya pembatalan 50% dari total invoice.'},
+    {when:'Hari-H setelah driver tiba / setelah 10.00', fee:'Biaya pembatalan 100% dari total invoice.'}
+  ];
+  whyusRaw = [
+    {title:'Berpengalaman', desc:'Driver terlatih, paham rute & etika berkendara.', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/></svg>'},
+    {title:'Harga Terjangkau', desc:'Tarif transparan dua tier, tanpa biaya tersembunyi.', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 0 1 5 0c0 2.5-5 1.5-5 4a2.5 2 0 0 0 5 0"/></svg>'},
+    {title:'Mobil Terawat', desc:'Armada bersih dan rutin dicek demi kenyamanan.', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>'},
+    {title:'Support 24/7', desc:'Admin siap membantu kapan pun lewat WhatsApp.', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-6a8 8 0 0 1 16 0v6"/><path d="M20 19a2 2 0 0 1-2 2h-3M2 16h2v4H2zM20 16h2v4h-2z"/></svg>'}
+  ];
+  galleryRaw = [
+    {label:'Armada di garasi', ratio:'4/3'},
+    {label:'Driver berseragam', ratio:'4/5'},
+    {label:'Interior bersih', ratio:'4/3'},
+    {label:'Antar jemput bandara', ratio:'4/3'},
+    {label:'Perjalanan antar kota', ratio:'4/5'},
+    {label:'Unit premium', ratio:'4/3'},
+    {label:'Tim Arasya', ratio:'4/3'}
+  ];
+  faqsRaw = [
+    {q:'Harga sudah termasuk BBM dan toll?', a:'Tergantung tier. Tarif All-in sudah termasuk BBM, toll, dan makan driver. Tarif Dalam Kota 12-jam belum termasuk BBM, toll, parkir, dan makan driver.'},
+    {q:'Berapa DP untuk booking?', a:'DP 20% dari nilai invoice. Setelah transfer, kirim bukti via WhatsApp untuk konfirmasi.'},
+    {q:'Apakah bisa untuk perjalanan beberapa hari?', a:'Bisa. Sebutkan rute, jumlah hari, dan jumlah penumpang saat inquiry agar kami siapkan unit dan estimasi yang sesuai.'},
+    {q:'Kota tujuan saya belum ada di daftar, bagaimana?', a:'Hubungi kami via WhatsApp. Tim akan bantu verifikasi ketersediaan layanan untuk area Anda.'},
+    {q:'Bagaimana memastikan ini Arasya yang resmi?', a:'Kami hanya bertransaksi lewat nomor WhatsApp resmi dan rekening BCA 095 484 0782 a.n. PT. Ayomi Raya. Abaikan nomor atau rekening lain.'}
+  ];
+  postsRaw = [
+    {cat:'Rute', title:'Estimasi Biaya Sewa Mobil Jakarta ke Bandung', excerpt:'Rincian tarif dua tier, rekomendasi unit, dan tips berangkat dari korridor kami.'},
+    {cat:'Panduan', title:'Beda Sewa Lepas Kunci vs Sewa dengan Supir', excerpt:'Mana yang cocok untuk kebutuhan Anda — keamanan, kenyamanan, dan tanggung jawab.'},
+    {cat:'Tips', title:'Tips Sewa Mobil untuk Mudik & Libur Panjang', excerpt:'Persiapan, pemilihan armada, dan cara memastikan booking aman di musim ramai.'},
+    {cat:'Panduan', title:'All-in vs 12 Jam: Mana yang Lebih Hemat?', excerpt:'Kapan tarif All-in lebih untung dan kapan Dalam Kota 12-jam jadi pilihan tepat.'},
+    {cat:'Armada', title:'Rekomendasi Armada untuk Perjalanan Jarak Jauh', excerpt:'Innova, Hiace, atau Elf? Memilih unit sesuai jumlah penumpang dan jarak.'},
+    {cat:'Panduan', title:'Checklist Sebelum Carter Mobil ke Luar Kota', excerpt:'Hal yang perlu dipastikan ke operator sebelum hari keberangkatan.'}
+  ];
+
+  state = {
+    page:'beranda', scrolled:false, mobileNav:false,
+    fleetFilter:'Semua', tier:'ai',
+    estOrigin:'Bogor', estDest:'Jogja', estVeh:3, estDays:5, estTier:'ai',
+    lightbox:null, openFaq:null,
+    formName:'', formMsg:''
+  };
+
+  fmt(n){ return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+  wa(msg){ return 'https://wa.me/6282124024281?text=' + encodeURIComponent(msg); }
+
+  componentDidMount(){
+    this.reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._io = ('IntersectionObserver' in window) ? new IntersectionObserver((ents) => {
+      ents.forEach(en => { if (en.isIntersecting){ this.revealEl(en.target); this._io.unobserve(en.target); } });
+    }, {threshold: 0.04, rootMargin: '0px 0px -6% 0px'}) : null;
+    this.frozen = true; // assume frozen; a working animation timeline flips this to false
+    var _t0 = (document.timeline && document.timeline.currentTime) || 0;
+    setTimeout(() => { var _t1 = (document.timeline && document.timeline.currentTime) || 0; this.frozen = !(_t1 > _t0); this.applyReveals(); }, 220);
+    this._onScroll = () => {
+      const sc = window.scrollY > 24;
+      if (sc !== this.state.scrolled) this.setState({scrolled: sc});
+      this.applyReveals();
+    };
+    window.addEventListener('scroll', this._onScroll, {passive:true});
+    window.addEventListener('resize', this._onScroll, {passive:true});
+    const applyHash = () => {
+      const h = (location.hash||'').replace('#','');
+      const pages = ['beranda','travel','tentang','kontak','blog'];
+      if (pages.includes(h) && h !== this.state.page) this.setState({page:h, mobileNav:false});
+    };
+    this._onHash = applyHash;
+    window.addEventListener('hashchange', applyHash);
+    applyHash();
+    this.applyReveals();
+  }
+  componentDidUpdate(){ this.applyReveals(); }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+    window.removeEventListener('hashchange', this._onHash);
+  }
+  revealEl(el){
+    el.dataset.revealed = '1';
+    if (this.reduce || this.frozen) el.style.transition = 'none';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  }
+  applyReveals(){
+    const els = document.querySelectorAll('[data-reveal]');
+    const vh = window.innerHeight || 800;
+    els.forEach(el => {
+      if (el.dataset.revealed === '1') return;
+      const r = el.getBoundingClientRect();
+      const inView = r.top < vh*0.92 && r.bottom > 0;
+      if (this.reduce || this.frozen || inView){ this.revealEl(el); return; }
+      if (this._io && el.dataset.obs !== '1'){ el.dataset.obs = '1'; this._io.observe(el); }
+    });
+  }
+
+  goPage = (p) => (e) => { if(e) e.preventDefault(); window.scrollTo(0,0); try{ location.hash = p; }catch(_){}; this.setState({page:p, mobileNav:false}); };
+  goHome = (e) => { this.goPage('beranda')(e); };
+  goTravel = (e) => { this.goPage('travel')(e); };
+  toggleNav = (e) => { if(e) e.preventDefault(); this.setState(s=>({mobileNav:!s.mobileNav})); };
+  scrollArmada = (e) => {
+    if(e) e.preventDefault();
+    const go = () => { const el = document.getElementById('armada'); if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 70, behavior:'smooth'}); };
+    if(this.state.page!=='beranda'){ this.setState({page:'beranda', mobileNav:false}); setTimeout(go, 80); } else { this.setState({mobileNav:false}); go(); }
+  };
+
+  setFilter = (f) => (e) => { if(e) e.preventDefault(); this.setState({fleetFilter:f}); };
+  tierDk = () => this.setState({tier:'dk'});
+  tierAi = () => this.setState({tier:'ai'});
+
+  estTierDk = () => this.setState({estTier:'dk'});
+  estTierAi = () => this.setState({estTier:'ai'});
+  setEstOrigin = (e) => this.setState({estOrigin:e.target.value});
+  setEstDest = (e) => this.setState({estDest:e.target.value});
+  setEstVeh = (e) => this.setState({estVeh:parseInt(e.target.value,10)});
+  incDays = () => this.setState(s=>({estDays:Math.min(30,s.estDays+1)}));
+  decDays = () => this.setState(s=>({estDays:Math.max(1,s.estDays-1)}));
+
+  openLightbox = (i) => () => this.setState({lightbox:i});
+  closeLightbox = () => this.setState({lightbox:null});
+  nextImg = (e) => { if(e){e.preventDefault();e.stopPropagation();} this.setState(s=>({lightbox:(s.lightbox+1)%this.galleryRaw.length})); };
+  prevImg = (e) => { if(e){e.preventDefault();e.stopPropagation();} this.setState(s=>({lightbox:(s.lightbox-1+this.galleryRaw.length)%this.galleryRaw.length})); };
+  toggleFaq = (i) => () => this.setState(s=>({openFaq: s.openFaq===i?null:i}));
+
+  setFormName = (e) => this.setState({formName:e.target.value});
+  setFormMsg = (e) => this.setState({formMsg:e.target.value});
+
+  bookVehicle(v){
+    return this.wa(`Halo Arasya, saya mau booking:\nLayanan: Sewa Mobil + Driver\nKendaraan: ${v.name}\nKapasitas: ${v.pax} penumpang\n(ref: ${v.slug})`);
+  }
+  bookService(s){
+    return this.wa(`Halo Arasya, saya mau tanya layanan:\nLayanan: ${s.svc}\n(ref: layanan)`);
+  }
+  bookRoute(r){
+    return this.wa(`Halo Arasya, saya mau booking travel:\nRute: ${r.from} → ${r.to}\nRekomendasi unit: ${r.veh}\n(ref: rute-${r.from.toLowerCase()}-${r.to.toLowerCase()})`);
+  }
+
+  renderVals(){
+    const s = this.state;
+    const tierNote = s.tier==='ai' ? 'All-in / hari' : 'Dalam Kota 12-jam';
+    const priceOf = (v) => {
+      const p = s.tier==='ai' ? v.ai : v.dk;
+      return p==null ? 'Hubungi' : this.fmt(p);
+    };
+    const fleet = this.vehicles
+      .filter(v => s.fleetFilter==='Semua' || v.type===s.fleetFilter)
+      .map(v => ({...v, price: priceOf(v), wa: this.bookVehicle(v)}));
+
+    const filters = this.filterList.map(f => ({
+      label:f, go:this.setFilter(f),
+      bg: s.fleetFilter===f ? '#1452C4' : '#fff',
+      color: s.fleetFilter===f ? '#fff' : '#5B6577',
+      border: s.fleetFilter===f ? '#1452C4' : '#E3E8F0'
+    }));
+
+    const vehicleOptions = this.vehicles.map((v,i)=>({idx:i, name:v.name}));
+    const ev = this.vehicles[s.estVeh] || this.vehicles[0];
+    const rate = s.estTier==='ai' ? ev.ai : ev.dk;
+    const estTierLabel = s.estTier==='ai' ? 'All-in' : 'Dalam Kota 12-jam';
+    let estTotalLabel, estBreakdown;
+    if (rate==null){
+      estTotalLabel = 'Hubungi kami';
+      estBreakdown = `${ev.name} · ${estTierLabel} — harga unit ini on request`;
+    } else {
+      estTotalLabel = this.fmt(rate * s.estDays);
+      estBreakdown = `${this.fmt(rate)}/hari × ${s.estDays} hari · ${ev.name}`;
+    }
+    const estWa = this.wa(`Halo Arasya, saya mau booking:\nLayanan: Sewa Mobil + Driver\nRute: ${s.estOrigin} → ${s.estDest}\nDurasi: ${s.estDays} hari · Tarif: ${estTierLabel}\nKendaraan: ${ev.name}\nEstimasi: ${estTotalLabel}\n(ref: estimator)`);
+
+    const routes = this.routesRaw.map(r => ({
+      ...r, price: r.price==null ? 'Hubungi' : this.fmt(r.price), wa: this.bookRoute(r)
+    }));
+    const services = this.servicesRaw.map(x => ({...x, wa:this.bookService(x), iconHtml:{__html:x.icon}}));
+    const whyus = this.whyusRaw.map(w => ({...w, iconHtml:{__html:w.icon}}));
+    const gallery = this.galleryRaw.map((g,i)=>({...g, open:this.openLightbox(i)}));
+    const faqs = this.faqsRaw.map((q,i)=>({...q, open:s.openFaq===i, toggle:this.toggleFaq(i), rot: s.openFaq===i?'rotate(45deg)':'rotate(0deg)'}));
+    const posts = this.postsRaw.map(p => ({...p, wa:this.wa(`Halo Arasya, saya mau tanya soal: ${p.title}\n(ref: blog)`)}));
+
+    const navDefs = [
+      {label:'Beranda', page:'beranda'},
+      {label:'Armada', page:'armada'},
+      {label:'Travel', page:'travel'},
+      {label:'Tentang Kami', page:'tentang'},
+      {label:'Kontak', page:'kontak'},
+      {label:'Blog', page:'blog'}
+    ];
+    const headerDark = s.page==='beranda' && !s.scrolled ? false : false;
+    const nav = navDefs.map(n => {
+      const active = (n.page===s.page) || (n.page==='armada' && false);
+      const go = n.page==='armada' ? this.scrollArmada : this.goPage(n.page);
+      return {label:n.label, go, weight: active?700:500, color: active?'#1452C4':'#3A4658', bg: active?'#EEF3FC':'transparent'};
+    });
+    const navMobile = navDefs.map(n => {
+      const active = n.page===s.page;
+      const go = n.page==='armada' ? this.scrollArmada : this.goPage(n.page);
+      return {label:n.label, go, bg: active?'#EEF3FC':'transparent'};
+    });
+
+    const contacts = [
+      {label:'WhatsApp Utama', value:'0821 2402 4281', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.05L2 22l5.1-1.34A10 10 0 1 0 12 2Zm5.3 14.2c-.22.62-1.3 1.2-1.8 1.24-.46.05-.46.38-2.9-.6-2.46-.98-4-3.5-4.12-3.66-.12-.16-.98-1.3-.98-2.48 0-1.18.62-1.76.84-2 .22-.24.48-.3.64-.3l.46.01c.15.01.35-.06.54.42l.76 1.86c.06.13.1.28.01.45l-.28.46-.4.44c-.13.13-.27.27-.12.53.16.26.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.16 1.34.26.13.42.11.57-.07l.82-.96c.2-.26.36-.2.6-.12l1.72.82c.26.13.42.19.48.3.06.1.06.6-.16 1.22Z"/></svg>', href:this.wa('Halo Arasya, saya mau bertanya.')},
+      {label:'WhatsApp Alternatif', value:'0822 9885 4855', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.05L2 22l5.1-1.34A10 10 0 1 0 12 2Zm5.3 14.2c-.22.62-1.3 1.2-1.8 1.24-.46.05-.46.38-2.9-.6-2.46-.98-4-3.5-4.12-3.66-.12-.16-.98-1.3-.98-2.48 0-1.18.62-1.76.84-2 .22-.24.48-.3.64-.3l.46.01c.15.01.35-.06.54.42l.76 1.86c.06.13.1.28.01.45l-.28.46-.4.44c-.13.13-.27.27-.12.53.16.26.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.16 1.34.26.13.42.11.57-.07l.82-.96c.2-.26.36-.2.6-.12l1.72.82c.26.13.42.19.48.3.06.1.06.6-.16 1.22Z"/></svg>', href:'https://wa.me/6282298854855'},
+      {label:'Email', value:'arasyarentcar@gmail.com', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>', href:'mailto:arasyarentcar@gmail.com'},
+      {label:'Instagram', value:'@arasyarentcar', icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>', href:'https://www.instagram.com/arasyarentcar/'}
+    ];
+
+    const formMsg = `Halo Arasya, saya ${s.formName||'(nama)'}.\n${s.formMsg||'Saya ingin booking / bertanya.'}`;
+
+    const lb = s.lightbox;
+    const lbItem = lb!=null ? this.galleryRaw[lb] : null;
+
+    return {
+      waMain: this.wa('Halo Arasya, saya mau booking unit mobil. Mohon dibantu yaa. Terima kasih.'),
+      isBeranda: s.page==='beranda', isTravel: s.page==='travel', isTentang: s.page==='tentang', isKontak: s.page==='kontak', isBlog: s.page==='blog',
+      headerBg: s.scrolled ? 'rgba(255,255,255,.92)' : 'rgba(255,255,255,.86)',
+      headerBorder: s.scrolled ? '#E3E8F0' : 'rgba(227,232,240,.7)',
+      headerPad: s.scrolled ? '10px 0' : '15px 0',
+      headerText:'#0B0F1A', headerSub:'#5B6577',
+      goHome:this.goHome, goTravel:this.goTravel, scrollArmada:this.scrollArmada, toggleNav:this.toggleNav,
+      mobileNav:s.mobileNav, nav, navMobile,
+      // estimator
+      estOrigin:s.estOrigin, estDest:s.estDest, estVeh:String(s.estVeh), estDays:s.estDays,
+      origins:this.origins, dests:this.dests, vehicleOptions,
+      setEstOrigin:this.setEstOrigin, setEstDest:this.setEstDest, setEstVeh:this.setEstVeh, incDays:this.incDays, decDays:this.decDays,
+      estTierDk:this.estTierDk, estTierAi:this.estTierAi,
+      estDkBg: s.estTier==='dk'?'#1452C4':'transparent', estDkColor: s.estTier==='dk'?'#fff':'#5B6577',
+      estAiBg: s.estTier==='ai'?'#1452C4':'transparent', estAiColor: s.estTier==='ai'?'#fff':'#5B6577',
+      estRouteLabel: `${s.estOrigin} → ${s.estDest}`, estTierLabel, estTotalLabel, estBreakdown, estWa,
+      // fleet
+      fleet, filters, tierNote,
+      tierDk:this.tierDk, tierAi:this.tierAi,
+      dkBg: s.tier==='dk'?'#1452C4':'transparent', dkColor: s.tier==='dk'?'#fff':'#5B6577',
+      aiBg: s.tier==='ai'?'#1452C4':'transparent', aiColor: s.tier==='ai'?'#fff':'#5B6577',
+      // lists
+      services, routes, steps:this.stepsRaw, cancel:this.cancelRaw, whyus, gallery, faqs, posts, contacts: contacts.map(c=>({...c, iconHtml:{__html:c.icon}})),
+      goTravelBtn:this.goTravel,
+      // form
+      formName:s.formName, formMsg:s.formMsg, setFormName:this.setFormName, setFormMsg:this.setFormMsg, formWa:this.wa(formMsg),
+      // lightbox
+      lightboxOpen: lb!=null, lightboxLabel: lbItem?lbItem.label:'', lightboxRatio: lbItem?lbItem.ratio:'4/3',
+      closeLightbox:this.closeLightbox, nextImg:this.nextImg, prevImg:this.prevImg
+    };
+  }
+}
+</script>
+</body>
+</html>
