@@ -1,0 +1,18 @@
+[
+  {
+    "id": "JKT_BDG", "from_city": "JAKARTA", "to_city": "BANDUNG",
+    "reference_origin": "ZONE_JKT_PUSAT",
+    "reference_destination": "ZONE_BANDUNG_KOTA",
+    "km": "{{TOKEN}}", "toll": "{{TOKEN}}",
+    "travel_hours": 3.5, "buffer_hours": 1.0, "included_hours": 12,
+    "price": {
+      "ECONOMY_MPV":  { "ONE_WAY": 700000, "ROUND_TRIP": "{{TOKEN}}" },
+      "STANDARD_MPV": { "ONE_WAY": "{{TOKEN}}", "ROUND_TRIP": "{{TOKEN}}" },
+      "PREMIUM_MPV":  { "ONE_WAY": "{{TOKEN}}", "ROUND_TRIP": "{{TOKEN}}" },
+      "SUV":          { "ONE_WAY": "{{TOKEN}}", "ROUND_TRIP": "{{TOKEN}}" },
+      "LUXURY":       { "ONE_WAY": null, "ROUND_TRIP": null },
+      "MINIBUS":      { "ONE_WAY": "{{TOKEN}}", "ROUND_TRIP": "{{TOKEN}}" },
+      "BUS_SMALL":    { "ONE_WAY": null, "ROUND_TRIP": null }
+    }
+  }
+]
