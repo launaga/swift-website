@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Arasya Rent Car sitemap.
+  The current site is a single-page app (sections navigated via in-page routing),
+  so only the canonical homepage is a real, indexable URL today.
+  As the SEO IA lands (/rute/*, /sewa/*, /layanan/*, /panduan/*), add those URLs here.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://arasyarentcar.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

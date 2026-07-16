@@ -1,0 +1,813 @@
+openapi: 3.1.0
+
+# ==============================================================================
+# ARSO — API SPECIFICATION
+#
+# PHASE 0 HAS NO API.
+#   The estimator is a pure client-side function over static JSON (see 06 §6.2).
+#   If you deploy this spec for Phase 0, you have lost the scope argument.
+#
+# This contract activates at Gate 0→1 (00_README_Index.md §0.3).
+#
+# Precedence: 00 > 02 > 09 > this file.
+# ==============================================================================
+
+info:
+  title: ARSO API
+  version: 1.0.0-draft
+  description: |
+    Internal + partner API for Arasya Rental Operating System.
+
+    ## Conventions
+    - All money is `integer` (int64), **rupiah, no decimals**. Never float.
+    - All timestamps are RFC3339 with offset. Business timezone: Asia/Jakarta.
+    - All IDs are UUID v7. Human-facing references use `code` (e.g. `BK-2026-00412`).
+    - Mutating endpoints require `Idempotency-Key`.
+    - Errors follow RFC 9457 (problem+json).
+
+    ## Critical semantics
+    - `POST /estimates` is **non-binding**. It never persists a price.
+    - `POST /quotes` is **binding until `expires_at`** and **immutable**. Corrections
+      supersede; they never update. See 09 §9.9.
+    - Any `quote_only` input returns `total_idr: null`. `null` is a deliberate
+      business state ("contact us"), never an error and never a zero.
+  contact:
+    name: PT. Ayomi Raya
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.arasyarentcar.com/v1
+    description: Production
+  - url: https://api-staging.arasyarentcar.com/v1
+    description: Staging
+
+tags:
+  - name: Pricing
+  - name: Bookings
+  - name: Payments
+  - name: Dispatch
+  - name: Fleet
+  - name: Privacy
+  - name: Webhooks
+
+security:
+  - sessionCookie: []
+
+# ==============================================================================
+# RBAC — enforced server-side. x-roles is documentation of the same matrix.
+# ==============================================================================
+x-rbac:
+  roles: [OWNER, ADMIN, FINANCE, DISPATCH, DRIVER, READONLY, PUBLIC]
+  notes: |
+    - drivers.base_salary_idr is column-restricted to FINANCE|OWNER (NFR-SEC-005).
+    - payment proof objects sit in a separate bucket/KMS key with a separate
+      RBAC tier (BR-026): FINANCE|OWNER only.
+    - DRIVER sees only their own assignments.
+
+paths:
+
+  # ---------------------------------------------------------------- Pricing --
+  /estimates:
+    post:
+      tags: [Pricing]
+      summary: Compute a non-binding estimate
+      operationId: createEstimate
+      security: []          # public
+      x-roles: [PUBLIC]
+      description: |
+        Stateless. Persists nothing except an analytics event.
+        Mirrors the client-side pure function exactly — **same shared package**
+        (ADR-006). If this endpoint and the browser ever disagree, that is a P0 defect:
+        the customer sees one price on the site and another on the invoice, and the
+        trust positioning is gone.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EstimateRequest' }
+      responses:
+        '200':
+          description: Estimate computed, or suppressed for quote_only inputs
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EstimateResponse' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '503':
+          description: |
+            Ruleset unavailable. Client MUST hide any number and show the WhatsApp CTA.
+            **Never render a cached, default, or partial price** (EC-PRC-001).
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /pricing/rules:
+    get:
+      tags: [Pricing]
+      summary: Fetch the published ruleset
+      operationId: getRules
+      security: []
+      x-roles: [PUBLIC]
+      responses:
+        '200':
+          description: Current published ruleset
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RuleSet' }
+    post:
+      tags: [Pricing]
+      summary: Publish a new ruleset version
+      operationId: publishRules
+      x-roles: [OWNER]
+      description: |
+        Supersedes; never updates (BR-106). `reason` is mandatory —
+        it is the cheapest governance control in the system (07 §7.4).
+        Publishing runs the §9.7 backtest; a failing backtest rejects the publish.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [snapshot, reason]
+              properties:
+                snapshot: { $ref: '#/components/schemas/RuleSet' }
+                reason:
+                  type: string
+                  minLength: 10
+                  description: Why this changed. Non-negotiable.
+      responses:
+        '201':
+          description: Published
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RuleVersion' }
+        '409':
+          description: Backtest failed — publish rejected. Body lists failing cases.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /pricing/rules/rollback:
+    post:
+      tags: [Pricing]
+      summary: Roll back to a previous ruleset version
+      operationId: rollbackRules
+      x-roles: [OWNER]
+      description: Must complete in under 5 minutes without a developer (NFR-SUP-002).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rule_version_id, reason]
+              properties:
+                rule_version_id: { type: string, format: uuid }
+                reason: { type: string, minLength: 10 }
+      responses:
+        '200': { description: Rolled back }
+
+  # --------------------------------------------------------------- Bookings --
+  /quotes:
+    post:
+      tags: [Bookings]
+      summary: Issue a binding, immutable quote
+      operationId: createQuote
+      x-roles: [ADMIN, OWNER]
+      description: |
+        Freezes `rule_version_id`. The row is immutable at the database layer
+        (07 §7.5) — not by convention, by `RULE ... DO INSTEAD NOTHING`.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/QuoteRequest' }
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Quote' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /quotes/{quoteId}:
+    get:
+      tags: [Bookings]
+      operationId: getQuote
+      x-roles: [ADMIN, OWNER, FINANCE, READONLY]
+      parameters:
+        - { name: quoteId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Quote' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    # No PUT. No PATCH. No DELETE. Quotes are immutable (BR-105).
+    # Corrections use /quotes/{quoteId}/supersede.
+
+  /quotes/{quoteId}/supersede:
+    post:
+      tags: [Bookings]
+      summary: Issue a superseding quote
+      operationId: supersedeQuote
+      x-roles: [ADMIN, OWNER]
+      description: |
+        The ONLY way to "change" a quote. Creates a new immutable row referencing
+        the original. `reason` mandatory; actor and delta logged (BR-113).
+
+        Overrides are a **signal**, not a feature: if a corridor is superseded on
+        >20% of quotes, the rule is wrong. Fix the rule (FR-BKG-006).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [total_idr, reason_code, reason]
+              properties:
+                total_idr: { type: integer, format: int64, minimum: 1 }
+                reason_code:
+                  type: string
+                  enum: [CUSTOMER_NEGOTIATION, RETURNING_CUSTOMER, CORRIDOR_MISPRICED,
+                         COMPETITIVE_MATCH, GOODWILL, DATA_ENTRY_ERROR, OTHER]
+                reason: { type: string, minLength: 10 }
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Quote' }
+
+  /bookings:
+    get:
+      tags: [Bookings]
+      operationId: listBookings
+      x-roles: [ADMIN, OWNER, DISPATCH, FINANCE, READONLY]
+      parameters:
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/BookingStatus' } }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: cursor, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 50, maximum: 200 } }
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Booking' }
+                  next_cursor: { type: string, nullable: true }
+    post:
+      tags: [Bookings]
+      summary: Create a booking from a quote
+      operationId: createBooking
+      x-roles: [ADMIN, OWNER]
+      description: |
+        Places the vehicle hold on creation, **not on payment** (EC-BKG-002).
+        Two customers must not both be told "confirmed" for the last Avanza.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quote_id, customer]
+              properties:
+                quote_id: { type: string, format: uuid }
+                customer: { $ref: '#/components/schemas/CustomerInput' }
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Booking' }
+        '409':
+          description: Quote expired, or no unit available for the window
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /bookings/{bookingId}/cancel:
+    post:
+      tags: [Bookings]
+      operationId: cancelBooking
+      x-roles: [ADMIN, OWNER]
+      description: |
+        Fee computed per the BR-016 decision table.
+
+        ⚠ **BLOCKED.** The current published policy is ambiguous: "before driver
+        arrives / before 10.00" are two different conditions joined by a slash.
+        Software cannot use judgement. Do not implement until the policy is a
+        decision table with client sign-off.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string }
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  booking_id: { type: string, format: uuid }
+                  cancel_fee_idr: { type: integer, format: int64 }
+                  policy_clause: { type: string, description: Which clause applied, for the customer }
+        '501':
+          description: Not implemented — blocked on BR-016.
+
+  # --------------------------------------------------------------- Payments --
+  /invoices/{invoiceId}/payments:
+    post:
+      tags: [Payments]
+      summary: Record a payment (manual verification path)
+      operationId: recordPayment
+      x-roles: [FINANCE, ADMIN, OWNER]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount_idr, method]
+              properties:
+                amount_idr: { type: integer, format: int64, minimum: 1 }
+                method: { $ref: '#/components/schemas/PaymentMethod' }
+                is_dp: { type: boolean, default: false }
+                proof_upload_id:
+                  type: string
+                  description: |
+                    Reference to a pre-uploaded object in the **payment-proofs**
+                    bucket. Separate bucket, separate KMS key, separate RBAC tier —
+                    the object contains a bank account number, which is
+                    *data keuangan pribadi* → specific personal data (BR-026).
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Payment' }
+
+  # --------------------------------------------------------------- Dispatch --
+  /assignments:
+    post:
+      tags: [Dispatch]
+      summary: Assign a vehicle + driver
+      operationId: createAssignment
+      x-roles: [DISPATCH, ADMIN, OWNER]
+      description: |
+        `blocked_period` = trip window ± prep/return buffers, **not** the trip window.
+        A car finishing in Bandung at 18:00 cannot start a Jakarta trip at 19:00.
+
+        Conflicts are rejected by a Postgres exclusion constraint (07 §7.6.1), not by
+        an application check. Two dispatchers assigning concurrently: exactly one
+        succeeds. An application-level "check then insert" is a race condition
+        wearing a suit.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [booking_id, vehicle_id, driver_id]
+              properties:
+                booking_id: { type: string, format: uuid }
+                vehicle_id: { type: string, format: uuid }
+                driver_id: { type: string, format: uuid }
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Assignment' }
+        '409':
+          description: |
+            Conflict. Body names the conflicting booking so the dispatcher can act
+            rather than guess.
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Problem'
+                  - type: object
+                    properties:
+                      conflicting_booking_code: { type: string }
+                      conflicting_period: { type: string }
+                      conflict_on: { type: string, enum: [VEHICLE, DRIVER] }
+
+  /availability:
+    get:
+      tags: [Dispatch, Fleet]
+      operationId: getAvailability
+      x-roles: [DISPATCH, ADMIN, OWNER]
+      description: |
+        Reflects maintenance status. A 14-vehicle fleet with 2 units in the shop is a
+        12-vehicle fleet, and the supply gate (BR-011) depends on this being honest.
+      parameters:
+        - { name: from, in: query, required: true, schema: { type: string, format: date-time } }
+        - { name: to, in: query, required: true, schema: { type: string, format: date-time } }
+        - { name: class_id, in: query, schema: { type: string } }
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    vehicle_id: { type: string, format: uuid }
+                    code: { type: string }
+                    class_id: { type: string }
+                    available: { type: boolean }
+                    reason: { type: string, nullable: true, enum: [ASSIGNED, MAINTENANCE, DOC_EXPIRED, null] }
+
+  # ---------------------------------------------------------------- Privacy --
+  /privacy/requests:
+    post:
+      tags: [Privacy]
+      summary: Submit a data subject request (UU PDP)
+      operationId: createDataSubjectRequest
+      x-roles: [ADMIN, OWNER]
+      description: |
+        `ERASE` = **anonymisation**, not row deletion (07 §7.9). Invoices and payment
+        amounts survive under statutory retention; the person is removed from them.
+
+        Completion is bounded by the backup retention window (35 days), and that
+        window is stated in the published privacy notice. The undocumented gap is the
+        violation — not the gap itself (NFR-PDP-002).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, request_type]
+              properties:
+                customer_id: { type: string, format: uuid }
+                request_type: { type: string, enum: [ACCESS, RECTIFY, ERASE, PORT] }
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string, format: uuid }
+                  due_at: { type: string, format: date-time }
+                  retained_categories:
+                    type: array
+                    items: { type: string }
+                    description: What will be kept and why. The customer is told explicitly (EC-PDP-002).
+
+  # --------------------------------------------------------------- Webhooks --
+  /webhooks/psp:
+    post:
+      tags: [Webhooks]
+      summary: Payment gateway callback (Midtrans / Xendit)
+      operationId: pspWebhook
+      security:
+        - webhookSignature: []
+      description: |
+        **Idempotent.** Enforced by `UNIQUE (invoice_id, external_ref)` (07 §7.7).
+        PSPs retry. They will retry. Build for it on day one or debug it at 2am.
+
+        The webhook — not the browser redirect — is the source of truth (EC-BKG-005).
+        A reconciliation job covers dropped webhooks (EC-BKG-006); every PSP drops
+        them eventually.
+
+        Always return 200 on a duplicate. Returning an error makes the PSP retry harder.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_id: { type: string }
+                transaction_id: { type: string }
+                transaction_status: { type: string }
+                gross_amount: { type: string }
+                signature_key: { type: string }
+      responses:
+        '200': { description: Processed, or already processed. Both are 200. }
+        '401': { description: Bad signature }
+
+components:
+
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: arso_session
+      description: HttpOnly, Secure, SameSite=Lax. 2FA required for admin roles.
+    webhookSignature:
+      type: apiKey
+      in: header
+      name: X-Signature
+      description: HMAC over the raw body. Verify before parsing.
+
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, format: uuid }
+
+  responses:
+    ValidationError:
+      description: Invalid input
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    NotFound:
+      description: Not found
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    RateLimited:
+      description: Too many requests
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+  schemas:
+
+    Problem:
+      type: object
+      description: RFC 9457
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
+
+    TripType:
+      type: string
+      enum: [ONE_WAY, ROUND_TRIP, MULTI_CITY]
+
+    PriceTier:
+      type: string
+      enum: [DALAM_KOTA_12H, ALL_IN]
+
+    StopType:
+      type: string
+      enum: [DROP_ONLY, PICKUP_ONLY, SHORT_WAIT, MEETING, MEAL, LONG_WAIT]
+      description: |
+        The customer picks a **type**, never a duration (FR-PRC-003 / FR-WEB-004).
+        Free-text duration invites negotiation and re-introduces the pricing
+        inconsistency the engine exists to eliminate.
+
+    BookingStatus:
+      type: string
+      enum: [DRAFT, PENDING_PAYMENT, CONFIRMED, ASSIGNED, IN_PROGRESS, COMPLETED, CANCELLED, NO_SHOW]
+
+    PaymentMethod:
+      type: string
+      enum: [BANK_TRANSFER, CASH, QRIS, MIDTRANS, XENDIT]
+
+    Stop:
+      type: object
+      required: [zone_id, stop_type]
+      properties:
+        zone_id: { type: string }
+        stop_type: { $ref: '#/components/schemas/StopType' }
+        address:
+          type: string
+          nullable: true
+          description: |
+            Free text, for the driver. **NEVER a pricing input** (BR-114).
+            Pricing uses `zone_id` only.
+
+    EstimateRequest:
+      type: object
+      required: [corridor_id, class_id, trip_type, tier, pickup_zone_id, dropoff_zone_id, trip_date]
+      properties:
+        corridor_id: { type: string, example: JKT_BDG }
+        class_id: { type: string, example: ECONOMY_MPV }
+        trip_type: { $ref: '#/components/schemas/TripType' }
+        tier: { $ref: '#/components/schemas/PriceTier' }
+        pickup_zone_id: { type: string, example: ZONE_CIBUBUR }
+        dropoff_zone_id: { type: string, example: ZONE_DAGO }
+        trip_date: { type: string, format: date }
+        pickup_time: { type: string, example: "07:00" }
+        pax: { type: integer, minimum: 1 }
+        stops:
+          type: array
+          items: { $ref: '#/components/schemas/Stop' }
+        addons:
+          type: array
+          items: { type: string }
+
+    BreakdownLine:
+      type: object
+      properties:
+        label: { type: string, example: "Penjemputan Cibubur" }
+        amount_idr: { type: integer, format: int64, nullable: true }
+        kind: { type: string, enum: [BASE, PICKUP_FEE, DROPOFF_FEE, OVERTIME, ADDON, MULTIPLIER, PPN, INFO] }
+        note: { type: string, nullable: true, example: "Termasuk dalam paket 12 jam" }
+
+    EstimateResponse:
+      type: object
+      required: [quote_only, breakdown, rule_version_hash, ref]
+      properties:
+        quote_only:
+          type: boolean
+          description: |
+            true → the client MUST suppress the number entirely and show the contact
+            CTA (FR-PRC-006). Never render a partial or guessed price.
+        total_idr:
+          type: integer
+          format: int64
+          nullable: true
+          description: null when quote_only. `null` is a business state, not an error.
+        subtotal_idr: { type: integer, format: int64, nullable: true }
+        date_multiplier: { type: number, nullable: true }
+        billable_hours: { type: number, nullable: true }
+        breakdown:
+          type: array
+          description: Always present. A single number invites suspicion; a breakdown invites trust.
+          items: { $ref: '#/components/schemas/BreakdownLine' }
+        exclusions:
+          type: array
+          items: { type: string }
+          example: ["BBM", "Toll", "Parkir", "Makan driver"]
+          description: Rendered inline with the price, never in a footnote (BR-007).
+        disclaimer:
+          type: string
+          example: "Estimasi. Harga final dikonfirmasi admin via WhatsApp."
+        rule_version_hash: { type: string }
+        ref:
+          type: string
+          example: q-a7f3c1
+          description: |
+            Deterministic hash of the input set. Carried in the WhatsApp pre-fill
+            (09 §9.10) so a chat can be reconciled to an analytics event, and later
+            to a quote row. **Contains no PII.**
+        whatsapp_url: { type: string, format: uri }
+
+    QuoteRequest:
+      allOf:
+        - $ref: '#/components/schemas/EstimateRequest'
+        - type: object
+          properties:
+            expires_in_hours: { type: integer, default: 48 }
+
+    Quote:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, example: QT-2026-00187 }
+        ref_hash: { type: string }
+        rule_version_id: { type: string, format: uuid }
+        billable_hours: { type: number }
+        breakdown:
+          type: array
+          items: { $ref: '#/components/schemas/BreakdownLine' }
+        subtotal_idr: { type: integer, format: int64 }
+        date_multiplier: { type: number }
+        ppn_idr: { type: integer, format: int64 }
+        total_idr: { type: integer, format: int64 }
+        cost_floor_idr:
+          type: integer
+          format: int64
+          nullable: true
+          description: null when cost parameters are unresolved ({{TOKEN}}, blocked on Q5).
+        margin_pct:
+          type: number
+          nullable: true
+          description: |
+            Generated column. Turns the pricing audit into a SELECT (07 §7.5).
+            Visible to OWNER|FINANCE only.
+        supersedes_quote_id: { type: string, format: uuid, nullable: true }
+        expires_at: { type: string, format: date-time }
+        created_at: { type: string, format: date-time }
+
+    CustomerInput:
+      type: object
+      required: [full_name, phone_e164, consents]
+      properties:
+        full_name: { type: string }
+        phone_e164: { type: string, example: "+6281234567890" }
+        email: { type: string, format: email, nullable: true }
+        consents:
+          type: array
+          minItems: 1
+          description: |
+            **Per-purpose, never a single boolean** (BR-111). "I agreed to you holding
+            my KTP to fulfil a booking" is not "I agreed to WhatsApp marketing."
+            A single flag cannot be retroactively split — this is the most common
+            UU PDP schema error and it is unfixable after the fact.
+          items:
+            type: object
+            required: [purpose, granted]
+            properties:
+              purpose: { type: string, enum: [booking_fulfilment, id_verification, marketing_wa] }
+              granted: { type: boolean }
+
+    Booking:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, example: BK-2026-00412 }
+        quote_id: { type: string, format: uuid }
+        status: { $ref: '#/components/schemas/BookingStatus' }
+        scheduled_start: { type: string, format: date-time }
+        scheduled_end: { type: string, format: date-time }
+        total_idr: { type: integer, format: int64 }
+        pickup_zone_id: { type: string }
+        dropoff_zone_id: { type: string }
+        pickup_address:
+          type: string
+          nullable: true
+          description: For the driver. Not for pricing (BR-114).
+
+    Payment:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        invoice_id: { type: string, format: uuid }
+        amount_idr: { type: integer, format: int64 }
+        method: { $ref: '#/components/schemas/PaymentMethod' }
+        status: { type: string, enum: [PENDING, VERIFIED, REJECTED, REFUNDED] }
+        is_dp: { type: boolean }
+        verified_by: { type: string, format: uuid, nullable: true }
+        verified_at: { type: string, format: date-time, nullable: true }
+
+    Assignment:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        booking_id: { type: string, format: uuid }
+        vehicle_id: { type: string, format: uuid }
+        driver_id: { type: string, format: uuid }
+        blocked_period:
+          type: string
+          example: "[2026-08-12T06:00:00+07:00,2026-08-12T22:00:00+07:00)"
+          description: Trip window ± prep/return buffers.
+
+    RuleSet:
+      type: object
+      description: |
+        Mirrors the four Phase 0 JSON files exactly. One schema, one engine,
+        two runtimes (ADR-006).
+      properties:
+        vehicle_classes: { type: array, items: { type: object } }
+        zones: { type: array, items: { type: object } }
+        corridors: { type: array, items: { type: object } }
+        rules:
+          type: object
+          properties:
+            overtime_per_hour: { type: object, additionalProperties: { type: integer } }
+            stop_type_dwell_hours: { type: object, additionalProperties: { type: number } }
+            addons: { type: object }
+            date_multipliers: { type: array, items: { type: object } }
+            multiplier_policy:
+              type: string
+              enum: [MAX_NOT_PRODUCT]
+              description: |
+                Fixed. Multipliers take max, never product (BR-107). Lebaran ×1.6 on a
+                long weekend ×1.3 compounds to ×2.08 — a 108% jump that ends the
+                customer relationship. Multiplicative stacking is how a pricing engine
+                silently destroys a trust-based business.
+            rounding:
+              type: object
+              properties:
+                mode: { type: string, enum: [UP] }
+                nearest: { type: integer, enum: [10000] }
+              description: |
+                Up-only (BR-108). Rounding down means the operator's final number is
+                always higher than the screen's — the exact failure the Estimate/Quote
+                split exists to prevent. Rounding up means the operator can only go
+                down, which is a discount, which closes deals.
+
+    RuleVersion:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        hash: { type: string }
+        published_at: { type: string, format: date-time }
+        published_by: { type: string, format: uuid }
+        reason: { type: string }
