@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arasya — Estimator Perjalanan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0F1A; --ink-soft:#1A2230; --paper:#FFFFFF; --paper-soft:#F4F6FA;
+  --blue:#1452C4; --blue-bright:#2E6FE0; --muted:#5B6577; --line:#E3E8F0;
+  --warn:#8A5A00; --warn-bg:#FFF6E3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Inter Tight",system-ui,sans-serif; font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.hrow{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.03em;font-size:19px}
+.brand span{color:var(--blue)}
+.hnum{font-size:11px;letter-spacing:.06em;color:var(--muted)}
+
+/* ---------- hero ---------- */
+.hero{padding:34px 0 20px}
+.eyebrow{
+  font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:14px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+h1{
+  font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.04em;
+  font-size:clamp(30px,8vw,40px);line-height:1.04;
+}
+h1 em{font-style:normal;color:var(--blue)}
+.lede{color:var(--muted);margin-top:12px;font-size:14.5px;max-width:42ch}
+
+/* ---------- signature: route ledger ---------- */
+.ledger{
+  margin:24px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:var(--paper);
+}
+.ledger-map{
+  background:var(--ink);color:#fff;padding:20px 18px 16px;position:relative;overflow:hidden;
+}
+.ledger-map::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 100% at 15% 0%,rgba(46,111,224,.28),transparent 60%);
+}
+.nodes{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.node{flex:1;text-align:center;position:relative;min-width:0}
+.dot{
+  width:11px;height:11px;border-radius:50%;background:var(--ink);
+  margin:0 auto 9px;position:relative;z-index:2;
+  border:2px solid rgba(255,255,255,.35);transition:all .35s cubic-bezier(.2,.8,.2,1);
+}
+.node.on .dot{background:var(--blue-bright);border-color:#fff;box-shadow:0 0 0 4px rgba(46,111,224,.28)}
+.rail{
+  position:absolute;top:5px;left:12%;right:12%;height:2px;
+  background:rgba(255,255,255,.16);z-index:1;
+}
+.rail-fill{
+  position:absolute;inset:0;width:0;background:var(--blue-bright);
+  transition:width .5s cubic-bezier(.2,.8,.2,1);
+}
+.node-lab{
+  font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.node-val{
+  font-size:12.5px;font-weight:600;margin-top:3px;line-height:1.25;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.node-fee{font-family:"IBM Plex Mono";font-size:11px;margin-top:3px;color:#7FA6EE}
+.node-fee.zero{color:rgba(255,255,255,.3)}
+
+/* ---------- form ---------- */
+.form{padding:18px}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+label{
+  display:block;font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+}
+select,input[type=date]{
+  width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;
+  background:var(--paper-soft);font-family:"Inter Tight";font-size:15px;color:var(--ink);
+  appearance:none;-webkit-appearance:none;
+}
+select{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%235B6577' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;
+}
+select:focus,input:focus,button:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.seg{display:flex;gap:6px;background:var(--paper-soft);padding:4px;border-radius:10px;border:1px solid var(--line)}
+.seg button{
+  flex:1;padding:9px 4px;border:0;border-radius:7px;background:transparent;cursor:pointer;
+  font-family:"Inter Tight";font-size:13.5px;font-weight:500;color:var(--muted);transition:.18s;
+}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{
+  width:38px;height:38px;border:1px solid var(--line);background:var(--paper-soft);
+  border-radius:9px;font-size:18px;color:var(--ink);cursor:pointer;line-height:1;
+}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper .n{font-family:"IBM Plex Mono";font-size:17px;font-weight:500;min-width:20px;text-align:center}
+.stepper .hint{font-size:12px;color:var(--muted)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  border:1px solid var(--line);background:var(--paper-soft);border-radius:20px;
+  padding:7px 13px;font-size:13px;cursor:pointer;font-family:"Inter Tight";color:var(--muted);
+}
+.chip[aria-pressed=true]{border-color:var(--blue);background:#EAF1FE;color:var(--blue);font-weight:500}
+
+/* ---------- quote ---------- */
+.quote{border-top:1px solid var(--line);background:var(--paper-soft);padding:18px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:13.5px}
+.line .l{color:var(--muted)}
+.line .r{font-family:"IBM Plex Mono";font-size:13px;white-space:nowrap}
+.line.tbc .r{color:var(--warn)}
+.total{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+  border-top:1px solid var(--line);margin-top:8px;padding-top:14px;
+}
+.total .lab{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.total .amt{font-family:"Bricolage Grotesque";font-weight:800;font-size:30px;letter-spacing:-.03em;line-height:1}
+.total .amt.na{font-size:19px;color:var(--muted)}
+
+.flag{
+  display:flex;gap:9px;background:var(--warn-bg);border:1px solid #F0DFB6;border-radius:9px;
+  padding:10px 12px;font-size:12.5px;color:var(--warn);margin-top:12px;line-height:1.45;
+}
+.flag b{font-weight:600}
+
+.disclaim{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.5}
+
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:12px;
+  background:var(--blue);color:#fff;border:0;border-radius:11px;padding:15px;cursor:pointer;
+  font-family:"Inter Tight";font-size:15.5px;font-weight:600;text-decoration:none;transition:.18s;
+}
+.cta:hover{background:var(--blue-bright)}
+.cta svg{width:18px;height:18px;fill:currentColor}
+
+/* ---------- verified ---------- */
+.verified{
+  margin:26px 0;border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:10px;padding:14px 16px;background:var(--paper);
+}
+.verified h3{font-family:"Bricolage Grotesque";font-size:14px;letter-spacing:-.01em;margin-bottom:7px}
+.verified p{font-size:12.5px;color:var(--muted);line-height:1.55}
+.verified .k{color:var(--ink);font-weight:600;font-family:"IBM Plex Mono";font-size:12px}
+
+/* ---------- audit ---------- */
+.audit{margin:22px 0 46px}
+.audit summary{
+  cursor:pointer;font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);list-style:none;padding:9px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.audit summary::-webkit-details-marker{display:none}
+.audit summary::before{content:"▸ ";color:var(--blue)}
+.audit[open] summary::before{content:"▾ "}
+.audit .body{padding:14px 0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.audit table{width:100%;border-collapse:collapse;margin-top:9px;font-size:12px}
+.audit td{padding:6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.audit td:first-child{font-family:"IBM Plex Mono";color:var(--ink);padding-right:12px;white-space:nowrap}
+.tag{
+  font-family:"IBM Plex Mono";font-size:9.5px;padding:2px 6px;border-radius:4px;
+  background:var(--warn-bg);color:var(--warn);border:1px solid #F0DFB6;
+}
+.tag.ok{background:#EAF1FE;color:var(--blue);border-color:#C9DBFA}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <div class="brand">ARASYA<span>.</span></div>
+    <div class="hnum mono">PROTOTIPE ESTIMATOR</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Estimasi perjalanan</div>
+    <h1>Harga dihitung dari <em>titik jemput</em>, bukan dari tebakan.</h1>
+    <p class="lede">Pilih rute, armada, dan titik jemput. Estimasi muncul terinci — lalu dikirim ke admin lewat WhatsApp, sudah lengkap.</p>
+  </section>
+
+  <div class="ledger">
+
+    <!-- SIGNATURE: route ledger -->
+    <div class="ledger-map">
+      <div class="nodes">
+        <div class="rail"><div class="rail-fill" id="railFill"></div></div>
+        <div class="node on" id="n1">
+          <div class="dot"></div>
+          <div class="node-lab">Jemput</div>
+          <div class="node-val" id="v1">—</div>
+          <div class="node-fee zero" id="f1">+0</div>
+        </div>
+        <div class="node" id="n2">
+          <div class="dot"></div>
+          <div class="node-lab">Koridor</div>
+          <div class="node-val" id="v2">—</div>
+          <div class="node-fee zero" id="f2">+0</div>
+        </div>
+        <div class="node" id="n3">
+          <div class="dot"></div>
+          <div class="node-lab">Tujuan</div>
+          <div class="node-val" id="v3">—</div>
+          <div class="node-fee zero" id="f3">+0</div>
+        </div>
+        <div class="node" id="n4">
+          <div class="dot"></div>
+          <div class="node-lab">Titik</div>
+          <div class="node-val" id="v4">—</div>
+          <div class="node-fee zero" id="f4">+0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form">
+      <div class="field">
+        <label for="corridor">Rute</label>
+        <select id="corridor"></select>
+      </div>
+
+      <div class="field">
+        <label>Jenis perjalanan</label>
+        <div class="seg" id="tripSeg"></div>
+      </div>
+
+      <div class="field">
+        <label for="vehicle">Armada</label>
+        <select id="vehicle"></select>
+      </div>
+
+      <div class="field" id="pickupField">
+        <label for="pickup">Titik jemput</label>
+        <select id="pickup"></select>
+      </div>
+
+      <div class="field" id="dropField">
+        <label for="drop">Titik tujuan utama</label>
+        <select id="drop"></select>
+      </div>
+
+      <div class="field" id="stopField">
+        <label>Jumlah titik singgah</label>
+        <div class="stepper">
+          <button id="minus" aria-label="Kurangi titik">−</button>
+          <span class="n mono" id="stopN">3</span>
+          <button id="plus" aria-label="Tambah titik">+</button>
+          <span class="hint" id="stopHint"></span>
+        </div>
+      </div>
+
+      <div class="field two">
+        <div>
+          <label for="date">Tanggal</label>
+          <input type="date" id="date">
+        </div>
+        <div>
+          <label for="pax">Penumpang</label>
+          <select id="pax"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Tambahan</label>
+        <div class="chips" id="addons"></div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote">
+      <div id="lines"></div>
+      <div class="total">
+        <span class="lab">Estimasi</span>
+        <span class="amt" id="amt">—</span>
+      </div>
+      <div id="flags"></div>
+      <p class="disclaim" id="disclaim"></p>
+      <a class="cta" id="wa" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg>
+        Kirim ke admin via WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="verified">
+    <h3>Saluran resmi Arasya</h3>
+    <p>
+      Arasya hanya bertransaksi melalui nomor <span class="k">0821 2402 4281</span> dan rekening
+      <span class="k">BCA 095 484 0782 a.n. PT. Ayomi Raya</span>.
+      Nomor atau rekening lain di luar ini bukan milik kami. Konfirmasi ulang sebelum transfer.
+    </p>
+  </div>
+
+  <details class="audit">
+    <summary>Audit data — angka yang belum terverifikasi</summary>
+    <div class="body">
+      <p>Panel internal. Setiap angka di bawah menentukan apakah estimator bisa menghitung sendiri atau harus lempar ke admin. Isi kolom kosong → estimator langsung akurat tanpa ubah kode.</p>
+      <table id="auditTbl"></table>
+    </div>
+  </details>
+
+</main>
+
+<script>
+/* ============================================================
+   pricing.json — SATU-SATUNYA sumber harga.
+   Nilai null = belum dikonfirmasi klien → UI lempar ke admin.
+   ============================================================ */
+const DATA = {
+  meta: { wa: "6282124024281", currency: "IDR" },
+
+  vehicles: [
+    // dalamKota & allIn = REAL (arasyarentcar.com). null = "Contact for Best Price".
+    { id:"avanza",    name:"Toyota Avanza",            pax:7,  dalamKota:500000,  allIn:1250000 },
+    { id:"ertiga",    name:"Suzuki Ertiga",            pax:7,  dalamKota:500000,  allIn:1250000 },
+    { id:"xpander",   name:"Mitsubishi Xpander",       pax:7,  dalamKota:600000,  allIn:1350000 },
+    { id:"terios",    name:"Daihatsu Terios",          pax:7,  dalamKota:600000,  allIn:1350000 },
+    { id:"rush",      name:"Toyota Rush",              pax:7,  dalamKota:600000,  allIn:1350000 },
+    { id:"reborn",    name:"Toyota Innova Reborn",     pax:7,  dalamKota:700000,  allIn:1500000 },
+    { id:"zenix",     name:"Toyota Zenix",             pax:7,  dalamKota:1000000, allIn:1800000 },
+    { id:"venturer",  name:"Toyota Innova Venturer",   pax:6,  dalamKota:1000000, allIn:1800000 },
+    { id:"zenixq",    name:"Toyota Zenix Q Hybrid",    pax:6,  dalamKota:1300000, allIn:null },
+    { id:"fortuner",  name:"Toyota Fortuner",          pax:6,  dalamKota:1500000, allIn:2200000 },
+    { id:"commuter",  name:"Toyota Hiace Commuter",    pax:14, dalamKota:1500000, allIn:null },
+    { id:"premio",    name:"Toyota Hiace Premio",      pax:14, dalamKota:null,    allIn:null },
+    { id:"alphard",   name:"Toyota Alphard",           pax:6,  dalamKota:null,    allIn:null },
+    { id:"elf",       name:"Isuzu Elf Long",           pax:19, dalamKota:null,    allIn:null }
+  ],
+
+  corridors: [
+    {
+      id:"jkt-bdg", label:"Jakarta → Bandung", from:"Jakarta", to:"Bandung",
+      includedStops:3, includedHours:12,
+      base: { oneway: { avanza:700000 }, pp: {} }   // ← hanya 1 angka yang REAL
+    },
+    {
+      id:"dalam-kota-bogor", label:"Dalam Kota (12 jam)", from:"Bogor", to:"Bogor",
+      includedStops:null, includedHours:12, useVehicleTier:true
+    }
+  ],
+
+  tripTypes: [
+    { id:"oneway", label:"Sekali jalan" },
+    { id:"pp",     label:"Pulang-pergi" }
+  ],
+
+  zones: {
+    // pickup fee: 0 = real (per aturan "Jakarta = 0"). angka lain = BELUM DIVERIFIKASI.
+    pickup: [
+      { g:"Jakarta", items:[
+        { id:"jkt-pusat",   label:"Jakarta Pusat",   fee:0 },
+        { id:"jkt-selatan", label:"Jakarta Selatan", fee:0 },
+        { id:"jkt-timur",   label:"Jakarta Timur",   fee:0 },
+        { id:"jkt-barat",   label:"Jakarta Barat",   fee:0 },
+        { id:"jkt-utara",   label:"Jakarta Utara",   fee:0 }
+      ]},
+      { g:"Luar Jakarta", items:[
+        { id:"cibubur", label:"Cibubur",  fee:150000, unverified:true },
+        { id:"bekasi",  label:"Bekasi",   fee:200000, unverified:true },
+        { id:"bogor",   label:"Bogor",    fee:300000, unverified:true },
+        { id:"depok",   label:"Depok",    fee:null },
+        { id:"tangerang", label:"Tangerang", fee:null }
+      ]},
+      { g:"Lainnya", items:[
+        { id:"lain-jemput", label:"Area lain — dihitung admin", fee:null }
+      ]}
+    ],
+    drop: [
+      { g:"Kota Bandung", items:[
+        { id:"dago",        label:"Dago",         fee:0 },
+        { id:"bdg-kota",    label:"Bandung Kota", fee:0 }
+      ]},
+      { g:"Luar kota Bandung", items:[
+        { id:"lembang", label:"Lembang", fee:200000, unverified:true },
+        { id:"ciwidey", label:"Ciwidey", fee:350000, unverified:true }
+      ]},
+      { g:"Lainnya", items:[
+        { id:"lain-tujuan", label:"Area lain — dihitung admin", fee:null }
+      ]}
+    ]
+  },
+
+  rules: {
+    extraStop: null,        // Rp per titik di atas includedStops — BELUM ADA
+    overtimePerHour: null,  // BELUM ADA
+    holidayMultiplier: null // BELUM ADA
+  },
+
+  addons: [
+    { id:"nginap",   label:"Driver menginap", fee:null },
+    { id:"midnight", label:"Jemput 00.00–05.00", fee:null },
+    { id:"stnb",     label:"Tambah bagasi besar", fee:null }
+  ]
+};
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const rp = n => "Rp " + n.toLocaleString("id-ID");
+const flatZones = k => DATA.zones[k].flatMap(g => g.items);
+const zone = (k,id) => flatZones(k).find(z => z.id===id);
+
+const S = { corridor:"jkt-bdg", trip:"oneway", vehicle:"avanza",
+            pickup:"jkt-pusat", drop:"dago", stops:3, pax:4, date:"", addons:new Set() };
+
+function corridor(){ return DATA.corridors.find(c=>c.id===S.corridor); }
+function vehicle(){ return DATA.vehicles.find(v=>v.id===S.vehicle); }
+
+/* ---- build the quote ---- */
+function compute(){
+  const c = corridor(), v = vehicle();
+  const lines = [], unknown = [];
+  let sum = 0;
+
+  // 1. base
+  let base = null, baseLabel = "";
+  if (c.useVehicleTier){
+    base = v.dalamKota; baseLabel = `${v.name} · dalam kota 12 jam`;
+  } else {
+    base = (c.base[S.trip] || {})[v.id] ?? null;
+    baseLabel = `${v.name} · ${DATA.tripTypes.find(t=>t.id===S.trip).label}`;
+  }
+  if (base === null) unknown.push({ k:"Tarif dasar", why:`${v.name} pada rute ini belum punya harga tetap` });
+  else sum += base;
+  lines.push({ l:baseLabel, v:base });
+
+  // 2. pickup zone
+  if (!c.useVehicleTier){
+    const z = zone("pickup", S.pickup);
+    if (z.fee === null) unknown.push({ k:"Biaya penjemputan", why:`${z.label} belum punya tarif zona` });
+    else sum += z.fee;
+    if (z.fee !== 0) lines.push({ l:`Penjemputan · ${z.label}`, v:z.fee });
+
+    // 3. drop zone
+    const d = zone("drop", S.drop);
+    if (d.fee === null) unknown.push({ k:"Biaya area tujuan", why:`${d.label} belum punya tarif zona` });
+    else sum += d.fee;
+    if (d.fee !== 0) lines.push({ l:`Area tujuan · ${d.label}`, v:d.fee });
+
+    // 4. extra stops
+    const inc = c.includedStops ?? 0;
+    const extra = Math.max(0, S.stops - inc);
+    if (extra > 0){
+      if (DATA.rules.extraStop === null) unknown.push({ k:`${extra} titik tambahan`, why:"tarif per titik belum ditetapkan" });
+      else sum += extra * DATA.rules.extraStop;
+      lines.push({ l:`${extra} titik di atas ${inc} titik`, v: DATA.rules.extraStop===null?null:extra*DATA.rules.extraStop });
+    }
+  }
+
+  // 5. addons
+  DATA.addons.filter(a=>S.addons.has(a.id)).forEach(a=>{
+    if (a.fee === null) unknown.push({ k:a.label, why:"tarif belum ditetapkan" });
+    else sum += a.fee;
+    lines.push({ l:a.label, v:a.fee });
+  });
+
+  // 6. date flag (bukan pengali — multiplier belum ada)
+  let dateFlag = null;
+  if (S.date){
+    const d = new Date(S.date + "T00:00");
+    if (d.getDay()===0 || d.getDay()===6) dateFlag = "Tanggal ini akhir pekan — admin dapat menyesuaikan tarif.";
+  }
+
+  return { lines, sum, unknown, dateFlag, hasBase: base!==null };
+}
+
+/* ---- WhatsApp prefill ---- */
+function waLink(q){
+  const c = corridor(), v = vehicle();
+  const rows = [
+    "Halo Arasya, saya mau minta penawaran:",
+    `Rute: ${c.label}`,
+    c.useVehicleTier ? null : `Jenis: ${DATA.tripTypes.find(t=>t.id===S.trip).label}`,
+    `Armada: ${v.name}`,
+    c.useVehicleTier ? null : `Titik jemput: ${zone("pickup",S.pickup).label}`,
+    c.useVehicleTier ? null : `Tujuan utama: ${zone("drop",S.drop).label}`,
+    c.useVehicleTier ? null : `Jumlah titik: ${S.stops}`,
+    `Tanggal: ${S.date || "belum ditentukan"} | Penumpang: ${S.pax}`,
+    S.addons.size ? `Tambahan: ${[...S.addons].map(id=>DATA.addons.find(a=>a.id===id).label).join(", ")}` : null,
+    "",
+    q.unknown.length
+      ? `Estimasi dasar dari web: ${q.sum>0?rp(q.sum):"—"} (${q.unknown.map(u=>u.k.toLowerCase()).join(", ")} menunggu konfirmasi)`
+      : `Estimasi dari web: ${rp(q.sum)}`,
+    `(ref: ${S.corridor}/${S.vehicle}/${S.pickup})`
+  ].filter(x=>x!==null);
+  return `https://wa.me/${DATA.meta.wa}?text=${encodeURIComponent(rows.join("\n"))}`;
+}
+
+/* ---- render ---- */
+function render(){
+  const c = corridor(), q = compute();
+  const inter = !c.useVehicleTier;
+
+  ["pickupField","dropField","stopField"].forEach(id => $(id).style.display = inter ? "" : "none");
+
+  // ledger map
+  const pz = inter ? zone("pickup",S.pickup) : null;
+  const dz = inter ? zone("drop",S.drop) : null;
+  const inc = c.includedStops ?? 0;
+  const extra = Math.max(0, S.stops - inc);
+
+  const nodes = [
+    { v: inter ? pz.label : "Bogor",  f: inter ? pz.fee : 0 },
+    { v: c.from + "→" + c.to,          f: 0 },
+    { v: inter ? dz.label : "Dalam kota", f: inter ? dz.fee : 0 },
+    { v: inter ? `${S.stops} titik` : `${c.includedHours} jam`, f: extra>0 ? (DATA.rules.extraStop===null?null:extra*DATA.rules.extraStop) : 0 }
+  ];
+  nodes.forEach((n,i)=>{
+    $("v"+(i+1)).textContent = n.v;
+    const fe = $("f"+(i+1));
+    fe.textContent = n.f===null ? "+ ?" : (n.f===0 ? "+0" : "+"+(n.f/1000)+"k");
+    fe.className = "node-fee" + (n.f===0 ? " zero" : "");
+    $("n"+(i+1)).classList.toggle("on", n.f!==0);
+  });
+  $("railFill").style.width = "100%";
+
+  // lines
+  $("lines").innerHTML = q.lines.map(l=>`
+    <div class="line${l.v===null?" tbc":""}">
+      <span class="l">${l.l}</span>
+      <span class="r">${l.v===null ? "dihitung admin" : rp(l.v)}</span>
+    </div>`).join("");
+
+  // total
+  const amt = $("amt");
+  if (!q.hasBase && q.sum===0){ amt.textContent = "Hubungi admin"; amt.className = "amt na"; }
+  else { amt.textContent = rp(q.sum); amt.className = "amt"; }
+
+  // flags
+  const fl = [];
+  if (q.unknown.length) fl.push(`<b>${q.unknown.length} komponen belum bisa dihitung otomatis:</b> ${q.unknown.map(u=>u.k.toLowerCase()).join(", ")}. Admin akan melengkapi lewat WhatsApp.`);
+  if (q.dateFlag) fl.push(q.dateFlag);
+  $("flags").innerHTML = fl.map(f=>`<div class="flag"><span>⚑</span><span>${f}</span></div>`).join("");
+
+  $("disclaim").textContent = "Estimasi, bukan harga final. Belum termasuk parkir dan biaya tak terduga di luar rincian di atas. Harga dikunci setelah invoice dari admin.";
+  $("stopHint").textContent = inc ? (extra>0 ? `${extra} titik di atas paket ${inc} titik` : `sudah termasuk paket ${inc} titik`) : "";
+  $("minus").disabled = S.stops<=1;
+
+  $("wa").href = waLink(q);
+}
+
+/* ---- mount ---- */
+$("corridor").innerHTML = DATA.corridors.map(c=>`<option value="${c.id}">${c.label}</option>`).join("");
+$("vehicle").innerHTML = DATA.vehicles.map(v=>`<option value="${v.id}">${v.name} · ${v.pax} pax</option>`).join("");
+["pickup","drop"].forEach(k=>{
+  $(k).innerHTML = DATA.zones[k].map(g=>
+    `<optgroup label="${g.g}">${g.items.map(i=>`<option value="${i.id}">${i.label}</option>`).join("")}</optgroup>`
+  ).join("");
+});
+$("pax").innerHTML = Array.from({length:19},(_,i)=>`<option value="${i+1}"${i+1===4?" selected":""}>${i+1} orang</option>`).join("");
+$("tripSeg").innerHTML = DATA.tripTypes.map(t=>`<button data-t="${t.id}" aria-pressed="${t.id===S.trip}">${t.label}</button>`).join("");
+$("addons").innerHTML = DATA.addons.map(a=>`<button class="chip" data-a="${a.id}" aria-pressed="false">${a.label}</button>`).join("");
+
+$("corridor").onchange = e => { S.corridor = e.target.value; render(); };
+$("vehicle").onchange  = e => { S.vehicle  = e.target.value; render(); };
+$("pickup").onchange   = e => { S.pickup   = e.target.value; render(); };
+$("drop").onchange     = e => { S.drop     = e.target.value; render(); };
+$("date").onchange     = e => { S.date     = e.target.value; render(); };
+$("pax").onchange      = e => { S.pax      = +e.target.value; render(); };
+$("plus").onclick      = () => { S.stops++; $("stopN").textContent = S.stops; render(); };
+$("minus").onclick     = () => { if(S.stops>1){ S.stops--; $("stopN").textContent = S.stops; render(); } };
+$("tripSeg").onclick = e => {
+  const b = e.target.closest("button"); if(!b) return;
+  S.trip = b.dataset.t;
+  [...$("tripSeg").children].forEach(x=>x.setAttribute("aria-pressed", x===b));
+  render();
+};
+$("addons").onclick = e => {
+  const b = e.target.closest("button"); if(!b) return;
+  const on = b.getAttribute("aria-pressed")==="true";
+  b.setAttribute("aria-pressed", !on);
+  on ? S.addons.delete(b.dataset.a) : S.addons.add(b.dataset.a);
+  render();
+};
+
+/* ---- audit table ---- */
+const audit = [
+  ["base.jkt-bdg.oneway.avanza", "Rp 700.000", true,  "Dari kamu langsung"],
+  ["vehicles[].dalamKota / allIn", "14 armada", true,  "Dari arasyarentcar.com"],
+  ["zones.pickup.jakarta.fee",   "0",         true,  "Aturan “Jakarta = 0”"],
+  ["base.jkt-bdg.*.13 armada lain", "—",      false, "Hanya Avanza yang punya angka"],
+  ["base.jkt-bdg.pp.*",          "—",         false, "PP = 2× one-way? diskon? belum ada aturan"],
+  ["zones.pickup.cibubur/bekasi/bogor", "150k/200k/300k", false, "Contoh di dok ARSO, belum dikonfirmasi abang"],
+  ["zones.drop.lembang/ciwidey", "200k/350k", false, "Idem"],
+  ["zones.*.depok/tangerang",    "—",         false, "Zona ada, tarif belum"],
+  ["rules.extraStop",            "—",         false, "Titik ke-4 dst. berapa?"],
+  ["rules.overtimePerHour",      "—",         false, "Lewat 12 jam berapa?"],
+  ["rules.holidayMultiplier",    "—",         false, "Libur/long weekend naik berapa %?"],
+  ["addons.*",                   "—",         false, "Nginap driver, midnight, bagasi"],
+  ["corridors[] selain JKT–BDG", "—",         false, "Rute lain mana yang armada sanggup?"]
+];
+$("auditTbl").innerHTML = audit.map(([k,v,ok,note])=>`
+  <tr><td>${k}</td><td>${v}</td>
+  <td><span class="tag${ok?" ok":""}">${ok?"TERVERIFIKASI":"KOSONG"}</span><br><span style="font-size:11.5px">${note}</span></td></tr>`).join("");
+
+render();
+</script>
+</body>
+</html>

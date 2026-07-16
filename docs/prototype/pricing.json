@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "version": "0.1.0-draft",
+    "updated": "2026-07-16",
+    "source_of_truth": "Client (Arasya). Any value with \"status\":\"unconfirmed\" or \"derived\" MUST be confirmed before this goes live.",
+    "currency": "IDR",
+    "editing_model": "Edit this file (or the Google Sheet it exports from) -> rebuild site. No admin dashboard in scope."
+  },
+
+  "_status_legend": {
+    "confirmed": "Stated by client. Safe to display.",
+    "derived": "Computed from a confirmed anchor. Displayed with an 'belum dikonfirmasi' chip.",
+    "unconfirmed": "No basis. Renders as 'Hubungi admin' — never shown as a number."
+  },
+
+  "vehicles": [
+    { "id": "avanza",       "name": "Toyota Avanza",          "pax": 7,  "class": "mpv" },
+    { "id": "ertiga",       "name": "Suzuki Ertiga",          "pax": 7,  "class": "mpv" },
+    { "id": "xpander",      "name": "Mitsubishi Xpander",     "pax": 7,  "class": "mpv" },
+    { "id": "terios",       "name": "Daihatsu Terios",        "pax": 7,  "class": "mpv" },
+    { "id": "rush",         "name": "Toyota Rush",            "pax": 7,  "class": "mpv" },
+    { "id": "innova",       "name": "Toyota Innova Reborn",   "pax": 7,  "class": "mpv-premium" },
+    { "id": "venturer",     "name": "Toyota Innova Venturer", "pax": 6,  "class": "mpv-premium" },
+    { "id": "zenix",        "name": "Toyota Zenix",           "pax": 7,  "class": "mpv-premium" },
+    { "id": "fortuner",     "name": "Toyota Fortuner",        "pax": 6,  "class": "suv" },
+    { "id": "hiace",        "name": "Toyota Hiace Commuter",  "pax": 14, "class": "van" },
+    { "id": "alphard",      "name": "Toyota Alphard",         "pax": 6,  "class": "luxury" },
+    { "id": "elf",          "name": "Isuzu Elf Long",         "pax": 19, "class": "bus" }
+  ],
+
+  "corridors": [
+    {
+      "id": "jakarta-bandung",
+      "from_city": "Jakarta",
+      "to_city": "Bandung",
+      "included_stops": 3,
+      "included_hours": 12,
+      "note_included": "Belum termasuk BBM, Toll, Parkir, Makan Driver.",
+      "base": {
+        "avanza":   { "price": 700000,  "status": "confirmed",   "note": "One-way, dari klien (lisan)." },
+        "ertiga":   { "price": 700000,  "status": "derived",     "note": "Sekelas Avanza (All-in sama: 1.250.000)." },
+        "xpander":  { "price": 756000,  "status": "derived",     "note": "Rasio All-in 1.350.000 / 1.250.000 x 700k." },
+        "terios":   { "price": 756000,  "status": "derived" },
+        "rush":     { "price": 756000,  "status": "derived" },
+        "innova":   { "price": 840000,  "status": "derived",     "note": "All-in 1.500.000." },
+        "venturer": { "price": 1008000, "status": "derived",     "note": "All-in 1.800.000." },
+        "zenix":    { "price": 1008000, "status": "derived" },
+        "fortuner": { "price": 1232000, "status": "derived",     "note": "All-in 2.200.000." },
+        "hiace":    { "price": null,    "status": "unconfirmed" },
+        "alphard":  { "price": null,    "status": "unconfirmed" },
+        "elf":      { "price": null,    "status": "unconfirmed" }
+      }
+    }
+  ],
+
+  "_derivation_note": "Semua 'derived' = 700.000 x (All-in armada / All-in Avanza), pakai tabel All-in asli dari arasyarentcar.com. Ini PROXY, bukan harga. Wajib divalidasi ke klien — kalau meleset >20% berarti harga eksisting yang tidak konsisten, bukan rumusnya.",
+
+  "zones": {
+    "Jakarta": [
+      { "id": "jkt-pusat",   "label": "Jakarta Pusat",   "pickup_fee": 0,      "status": "confirmed" },
+      { "id": "jkt-selatan", "label": "Jakarta Selatan",  "pickup_fee": 0,      "status": "confirmed" },
+      { "id": "jkt-barat",   "label": "Jakarta Barat",    "pickup_fee": 0,      "status": "confirmed" },
+      { "id": "jkt-timur",   "label": "Jakarta Timur",    "pickup_fee": 0,      "status": "confirmed" },
+      { "id": "jkt-utara",   "label": "Jakarta Utara",    "pickup_fee": 0,      "status": "confirmed" },
+      { "id": "cibubur",     "label": "Cibubur",          "pickup_fee": 150000, "status": "confirmed" },
+      { "id": "bekasi",      "label": "Bekasi",           "pickup_fee": 200000, "status": "confirmed" },
+      { "id": "bogor",       "label": "Bogor",            "pickup_fee": 300000, "status": "confirmed" },
+      { "id": "depok",       "label": "Depok",            "pickup_fee": null,   "status": "unconfirmed" },
+      { "id": "tangerang",   "label": "Tangerang",        "pickup_fee": null,   "status": "unconfirmed" },
+      { "id": "jkt-lain",    "label": "Area lain",        "pickup_fee": null,   "status": "quote_required" }
+    ],
+    "Bandung": [
+      { "id": "bdg-kota",  "label": "Bandung Kota", "dropoff_fee": 0,      "status": "confirmed" },
+      { "id": "dago",      "label": "Dago",         "dropoff_fee": 0,      "status": "confirmed" },
+      { "id": "lembang",   "label": "Lembang",      "dropoff_fee": 200000, "status": "confirmed" },
+      { "id": "ciwidey",   "label": "Ciwidey",      "dropoff_fee": 350000, "status": "confirmed" },
+      { "id": "bdg-lain",  "label": "Area lain",    "dropoff_fee": null,   "status": "quote_required" }
+    ]
+  },
+
+  "_zone_warning": "Angka zona di atas diambil dari contoh di dokumen ARSO, bukan dari tarif resmi. HQ Arasya di Bogor — Bogor +300k padahal itu titik asal armada adalah anomali yang harus dijelaskan atau diperbaiki.",
+
+  "rules": {
+    "extra_stop":         { "price": null, "status": "unconfirmed", "note": "Biaya titik ke-4 dan seterusnya." },
+    "overtime_per_hour":  { "price": null, "status": "unconfirmed", "note": "Lewat dari included_hours." },
+    "midnight_surcharge": { "price": null, "status": "unconfirmed", "note": "Jemput 00:00-05:00." },
+    "driver_stay":        { "price": null, "status": "unconfirmed", "note": "Trip menginap." },
+    "holiday_multiplier": { "value": null, "status": "unconfirmed" },
+    "same_day_fee":       { "price": null, "status": "unconfirmed" }
+  },
+
+  "trip_types": [
+    { "id": "one_way",   "label": "Sekali jalan", "multiplier": 1,    "status": "confirmed" },
+    { "id": "round_trip","label": "Pulang pergi", "multiplier": null,  "status": "unconfirmed", "note": "JANGAN asumsikan 2x. Tanya klien." }
+  ],
+
+  "whatsapp": {
+    "primary": "6282124024281",
+    "alt": ["6282298854855", "6282150288603"]
+  },
+
+  "disclaimer_id": "Angka di atas adalah estimasi. Harga final dikonfirmasi admin via WhatsApp sebelum invoice diterbitkan."
+}
