@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://arasyarentcar.com/sitemap.xml
+Sitemap: https://arasya-rent-car.vercel.app/sitemap.xml
