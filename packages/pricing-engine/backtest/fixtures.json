@@ -1,0 +1,19 @@
+{
+  "_note": "Calibration dataset (09 §9.7). The gate needs ≥30 REAL historical manual quotes spread across corridors/classes/dates — that is client data (Q7), not inventable. Add rows as { label, input, actual_idr, note }. The single anchor below is the worked example from 09 §9.3.2, whose actual is the client's own manual quote.",
+  "quotes": [
+    {
+      "label": "09 §9.3.2 — JKT→BDG Avanza one-way, Cibubur pickup, 3 meetings",
+      "actual_idr": 850000,
+      "input": {
+        "corridorId": "JKT_BDG",
+        "vehicleClassId": "ECONOMY_MPV",
+        "tripType": "ONE_WAY",
+        "pickupZoneId": "ZONE_CIBUBUR",
+        "dropoffZoneId": "ZONE_DAGO",
+        "stops": [{ "type": "MEETING" }, { "type": "MEETING" }, { "type": "MEETING" }],
+        "tripDate": "2026-08-12"
+      },
+      "note": "The client's manual quote. Engine must reproduce within ±10%."
+    }
+  ]
+}

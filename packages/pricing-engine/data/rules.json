@@ -1,0 +1,35 @@
+{
+  "overtime_per_hour": {
+    "ECONOMY_MPV": 50000,
+    "STANDARD_MPV": "{{TOKEN}}",
+    "PREMIUM_MPV": "{{TOKEN}}",
+    "SUV": "{{TOKEN}}",
+    "MINIBUS": "{{TOKEN}}",
+    "_note": "[ASUMSI] ECONOMY_MPV only — calibrate vs driver_hourly_loaded (09 §9.5)"
+  },
+  "stop_type_dwell_hours": {
+    "DROP_ONLY": 0.25,
+    "PICKUP_ONLY": 0.25,
+    "SHORT_WAIT": 0.75,
+    "MEETING": 1.5,
+    "MEAL": 1.5,
+    "LONG_WAIT": 3.0
+  },
+  "addons": {
+    "DRIVER_STAY":      { "price": "{{TOKEN}}", "unit": "per_night" },
+    "MIDNIGHT_PICKUP":  { "price": "{{TOKEN}}", "condition": "pickup_time in [22:00, 05:00)" },
+    "SAME_DAY_BOOKING": { "price": "{{TOKEN}}", "condition": "booking_date == trip_date", "type": "ADDITIVE" }
+  },
+  "date_multipliers": [
+    { "id": "REGULAR",      "factor": 1.00 },
+    { "id": "WEEKEND",      "factor": "{{TOKEN}}", "days": ["SA", "SU"] },
+    { "id": "LONG_WEEKEND", "factor": "{{TOKEN}}", "dates": [] },
+    { "id": "HOLIDAY_PEAK", "factor": "{{TOKEN}}", "dates": [], "_note": "Lebaran, Natal, Tahun Baru" }
+  ],
+  "multiplier_policy": "MAX_NOT_PRODUCT",
+  "rounding": { "mode": "UP", "nearest": 10000 },
+  "ppn_rate": 0.11,
+  "is_pkp": false,
+  "estimate_disclaimer_required": true,
+  "estimate_disclaimer_id": "Estimasi. Harga final dikonfirmasi admin via WhatsApp. Belum termasuk BBM, toll, parkir, makan driver."
+}
