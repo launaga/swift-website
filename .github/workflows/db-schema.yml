@@ -1,0 +1,28 @@
+name: db-schema
+
+# Applies every migration to a real Postgres 16 and runs the §7.11 acceptance
+# assertions (exclusion constraints, immutability rules, PDP erasure, no-FLOAT).
+
+on:
+  push:
+    paths:
+      - "packages/db/**"
+      - ".github/workflows/db-schema.yml"
+  pull_request:
+    paths:
+      - "packages/db/**"
+      - ".github/workflows/db-schema.yml"
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Postgres 16 client + server
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-16 postgresql-client-16
+      - name: Run schema acceptance suite
+        run: bash packages/db/test/run.sh
+        env:
+          ARSO_PG_PORT: "55432"

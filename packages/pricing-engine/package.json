@@ -1,0 +1,22 @@
+{
+  "name": "@arasya/pricing-engine",
+  "version": "0.1.0",
+  "description": "ARSO zone-graph additive pricing engine — one pure implementation shared by the public site and the backend (ADR-006).",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "validate": "node --experimental-strip-types scripts/validate.ts",
+    "backtest": "node --experimental-strip-types scripts/backtest.ts",
+    "demo": "node --experimental-strip-types scripts/demo.ts",
+    "check": "npm run validate && npm run test && npm run backtest"
+  },
+  "engines": {
+    "node": ">=22.6"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

@@ -1,0 +1,33 @@
+name: pricing-engine
+
+# The pricing backtest is a CI gate, not a nice-to-have (06 §6.6). A rule change
+# that breaks the §9.7 backtest fails the build — the only automated defence
+# against silently repricing the business with a one-line JSON edit.
+
+on:
+  push:
+    paths:
+      - "packages/pricing-engine/**"
+      - ".github/workflows/pricing-engine.yml"
+  pull_request:
+    paths:
+      - "packages/pricing-engine/**"
+      - ".github/workflows/pricing-engine.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/pricing-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate rule data (09 §9.8)
+        run: npm run validate
+      - name: Unit + property tests (09 §9.12)
+        run: npm test
+      - name: Calibration backtest (09 §9.7)
+        run: npm run backtest
