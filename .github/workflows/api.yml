@@ -1,0 +1,35 @@
+name: api
+
+# Boots Postgres 16, applies the schema, and runs the API integration test
+# (engine → quote → booking → invoice → assignment + double-booking 409).
+
+on:
+  push:
+    paths:
+      - "packages/api/**"
+      - "packages/db/**"
+      - "packages/pricing-engine/**"
+      - ".github/workflows/api.yml"
+  pull_request:
+    paths:
+      - "packages/api/**"
+      - "packages/db/**"
+      - "packages/pricing-engine/**"
+      - ".github/workflows/api.yml"
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Postgres 16
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-16 postgresql-client-16
+      - name: API integration test
+        run: bash packages/api/test/run.sh
+        env:
+          ARSO_PG_PORT: "55440"

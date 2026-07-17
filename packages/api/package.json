@@ -1,0 +1,14 @@
+{
+  "name": "@arasya/api",
+  "version": "0.1.0",
+  "description": "ARSO API service layer — composes the pricing engine (ADR-006) with the Postgres schema. Phase 1, gated.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "bash test/run.sh"
+  },
+  "dependencies": {
+    "pg": "^8.13.0"
+  },
+  "engines": { "node": ">=22.6" }
+}

@@ -1,9 +1,0 @@
-[
-  { "id": "ECONOMY_MPV",  "label": "Economy MPV",  "pax": 7,  "vehicles": ["Toyota Avanza", "Suzuki Ertiga"] },
-  { "id": "STANDARD_MPV", "label": "Standard MPV", "pax": 7,  "vehicles": ["Mitsubishi Xpander", "Daihatsu Terios", "Toyota Rush"] },
-  { "id": "PREMIUM_MPV",  "label": "Premium MPV",  "pax": 7,  "vehicles": ["Toyota Innova Reborn", "Toyota Zenix", "Toyota Innova Venturer"] },
-  { "id": "SUV",          "label": "SUV",          "pax": 6,  "vehicles": ["Toyota Fortuner"] },
-  { "id": "LUXURY",       "label": "Luxury",       "pax": 6,  "vehicles": ["Toyota Alphard", "Toyota Zenix Q Hybrid Modellista"], "quote_only": true },
-  { "id": "MINIBUS",      "label": "Minibus",      "pax": 14, "vehicles": ["Toyota Hiace Commuter", "Toyota Hiace Premio"] },
-  { "id": "BUS_SMALL",    "label": "Elf",          "pax": 19, "vehicles": ["Isuzu Elf Long"], "quote_only": true }
-]
