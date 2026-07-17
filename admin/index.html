@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
+<!-- Resolve ./app.js, ./lib/*, ./data/* against /admin/ even when the page is
+     served at /admin (no trailing slash) — otherwise assets 404 and the page
+     renders blank. -->
+<base href="/admin/">
 <title>ARSO Console — Arasya</title>
 <style>
   :root{
