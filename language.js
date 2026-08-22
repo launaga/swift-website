@@ -21,7 +21,7 @@
     'Pertanyaan yang sering muncul':'Frequently asked questions','Kebijakan Pembatalan':'Cancellation Policy','Transparan sejak awal':'Transparent from the start',
     'Mulai booking →':'Start booking →','Harga Terjangkau':'Affordable Rates','Mobil Terawat':'Well-maintained Vehicles','Berpengalaman':'Experienced',
     'Hubungi via WhatsApp':'Contact us via WhatsApp','WhatsApp Utama':'Primary WhatsApp','WhatsApp Alternatif':'Alternative WhatsApp'
-    ,'Hanya nomor & rekening di atas yang resmi. Abaikan pihak lain yang mengatasnamakan Arasya.':'Only the numbers and bank account above are official. Ignore anyone else claiming to represent Arasya.'
+    ,'Hanya nomor & rekening di atas yang resmi. Abaikan pihak lain yang mengatasnamakan Swift Rental.':'Only the numbers and bank account above are official. Ignore anyone else claiming to represent Swift Rental.'
     ,'Isi di bawah — kami buatkan pesan WhatsApp yang siap dikirim ke admin.':'Fill in the details below and we will prepare a WhatsApp message ready to send to our team.'
     ,'Mau booking unit / rute apa, tanggal, jumlah penumpang…':'Which vehicle or route, date, and passenger count would you like to book?'
     ,'Kirim via WhatsApp →':'Send via WhatsApp →','Verified · Anti-impersonation':'Verified · Anti-impersonation'
@@ -36,7 +36,7 @@
     ,'Kapasitas sudah termasuk jasa driver.':'Capacity includes the driver service.'
     ,'Harga sudah termasuk BBM dan toll?':'Does the price include fuel and tolls?','Berapa DP untuk booking?':'How much is the booking deposit?'
     ,'Apakah bisa untuk perjalanan beberapa hari?':'Can I book a multi-day trip?','Kota tujuan saya belum ada di daftar, bagaimana?':'What if my destination is not listed?'
-    ,'Bagaimana memastikan ini Arasya yang resmi?':'How do I verify the official Arasya channel?'
+    ,'Bagaimana memastikan ini Swift Rental Car Template yang resmi?':'How do I verify the official Swift Rental Car Template channel?'
   }));
 
   const lang = localStorage.getItem('swift-lang') === 'en' ? 'en' : 'id';
@@ -75,7 +75,7 @@
   function apply() {
     document.documentElement.lang = lang;
     if (lang === 'en') {
-      document.title = 'Swift Rental — Car Rental with Professional Drivers';
+      document.title = 'Swift Rental Car Template — Car Rental with Professional Drivers';
       translate(document.body);
     }
   }

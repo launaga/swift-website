@@ -1,7 +1,7 @@
-# Arasya Rent Car — robots.txt
+# Swift Rental Car Template — robots.txt
 # Allow all reputable crawlers, including AI answer engines (SEO thesis: AI citation = conversion channel).
 
 User-agent: *
 Allow: /
 
-Sitemap: https://arasya-rent-car.vercel.app/sitemap.xml
+Sitemap: https://swift-rental-template-global-en.vercel.app/sitemap.xml
