@@ -1,0 +1,7 @@
+# robots.txt — Your Rental Company
+# Replace https://example.com/ with your real production domain before publishing.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml
