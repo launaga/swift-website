@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/",          "destination": "/swift-rental-template-global/01-WEBSITE-EN/index.html" },
+    { "source": "/id",        "destination": "/swift-rental-template-global/02-WEBSITE-ID/index.html" },
+    { "source": "/id/",       "destination": "/swift-rental-template-global/02-WEBSITE-ID/index.html" },
+    { "source": "/robots.txt","destination": "/swift-rental-template-global/01-WEBSITE-EN/robots.txt" },
+    { "source": "/sitemap.xml","destination": "/swift-rental-template-global/01-WEBSITE-EN/sitemap.xml" },
+    { "source": "/favicon.svg","destination": "/swift-rental-template-global/01-WEBSITE-EN/favicon.svg" },
+    { "source": "/site.webmanifest","destination": "/swift-rental-template-global/01-WEBSITE-EN/site.webmanifest" },
+    { "source": "/support.js","destination": "/swift-rental-template-global/01-WEBSITE-EN/support.js" },
+    { "source": "/assets/(.*)","destination": "/swift-rental-template-global/01-WEBSITE-EN/assets/$1" }
+  ]
+}
