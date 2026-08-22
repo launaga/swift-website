@@ -1,7 +1,7 @@
 # 12 — OPERATIONS SOP
 
 **Phase:** 0 (immediately actionable, no code)
-**Audience:** Arasya admin + owner
+**Audience:** Swift Rental admin + owner
 
 > Software automates a process. It does not invent one. **Every SOP below works today,
 > with zero engineering, and several of them remove more risk than the entire Phase 1
@@ -121,7 +121,7 @@ leaves the office every night.
 > That is a *higher* protection class than their name. It is currently sitting in a chat
 > thread on a phone in someone's pocket.
 
-**Only one canonical BCA account is ever quoted: BCA 095 484 0782 a.n. PT. Ayomi Raya.**
+**Only one canonical BCA account is ever quoted: BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo).**
 Never any other account, for any reason, including "the owner's personal account, just this
 once." That sentence is what the fraud warning on the website exists to make impossible —
 and a single exception makes the warning a lie.
@@ -139,7 +139,7 @@ and a single exception makes the warning a lie.
 | Accident | **Safety first.** Then insurance, then customer, then internal. | Full write-up within 24h |
 | Customer no-show | Wait `{{TOKEN}}` min → call → escalate | **BR-017 undefined — needs a policy** |
 
-**Communication rule: Arasya calls first.** In a trust business, the customer discovering
+**Communication rule: Swift Rental calls first.** In a trust business, the customer discovering
 the problem before you tell them costs more than the problem itself.
 
 ---

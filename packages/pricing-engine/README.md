@@ -1,4 +1,4 @@
-# @arasya/pricing-engine
+# @swift-rental/pricing-engine
 
 The ARSO **zone-graph additive pricing engine** — the core IP of the whole system
 (`docs/ARSO/09_Pricing_Engine.md`). Per **ADR-006**, this is *one* implementation,

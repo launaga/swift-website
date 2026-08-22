@@ -26,7 +26,7 @@ double-bookings. The remaining ones are a *discipline* problem, and software doe
 discipline — it relocates it.
 
 > The admin console becomes worth building at the point where the human **cannot** hold
-> the state anymore. That point is measurable (`00` §0.3), and Arasya is not at it.
+> the state anymore. That point is measurable (`00` §0.3), and Swift Rental is not at it.
 
 ---
 

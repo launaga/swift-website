@@ -2,7 +2,7 @@
   "_meta": {
     "version": "0.1.0-draft",
     "updated": "2026-07-16",
-    "source_of_truth": "Client (Arasya). Any value with \"status\":\"unconfirmed\" or \"derived\" MUST be confirmed before this goes live.",
+    "source_of_truth": "Client (Swift Rental). Any value with \"status\":\"unconfirmed\" or \"derived\" MUST be confirmed before this goes live.",
     "currency": "IDR",
     "editing_model": "Edit this file (or the Google Sheet it exports from) -> rebuild site. No admin dashboard in scope."
   },
@@ -53,7 +53,7 @@
     }
   ],
 
-  "_derivation_note": "Semua 'derived' = 700.000 x (All-in armada / All-in Avanza), pakai tabel All-in asli dari arasyarentcar.com. Ini PROXY, bukan harga. Wajib divalidasi ke klien — kalau meleset >20% berarti harga eksisting yang tidak konsisten, bukan rumusnya.",
+  "_derivation_note": "Semua 'derived' = 700.000 x (All-in armada / All-in Avanza), pakai tabel All-in asli dari swiftrental.com. Ini PROXY, bukan harga. Wajib divalidasi ke klien — kalau meleset >20% berarti harga eksisting yang tidak konsisten, bukan rumusnya.",
 
   "zones": {
     "Jakarta": [
@@ -78,7 +78,7 @@
     ]
   },
 
-  "_zone_warning": "Angka zona di atas diambil dari contoh di dokumen ARSO, bukan dari tarif resmi. HQ Arasya di Bogor — Bogor +300k padahal itu titik asal armada adalah anomali yang harus dijelaskan atau diperbaiki.",
+  "_zone_warning": "Angka zona di atas diambil dari contoh di dokumen ARSO, bukan dari tarif resmi. HQ Swift Rental di Bogor — Bogor +300k padahal itu titik asal armada adalah anomali yang harus dijelaskan atau diperbaiki.",
 
   "rules": {
     "extra_stop":         { "price": null, "status": "unconfirmed", "note": "Biaya titik ke-4 dan seterusnya." },
@@ -95,8 +95,8 @@
   ],
 
   "whatsapp": {
-    "primary": "6282124024281",
-    "alt": ["6282298854855", "6282150288603"]
+    "primary": "6280000000001",
+    "alt": ["6280000000002", "6280000000003"]
   },
 
   "disclaimer_id": "Angka di atas adalah estimasi. Harga final dikonfirmasi admin via WhatsApp sebelum invoice diterbitkan."

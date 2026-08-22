@@ -1,7 +1,7 @@
 # 11 — UI/UX BRIEF
 
 **Phase:** All
-**Design system source of truth:** `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §5.
+**Design system source of truth:** `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §5.
 Tokens, typography, and motion are **not** restated here — two design systems is no design system.
 
 ---
@@ -124,7 +124,7 @@ Full contract in `09` §9.9. UX rules that carry the weight:
 | Exclusions inline, not footnoted (BR-007) | A hidden exclusion found at pickup costs more than a higher headline |
 | `quote_only` → **no number at all** | Never a partial or guessed price (FR-PRC-006) |
 | Rules fail to load → **no number**, WA CTA only | A wrong price is worse than no price (EC-PRC-001) |
-| One dominant CTA: WhatsApp | `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §4 |
+| One dominant CTA: WhatsApp | `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §4 |
 
 ---
 
@@ -182,7 +182,7 @@ Full contract in `09` §9.9. UX rules that carry the weight:
 
 ## 11.9 Component inventory (delta from the website PRD)
 
-`ARASYA_REDESIGN_PROTOTYPE_PRD.md` §10 stands. **New for the estimator:**
+`SWIFT_REDESIGN_PROTOTYPE_PRD.md` §10 stands. **New for the estimator:**
 
 `ZonePicker` (2-step, grouped, escape hatch) · `StopBuilder` (count + type) ·
 `ClassPicker` (with pax-incl-driver label) · `DatePicker` (with multiplier hint) ·

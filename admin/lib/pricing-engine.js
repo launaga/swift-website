@@ -197,7 +197,7 @@ function buildRuleSet(vehicleClasses, zones, corridors, rules) {
 }
 
 // packages/pricing-engine/src/whatsapp.ts
-var WA_PRIMARY = "6282124024281";
+var WA_PRIMARY = "6280000000001";
 var STOP_LABEL = {
   DROP_ONLY: "turun",
   PICKUP_ONLY: "jemput",
@@ -245,7 +245,7 @@ function buildWhatsAppMessage(input, result, data) {
   const estLine = result.status === "OK" ? `${formatIDR(result.total)} (belum termasuk BBM/toll/parkir/makan driver)` : "Hubungi kami untuk harga terbaik";
   const paxLine = input.pax ? `${input.pax} orang` : "(jumlah menyusul)";
   return [
-    "Halo Arasya, saya mau booking:",
+    "Halo Swift Rental, saya mau booking:",
     "",
     `Rute      : ${routeFrom} \u2192 ${routeTo}`,
     `Tanggal   : ${dateLine}`,

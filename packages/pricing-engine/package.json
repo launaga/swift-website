@@ -1,5 +1,5 @@
 {
-  "name": "@arasya/pricing-engine",
+  "name": "@swift-rental/pricing-engine",
   "version": "0.1.0",
   "description": "ARSO zone-graph additive pricing engine — one pure implementation shared by the public site and the backend (ADR-006).",
   "type": "module",

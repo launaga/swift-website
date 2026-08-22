@@ -49,7 +49,7 @@ migrating customers to an in-app booking engine.
 |---|---|
 | WhatsApp penetration in Indonesia is near-universal | Zero install friction, zero learning curve |
 | Booking a car with a stranger for Rp 850k+ is a **trust transaction** | People want to talk to a human. A form does not reassure. |
-| Arasya's positioning is trust (its live site runs a fraud-warning block) | Removing the human contradicts the positioning |
+| Swift Rental's positioning is trust (its live site runs a fraud-warning block) | Removing the human contradicts the positioning |
 | The operator can upsell, qualify, and rescue a wobbling deal in a chat | A booking form cannot |
 | A Rp 850k transaction is high-consideration | Not an impulse buy. Friction is not the binding constraint. |
 
@@ -74,12 +74,12 @@ That is the latency fix, and it costs 5% of a booking engine.
 
 ## 1.4 Vision statement
 
-> **Arasya becomes the operator that answers fastest and prices the same way every time —
+> **Swift Rental becomes the operator that answers fastest and prices the same way every time —
 > and the trust that earns compounds into a defensible position in its corridor.**
 
 Not a "mobility platform." Not a Traveloka competitor. There are 14 vehicles.
 Defensibility is **trust, driver quality, reliability, and owning local search** —
-which is exactly what `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §1 already established.
+which is exactly what `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §1 already established.
 
 ---
 
@@ -106,7 +106,7 @@ which is exactly what `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §1 already established
 
 | Not building | Why |
 |---|---|
-| **Any AI feature** | No measured pain. No data volume. Cut in `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §2 and it stays cut. |
+| **Any AI feature** | No measured pain. No data volume. Cut in `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §2 and it stays cut. |
 | Marketplace / third-party fleet | Different business, different economics, different legal entity |
 | Consumer mobile app | Users already have WhatsApp. An app is a second thing to maintain and nobody will install it. |
 | Real-time GPS tracking | Customers ask for the driver's phone number, and that already works |
@@ -133,7 +133,7 @@ which is exactly what `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §1 already established
 
 ## 1.8 Success in one sentence per phase
 
-- **Phase 0:** A customer gets a defensible price in 30 seconds, and Arasya knows the margin on it.
+- **Phase 0:** A customer gets a defensible price in 30 seconds, and Swift Rental knows the margin on it.
 - **Phase 1:** The admin stops re-typing what the customer already told the website.
 - **Phase 2:** The owner answers "which vehicle should I sell?" in one click.
 

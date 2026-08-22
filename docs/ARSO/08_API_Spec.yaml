@@ -16,7 +16,7 @@ info:
   title: ARSO API
   version: 1.0.0-draft
   description: |
-    Internal + partner API for Arasya Rental Operating System.
+    Internal + partner API for Swift Rental Rental Operating System.
 
     ## Conventions
     - All money is `integer` (int64), **rupiah, no decimals**. Never float.
@@ -32,14 +32,14 @@ info:
     - Any `quote_only` input returns `total_idr: null`. `null` is a deliberate
       business state ("contact us"), never an error and never a zero.
   contact:
-    name: PT. Ayomi Raya
+    name: PT Swift Rental Indonesia (Demo)
   license:
     name: Proprietary
 
 servers:
-  - url: https://api.arasyarentcar.com/v1
+  - url: https://api.swiftrental.com/v1
     description: Production
-  - url: https://api-staging.arasyarentcar.com/v1
+  - url: https://api-staging.swiftrental.com/v1
     description: Staging
 
 tags:

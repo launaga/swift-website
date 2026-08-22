@@ -51,12 +51,12 @@ is the reason the ARSO brief's feature list is not reproduced here wholesale.
 | FR-WEB-006 | Site-wide verified-channel + anti-impersonation block (BR-018) | Trust | **P0** |
 | FR-WEB-007 | Fleet: all 14 vehicles, filterable, pax-incl-driver noted (BR-004) | Conversion | **P0** |
 | FR-WEB-008 | Tier toggle: Dalam Kota 12-jam ↔ All-in, exclusions inline (BR-007) | Trust | **P0** |
-| FR-WEB-009 | Route pages per `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §7.2, finite count (BR-009) | Organic growth | P1 |
+| FR-WEB-009 | Route pages per `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §7.2, finite count (BR-009) | Organic growth | P1 |
 | FR-WEB-010 | Cancellation policy verbatim before any payment instruction (BR-014) | Trust | **P0** |
-| FR-WEB-011 | GA4 events per `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §9.3, zero PII | Measurement | **P0** |
+| FR-WEB-011 | GA4 events per `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §9.3, zero PII | Measurement | **P0** |
 | FR-WEB-012 | Mobile-first, 380px primary | Conversion | **P0** |
 
-> **The complete public-site spec lives in `ARASYA_REDESIGN_PROTOTYPE_PRD.md` and is not
+> **The complete public-site spec lives in `SWIFT_REDESIGN_PROTOTYPE_PRD.md` and is not
 > duplicated here.** `04_Website_Brief.md` is a pointer, deliberately.
 
 ---

@@ -29,7 +29,7 @@ const workedExample: EstimateInput = {
 };
 
 before(async () => {
-  await q(`INSERT INTO users (id, code, email, full_name, role) VALUES ($1,'U-1','a@arasya.id','Admin','ADMIN')`, [U]);
+  await q(`INSERT INTO users (id, code, email, full_name, role) VALUES ($1,'U-1','a@swift-rental.id','Admin','ADMIN')`, [U]);
   await q(`INSERT INTO zones (id, city, label) VALUES
     ('ZONE_JKT_PUSAT','JAKARTA','Jakarta Pusat'),('ZONE_BANDUNG_KOTA','BANDUNG','Bandung Kota'),
     ('ZONE_CIBUBUR','JAKARTA_GREATER','Cibubur'),('ZONE_DAGO','BANDUNG','Dago')`);

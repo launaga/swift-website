@@ -11,7 +11,7 @@ inputs is a slide, not an analysis.
 ## 10.1 What this document refuses to do
 
 It does not contain a hockey-stick revenue chart. It does not project three years of
-growth. Nobody knows Arasya's current utilization (Q7), so any such chart would be
+growth. Nobody knows Swift Rental's current utilization (Q7), so any such chart would be
 fiction dressed as diligence — and it would be believed, which is worse.
 
 What it contains instead:
@@ -82,7 +82,7 @@ true_margin      = contribution − wear_cost
 A driver is paid for the month. They are *billable* only during trips. Idle hours are a
 fixed cost that must be recovered by the billable ones.
 
-Worked structure (illustrative arithmetic on placeholders — **not a claim about Arasya**):
+Worked structure (illustrative arithmetic on placeholders — **not a claim about Swift Rental**):
 
 ```
 loaded_monthly_cost = {{TOKEN}}
@@ -238,7 +238,7 @@ Coordination cost grows super-linearly with fleet; a spreadsheet's capacity does
 | 20–40 | Head-holding fails; conflicts start | Booking + admin console (Phase 1) |
 | 40+ | Dispatch is a full-time job | Full ARSO (Phase 2) |
 
-**Arasya is at 14.**
+**Swift Rental is at 14.**
 
 The honest sequencing:
 
@@ -266,7 +266,7 @@ exactly why the leakage study comes first, and why it is 2 days rather than 9 mo
 
 ## 10.7 Layer 4 — the agency project P&L (for the pitch itself)
 
-Separate model. Do not mix with Arasya's economics — conflating "is this good for the
+Separate model. Do not mix with Swift Rental's economics — conflating "is this good for the
 client" with "is this good for me" is how agencies ship things that fail.
 
 ### Phase 0 — Website + Estimator @ Rp 30jt

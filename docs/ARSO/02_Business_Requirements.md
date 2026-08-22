@@ -2,7 +2,7 @@
 
 **Phase:** All
 **Precedence:** overrides `03_PRD.md` and below. Subordinate to `00_README_Index.md`.
-**Source of truth for facts:** live site (arasyarentcar.com) + `ARASYA_REDESIGN_PROTOTYPE_PRD.md` Appendix A.
+**Source of truth for facts:** live site (swiftrental.com) + `SWIFT_REDESIGN_PROTOTYPE_PRD.md` Appendix A.
 
 ---
 
@@ -10,14 +10,14 @@
 
 | Field | Value |
 |---|---|
-| Legal entity | **PT. Ayomi Raya** |
-| Brand | Arasya Rent Car |
-| Bank | **BCA 095 484 0782 a.n. PT. Ayomi Raya** |
-| WhatsApp (primary) | **0821 2402 4281** |
-| WhatsApp (alt) | 0822 9885 4855 · 0821 5028 8603 |
-| Email | arasyarentcar@gmail.com |
-| Instagram | @arasyarentcar |
-| HQ | Selakopi Hijau blok F no 3-4, Pasir Mulya, Bogor Barat, Kota Bogor 16118 |
+| Legal entity | **PT Swift Rental Indonesia (Demo)** |
+| Brand | Swift Rental Car Template |
+| Bank | **BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo)** |
+| WhatsApp (primary) | **0800 0000 0001** |
+| WhatsApp (alt) | 0800 0000 0002 · 0800 0000 0003 |
+| Email | hello@swiftrental.example |
+| Instagram | @swiftrental.demo |
+| HQ | Jl. Contoh No. 123, Jakarta, DKI Jakarta 10110 |
 | PKP status | **`{{TOKEN}}` — BLOCKED Q3** |
 
 **BR-001** — These strings are rendered identically everywhere. No masking, no variation,
@@ -184,8 +184,8 @@ policy behind it does not.
 ## 2.8 Trust & anti-impersonation (first-class)
 
 **BR-018** — Site-wide component: one canonical WA number + one official account name +
-explicit statement that Arasya transacts **only** via the listed channel and
-**BCA 095 484 0782 a.n. PT. Ayomi Raya**. Warn against other numbers/accounts.
+explicit statement that Swift Rental transacts **only** via the listed channel and
+**BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo)**. Warn against other numbers/accounts.
 
 **BR-019 — No invented statistics.** No trip counts, ratings, years, customer numbers, or
 city counts unless client-supplied and real. **A trust section with zero numbers beats one
@@ -226,7 +226,7 @@ Full mapping in `00_README_Index.md` §0.5. Binding summary:
 classified retention, working erasure path. See `07_Database_Spec.md` §7.9.
 **BR-026** — **Payment proof screenshots contain account numbers → *data keuangan pribadi*
 → specific personal data.** Higher protection tier than a name.
-**BR-027** — **OJK / BI banking regulation does NOT apply.** Arasya is not a bank and holds
+**BR-027** — **OJK / BI banking regulation does NOT apply.** Swift Rental is not a bank and holds
 no float. PSP carries the licence. Do not build for it.
 **BR-028** — **Land transport regulation (Permenhub / angkutan sewa khusus) is the sectoral
 regime that actually binds.** Vehicle permits, driver licensing, passenger insurance.

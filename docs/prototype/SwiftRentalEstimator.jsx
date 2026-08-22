@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 
 /* ── DATA (mirrors pricing.json — in production this is imported, not inlined) ── */
 
-const WA = "6282124024281";
+const WA = "6280000000001";
 
 const VEHICLES = [
   { id: "avanza", name: "Toyota Avanza", pax: 7, price: 700000, status: "confirmed" },
@@ -101,7 +101,7 @@ const Row = ({ label, sub, value, muted, strong }) => (
 
 /* ── Main ── */
 
-export default function ArasyaEstimator() {
+export default function SwiftRentalEstimator() {
   const [vehicleId, setVehicleId] = useState("avanza");
   const [pickupId, setPickupId] = useState("cibubur");
   const [dropoffId, setDropoffId] = useState("dago");
@@ -128,7 +128,7 @@ export default function ArasyaEstimator() {
 
   const waHref = useMemo(() => {
     const lines = [
-      "Halo Arasya, saya mau booking:",
+      "Halo Swift Rental, saya mau booking:",
       "Rute: Jakarta → Bandung (sekali jalan)",
       `Kendaraan: ${vehicle.name} (${vehicle.pax} pax)`,
       `Titik jemput: ${pickup.label.split(" —")[0]}`,
@@ -310,7 +310,7 @@ export default function ArasyaEstimator() {
         <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">
           Estimasi, bukan harga final. Admin mengonfirmasi sebelum invoice terbit.
           <br />
-          Arasya hanya bertransaksi lewat {WA.replace("62", "0")} dan rekening BCA a.n. PT. Ayomi Raya.
+          Swift Rental hanya bertransaksi lewat {WA.replace("62", "0")} dan rekening BCA a.n. PT Swift Rental Indonesia (Demo).
         </p>
       </div>
     </div>

@@ -101,7 +101,7 @@ should go in the proposal verbatim.
 | DB | Postgres 16, single managed instance | `07`. Exclusion constraints are the reason Postgres is non-negotiable. |
 | Files | S3 (or IDN-region equivalent) | Two buckets: `docs` and `payment-proofs` (separate KMS keys — BR-026) |
 | Jobs | In-process cron | 3 jobs. A broker would be more moving parts than work. |
-| PSP | Midtrans or Xendit | **The PSP holds the licence, not Arasya** (`00` §0.5) |
+| PSP | Midtrans or Xendit | **The PSP holds the licence, not Swift Rental** (`00` §0.5) |
 | Deploy | One container, one host | |
 
 **The single most important architectural rule in Phase 1:**

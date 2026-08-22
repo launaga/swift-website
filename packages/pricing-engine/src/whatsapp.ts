@@ -12,7 +12,7 @@ import type {
 } from "./types.ts";
 import { formatIDR } from "./util.ts";
 
-const WA_PRIMARY = "6282124024281";
+const WA_PRIMARY = "6280000000001";
 
 const STOP_LABEL: Record<string, string> = {
   DROP_ONLY: "turun",
@@ -80,7 +80,7 @@ export function buildWhatsAppMessage(
   const paxLine = input.pax ? `${input.pax} orang` : "(jumlah menyusul)";
 
   return [
-    "Halo Arasya, saya mau booking:",
+    "Halo Swift Rental, saya mau booking:",
     "",
     `Rute      : ${routeFrom} → ${routeTo}`,
     `Tanggal   : ${dateLine}`,

@@ -1,4 +1,4 @@
-# ARASYA RENT CAR — REDESIGN PROTOTYPE PRD
+# SWIFT RENTAL CAR TEMPLATE — REDESIGN PROTOTYPE PRD
 
 **Type:** Build-ready specification for an interactive redesign prototype
 **Scope tier:** Pitch budget < Rp 30.000.000 (≈ $1.8K) — redesign + SEO architecture + funnel optimization. **NO AI, NO custom backend, NO payment gateway.**
@@ -20,7 +20,7 @@ Read Sections 2 and 3 before building anything. They are constraints, not sugges
 
 ## 1. POSITIONING (one paragraph, drives every design decision)
 
-Arasya is **the most trusted, highest-yield chauffeur + car-rental operator in its corridor** — not a "mobility platform." The site's job is to convert a hesitant visitor into a WhatsApp inquiry by signaling premium reliability and removing the two frictions that kill bookings: *"is this the real Arasya or a scammer?"* and *"how much does it cost?"* Defensibility = trust, driver quality, reliability reputation, owning local search. The prototype must look and feel worth more than a template, because perceived quality *is* the product here.
+Swift Rental is **the most trusted, highest-yield chauffeur + car-rental operator in its corridor** — not a "mobility platform." The site's job is to convert a hesitant visitor into a WhatsApp inquiry by signaling premium reliability and removing the two frictions that kill bookings: *"is this the real Swift Rental or a scammer?"* and *"how much does it cost?"* Defensibility = trust, driver quality, reliability reputation, owning local search. The prototype must look and feel worth more than a template, because perceived quality *is* the product here.
 
 ---
 
@@ -51,10 +51,10 @@ Arasya is **the most trusted, highest-yield chauffeur + car-rental operator in i
 ## 3. HARD CONSTRAINTS (non-negotiable — never violate in prototype or copy)
 
 1. **Use the exact BCA account number and the exact PT / legal entity name** (confirmed from live site, verbatim):
-   - **BCA 095 484 0782** — **PT. Ayomi Raya**
-   - Canonical WhatsApp / admin: **0821 2402 4281** (primary), **0822 9885 4855**, **0821 5028 8603**
-   - Email: **arasyarentcar@gmail.com** · IG: **@arasyarentcar**
-   - HQ: Selakopi Hijau blok F no 3-4, Pasir Mulya, Bogor Barat, Kota Bogor, 16118
+   - **BCA 000 000 0000** — **PT Swift Rental Indonesia (Demo)**
+   - Canonical WhatsApp / admin: **0800 0000 0001** (primary), **0800 0000 0002**, **0800 0000 0003**
+   - Email: **hello@swiftrental.example** · IG: **@swiftrental.demo**
+   - HQ: Jl. Contoh No. 123, Jakarta, DKI Jakarta 10110
    Never alter, mask, or invent these. (Confirm once more with client before launch in case anything changed.)
 2. **No invented statistics.** Do not fabricate trip counts, ratings, years, customer numbers, or city counts. If a real figure isn't supplied, omit the metric or use a `{{TOKEN}}`. A trust section with *zero* fake numbers beats one with impressive lies.
 3. **No hotlinked live images** from the existing site or third parties. Use placeholder blocks / locally-described assets / client-supplied media only.
@@ -166,7 +166,7 @@ Rules:
 
 Rendered site-wide (hero-area block + footer + every route page):
 - **One canonical WhatsApp number** and **one official account name**, identical everywhere.
-- **Anti-impersonation notice**: explicit statement that Arasya only transacts via the listed channel + official BCA account under the exact PT name; warn against other numbers/accounts.
+- **Anti-impersonation notice**: explicit statement that Swift Rental only transacts via the listed channel + official BCA account under the exact PT name; warn against other numbers/accounts.
 - **Accurate trust signals only**: insurance/coverage stated precisely (covering what, whom, limits) or omitted. No "insured service" without backing.
 - Real reviews/proof or none.
 
@@ -181,7 +181,7 @@ page_view → cta_click → whatsapp_click  (segmented by route/vehicle/service)
 
 ### 9.2 WhatsApp pre-fill (structured, so operator replies in seconds)
 ```
-Halo Arasya, saya mau booking:
+Halo Swift Rental, saya mau booking:
 Layanan: {service}
 Rute: {asal} → {tujuan}
 Tanggal: {date} | Penumpang: {pax}
@@ -242,7 +242,7 @@ Surface these in the proposal as future retainer scope — *not* built now:
 
 ---
 
-## APPENDIX A — REAL DATA (sourced from live arasyarentcar.com, use verbatim)
+## APPENDIX A — REAL DATA (sourced from live swiftrental.com, use verbatim)
 
 > These are confirmed values. Use them directly in the prototype — no `{{TOKEN}}` needed for fleet/pricing. Verify with client before launch only.
 
@@ -289,7 +289,7 @@ Notes: pax counts include driver. "Contact for Best Price" → CTA still opens p
 - Hari-H setelah driver tiba / setelah 10.00: biaya pembatalan 100% dari total invoice.
 
 ### A.5 Trust block content (real — "WASPADA PENIPUAN")
-The live site already runs a fraud-warning block. Reframe to "Verified Channels" tone (per established direction) but keep the substance: only the listed WA numbers + only **BCA 095 484 0782 a.n. PT. Ayomi Raya** are official. This is a first-class, site-wide component (Section 8).
+The live site already runs a fraud-warning block. Reframe to "Verified Channels" tone (per established direction) but keep the substance: only the listed WA numbers + only **BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo)** are official. This is a first-class, site-wide component (Section 8).
 
 ### A.6 "Why choose us" (real claims only)
 Berpengalaman · Harga Terjangkau · Mobil Terawat · Support 24/7. (No fabricated trip counts / ratings / years — none are published on the source, so omit numeric stats unless client supplies real ones.)

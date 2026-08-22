@@ -9,7 +9,7 @@
 
 The complete public-site specification lives in:
 
-### → `ARASYA_REDESIGN_PROTOTYPE_PRD.md`
+### → `SWIFT_REDESIGN_PROTOTYPE_PRD.md`
 
 It is build-ready and already covers: scope lock, hard constraints, design system
 (black/white/blue tokens), homepage section-by-section, IA + URL structure, route-page
@@ -87,9 +87,9 @@ a fraud warning. The site must not write cheques the fleet cannot cash.
 
 ## 4.3 Constraint reminders (already binding — repeated because they get violated)
 
-From `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §3, restated for anyone reading this file alone:
+From `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §3, restated for anyone reading this file alone:
 
-- **Exact BCA + PT name, verbatim.** BCA 095 484 0782 a.n. PT. Ayomi Raya.
+- **Exact BCA + PT name, verbatim.** BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo).
 - **One canonical WhatsApp number** on the site (BR-002). The three exist operationally;
   the site advertises one. Three numbers printed next to a fraud warning undermines the
   fraud warning.
@@ -105,7 +105,7 @@ From `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §3, restated for anyone reading this fi
 
 ## 4.4 Acceptance
 
-Website acceptance is `ARASYA_REDESIGN_PROTOTYPE_PRD.md` §12, **plus**:
+Website acceptance is `SWIFT_REDESIGN_PROTOTYPE_PRD.md` §12, **plus**:
 
 - [ ] Estimator renders as homepage section 3
 - [ ] Estimator passes `09_Pricing_Engine.md` §9.12

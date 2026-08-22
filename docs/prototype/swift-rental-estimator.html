@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arasya — Estimator Perjalanan</title>
+<title>Swift Rental — Estimator Perjalanan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -195,7 +195,7 @@ select:focus,input:focus,button:focus-visible{outline:2px solid var(--blue-brigh
 
 <header>
   <div class="wrap hrow">
-    <div class="brand">ARASYA<span>.</span></div>
+    <div class="brand">SWIFT<span>.</span></div>
     <div class="hnum mono">PROTOTIPE ESTIMATOR</div>
   </div>
 </header>
@@ -312,10 +312,10 @@ select:focus,input:focus,button:focus-visible{outline:2px solid var(--blue-brigh
   </div>
 
   <div class="verified">
-    <h3>Saluran resmi Arasya</h3>
+    <h3>Saluran resmi Swift Rental</h3>
     <p>
-      Arasya hanya bertransaksi melalui nomor <span class="k">0821 2402 4281</span> dan rekening
-      <span class="k">BCA 095 484 0782 a.n. PT. Ayomi Raya</span>.
+      Swift Rental hanya bertransaksi melalui nomor <span class="k">0800 0000 0001</span> dan rekening
+      <span class="k">BCA 000 000 0000 a.n. PT Swift Rental Indonesia (Demo)</span>.
       Nomor atau rekening lain di luar ini bukan milik kami. Konfirmasi ulang sebelum transfer.
     </p>
   </div>
@@ -336,10 +336,10 @@ select:focus,input:focus,button:focus-visible{outline:2px solid var(--blue-brigh
    Nilai null = belum dikonfirmasi klien → UI lempar ke admin.
    ============================================================ */
 const DATA = {
-  meta: { wa: "6282124024281", currency: "IDR" },
+  meta: { wa: "6280000000001", currency: "IDR" },
 
   vehicles: [
-    // dalamKota & allIn = REAL (arasyarentcar.com). null = "Contact for Best Price".
+    // dalamKota & allIn = REAL (swiftrental.com). null = "Contact for Best Price".
     { id:"avanza",    name:"Toyota Avanza",            pax:7,  dalamKota:500000,  allIn:1250000 },
     { id:"ertiga",    name:"Suzuki Ertiga",            pax:7,  dalamKota:500000,  allIn:1250000 },
     { id:"xpander",   name:"Mitsubishi Xpander",       pax:7,  dalamKota:600000,  allIn:1350000 },
@@ -498,7 +498,7 @@ function compute(){
 function waLink(q){
   const c = corridor(), v = vehicle();
   const rows = [
-    "Halo Arasya, saya mau minta penawaran:",
+    "Halo Swift Rental, saya mau minta penawaran:",
     `Rute: ${c.label}`,
     c.useVehicleTier ? null : `Jenis: ${DATA.tripTypes.find(t=>t.id===S.trip).label}`,
     `Armada: ${v.name}`,
@@ -606,7 +606,7 @@ $("addons").onclick = e => {
 /* ---- audit table ---- */
 const audit = [
   ["base.jkt-bdg.oneway.avanza", "Rp 700.000", true,  "Dari kamu langsung"],
-  ["vehicles[].dalamKota / allIn", "14 armada", true,  "Dari arasyarentcar.com"],
+  ["vehicles[].dalamKota / allIn", "14 armada", true,  "Dari swiftrental.com"],
   ["zones.pickup.jakarta.fee",   "0",         true,  "Aturan “Jakarta = 0”"],
   ["base.jkt-bdg.*.13 armada lain", "—",      false, "Hanya Avanza yang punya angka"],
   ["base.jkt-bdg.pp.*",          "—",         false, "PP = 2× one-way? diskon? belum ada aturan"],

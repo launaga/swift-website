@@ -1,4 +1,4 @@
-# ARSO — ARASYA RENTAL OPERATING SYSTEM
+# ARSO — SWIFT RENTAL OPERATING SYSTEM
 ## 00 — Document Index, Scope Resolution & Reading Order
 
 **Status:** Master index. Governs all `01`–`12` documents.
@@ -13,8 +13,8 @@ The document set had two incompatible products living inside it:
 
 | | Product A | Product B |
 |---|---|---|
-| Name | Arasya Website Redesign | ARSO (Rental Operating System) |
-| Artifact | `ARASYA_REDESIGN_PROTOTYPE_PRD.md` | The `01`–`12` doc set |
+| Name | Swift Rental Website Redesign | ARSO (Rental Operating System) |
+| Artifact | `SWIFT_REDESIGN_PROTOTYPE_PRD.md` | The `01`–`12` doc set |
 | Scope | Marketing site + SEO + WA funnel | Booking engine, dispatch, fleet, driver, payments, analytics |
 | Conversion endpoint | WhatsApp + manual BCA | In-app booking + PSP |
 | Budget signal | < Rp 30.000.000 | Rp 300.000.000+ |
@@ -46,7 +46,7 @@ priced, or promised until its gate is cleared (§0.3).
 | 01 | `01_Product_Vision.md` | Problem, outcomes, non-goals, positioning. | All |
 | 02 | `02_Business_Requirements.md` | Business rules, policies, segments, constraints. | All |
 | 03 | `03_PRD.md` | FR, NFR, user stories, acceptance criteria, edge cases. | All |
-| 04 | `04_Website_Brief.md` | Public site scope. **Defers to `ARASYA_REDESIGN_PROTOTYPE_PRD.md`.** | 0 |
+| 04 | `04_Website_Brief.md` | Public site scope. **Defers to `SWIFT_REDESIGN_PROTOTYPE_PRD.md`.** | 0 |
 | 05 | `05_Admin_OS.md` | Internal console: quote, booking, dispatch, verification. | 1–2 |
 | 06 | `06_System_Architecture.md` | Services, data flow, deployment, security. | All |
 | 07 | `07_Database_Spec.md` | ERD, tables, constraints, indexes, retention. | All |
@@ -64,7 +64,7 @@ When documents conflict:
 ```
 00 (scope + gates)  >  02 (business rules)  >  09 (pricing)  >  03 (PRD)  >  everything else
 ```
-`ARASYA_REDESIGN_PROTOTYPE_PRD.md` Sections 2 & 3 remain binding for all Phase 0 web work.
+`SWIFT_REDESIGN_PROTOTYPE_PRD.md` Sections 2 & 3 remain binding for all Phase 0 web work.
 
 ---
 
@@ -107,9 +107,9 @@ Stop and re-plan if any of these appear:
 
 | # | Question | Blocks | Owner | Status |
 |---|---|---|---|---|
-| Q1 | Does Arasya offer **self-drive / lepas kunci**? Public site shows chauffeur-only pricing; ARSO prompt lists Self Drive as a rental type. | Pricing model, insurance, deposit rules, SEO targeting, DB schema | Client | **OPEN** |
+| Q1 | Does Swift Rental offer **self-drive / lepas kunci**? Public site shows chauffeur-only pricing; ARSO prompt lists Self Drive as a rental type. | Pricing model, insurance, deposit rules, SEO targeting, DB schema | Client | **OPEN** |
 | Q2 | Are the 14 vehicles **owned, financed, or brokered** from partner owners? | Entire financial model; cost floor is meaningless without this | Client | **OPEN** |
-| Q3 | Is PT. Ayomi Raya **PKP** (VAT-registered)? | B2B invoicing, corporate segment, 11% PPN in pricing | Client | **OPEN** |
+| Q3 | Is PT Swift Rental Indonesia (Demo) **PKP** (VAT-registered)? | B2B invoicing, corporate segment, 11% PPN in pricing | Client | **OPEN** |
 | Q4 | Where do surcharge numbers (Cibubur +150k, Bekasi +200k, Lembang +200k, Ciwidey +350k) come from — measured cost or intuition? | Pricing engine calibration | Client | **OPEN** |
 | Q5 | What is the **real corridor km + toll + travel time** table? | Cost floor, overtime prediction | Client | **OPEN** |
 | Q6 | Current KTP/SIM photo handling: where are they stored today? | UU PDP exposure (see §0.5) | Client | **OPEN** |
@@ -129,12 +129,12 @@ digital banking regulation (POJK 21/2023, AML/CFT, CSIRT coordination)**.
 
 | Regulation | Applies? | Why |
 |---|---|---|
-| **UU 27/2022 (PDP)** | ✅ **YES — primary** | Arasya collects KTP/SIM images, names, phone numbers, and payment proof screenshots. Grace period ended 17 Oct 2024. |
+| **UU 27/2022 (PDP)** | ✅ **YES — primary** | Swift Rental collects KTP/SIM images, names, phone numbers, and payment proof screenshots. Grace period ended 17 Oct 2024. |
 | UU 11/2008 jo. 19/2016 (ITE) | ✅ Yes | Electronic records, e-signature validity on invoices. |
 | PP 71/2019 / PSE registration (Kominfo) | ⚠️ Likely | If ARSO becomes a public-facing electronic system operator. Confirm with counsel. |
 | Consumer protection (UU 8/1999) | ✅ Yes | Cancellation policy, price transparency, refund terms. |
-| **POJK 21/2023 (Digital Services by Commercial Banks)** | ❌ **NO** | Arasya is not a bank. |
-| **BI payment system licensing (PJP/PIP)** | ❌ **NO** | Arasya never holds customer funds in a float. Using Midtrans/Xendit means **the PSP carries the licence**, not Arasya. Do not build for a regime you are not in. |
+| **POJK 21/2023 (Digital Services by Commercial Banks)** | ❌ **NO** | Swift Rental is not a bank. |
+| **BI payment system licensing (PJP/PIP)** | ❌ **NO** | Swift Rental never holds customer funds in a float. Using Midtrans/Xendit means **the PSP carries the licence**, not Swift Rental. Do not build for a regime you are not in. |
 | AML/CFT reporting, OJK CSIRT integration | ❌ **NO** | Not a reporting entity. |
 | Land transport (Permenhub / angkutan sewa khusus) | ⚠️ **Check** | *This* is the sectoral regulator that actually matters — vehicle permits, driver licensing, passenger insurance. Far more relevant than OJK. Confirm with counsel. |
 
@@ -163,7 +163,7 @@ digital banking regulation (POJK 21/2023, AML/CFT, CSIRT coordination)**.
 ## 0.6 What "AI" means in this document set
 
 **Nothing.** There is no AI feature in any phase of this specification.
-`ARASYA_REDESIGN_PROTOTYPE_PRD.md` §2 cut it entirely, and nothing in the business case
+`SWIFT_REDESIGN_PROTOTYPE_PRD.md` §2 cut it entirely, and nothing in the business case
 has changed. If it returns, it must arrive with a measured pain point and a unit-economics
 justification, not as a differentiator claim.
 

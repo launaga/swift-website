@@ -1,4 +1,4 @@
-# @arasya/api
+# @swift-rental/api
 
 The ARSO API service layer (`docs/ARSO/08_API_Spec.yaml`). **Phase 1 — gated.** The thin
 seam that composes the two tested layers into the booking vertical:

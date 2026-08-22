@@ -4,7 +4,7 @@
 
 -- ─────────────────────────── fixtures ───────────────────────────
 INSERT INTO users (id, code, email, full_name, role) VALUES
-  ('00000000-0000-7000-8000-000000000001', 'U-1', 'admin@arasya.id', 'Admin', 'ADMIN');
+  ('00000000-0000-7000-8000-000000000001', 'U-1', 'admin@swift-rental.id', 'Admin', 'ADMIN');
 
 INSERT INTO zones (id, city, label, is_reference_origin) VALUES
   ('ZONE_JKT_PUSAT',     'JAKARTA',         'Jakarta Pusat', true),

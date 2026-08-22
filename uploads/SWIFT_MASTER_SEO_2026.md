@@ -1,6 +1,6 @@
-# ARASYA RENT CAR — MASTER SEO PLAN (2026)
+# SWIFT RENTAL CAR TEMPLATE — MASTER SEO PLAN (2026)
 
-**Companion to:** `ARASYA_REDESIGN_PROTOTYPE_PRD.md`
+**Companion to:** `SWIFT_REDESIGN_PROTOTYPE_PRD.md`
 **Goal:** Skala bisnis 200%+ secara **full organik** lewat website + ekosistem search.
 **Posisi dokumen:** Ini adalah *growth architecture*, bukan checklist on-page. Kalau ada konflik dengan PRD Section 2 (Scope Lock) atau Section 3 (Hard Constraints), **PRD menang** — kecuali di mana dokumen ini secara eksplisit me-refine asumsi supply (lihat §1).
 
@@ -24,7 +24,7 @@
 Klien punya "channel se-Indonesia" (asumsi: **jaringan partner/vendor**, bukan armada sendiri di tiap kota). Itu **tidak** mengubah dua kenyataan:
 
 - **Local pack terikat proximity.** Pin GBP ada di Bogor → lo tidak akan menang di 3-pack "rental mobil Surabaya" dari alamat Bogor. Proximity itu struktural, bukan on-page.
-- **Trust moat lo = produk lo.** Seluruh positioning (PRD §1) dibangun atas *driver quality + reliability + anti-impersonation*. Kalau lo fulfill trip kota jauh lewat partner yang kualitas supir & mobilnya nggak lo kontrol, satu pengalaman buruk nempel di **nama Arasya** dan meracuni review lo — dan review adalah lever prominence #1. Lo bisa nge-rank "sewa alphard Surabaya", dapet inquiry, fulfill jelek lewat partner, dapet review 1 bintang → GBP lo turun di **home corridor** yang seharusnya lo kuasai.
+- **Trust moat lo = produk lo.** Seluruh positioning (PRD §1) dibangun atas *driver quality + reliability + anti-impersonation*. Kalau lo fulfill trip kota jauh lewat partner yang kualitas supir & mobilnya nggak lo kontrol, satu pengalaman buruk nempel di **nama Swift Rental** dan meracuni review lo — dan review adalah lever prominence #1. Lo bisa nge-rank "sewa alphard Surabaya", dapet inquiry, fulfill jelek lewat partner, dapet review 1 bintang → GBP lo turun di **home corridor** yang seharusnya lo kuasai.
 
 **Aturan turunan (gantiin "unlimited route" jadi aman):**
 > Bangun route page **hanya untuk trip yang ORIGIN-nya ada di korridor lo** (Bogor / Jakarta / Depok / Bekasi / Tangerang / Bandung). Trip *berangkat dari basis lo* = genuinely fulfillable + quality-controllable + datanya beneran (harga, durasi, toll real). Halaman "rental di kota X jauh" yang origin-nya bukan korridor lo = **skip**, atau perlakukan sebagai konten informasional murni, bukan landing page transaksional.
@@ -63,7 +63,7 @@ Relevance (category), Proximity (fixed), Prominence (review/authority). Yang bis
 Universe query untuk "sewa mobil + supir" di pasar lo, dikelompokin per intent + per tujuan halaman:
 
 ### 3.1 Brand / lokal (tangkap di GBP + Home + /kontak)
-`arasya rent car` · `sewa mobil bogor` · `rental mobil bogor` · `sewa mobil dengan supir bogor` · `rental mobil + driver depok/bekasi/tangerang`
+`swift-rental rent car` · `sewa mobil bogor` · `rental mobil bogor` · `sewa mobil dengan supir bogor` · `rental mobil + driver depok/bekasi/tangerang`
 
 ### 3.2 Vehicle intent (tangkap di /sewa/{vehicle})
 `sewa alphard jakarta` · `sewa hiace bogor` · `sewa fortuner dengan supir` · `sewa innova reborn` · `rental elf 19 seat` · `sewa zenix hybrid`
@@ -80,7 +80,7 @@ Universe query untuk "sewa mobil + supir" di pasar lo, dikelompokin per intent +
 `estimasi biaya sewa mobil ke bandung` · `bedanya sewa lepas kunci vs dengan supir` · `tips sewa mobil mudik lebaran` · `sewa mobil all-in vs 12 jam, hemat mana`
 
 ### 3.6 ⚠️ JANGAN target (intent mismatch → inquiry sampah → reputasi)
-- **`sewa mobil lepas kunci`** kalau Arasya **tidak** nyediain self-drive. Positioning lo chauffeur. Nge-rank ini = banjir inquiry yang nggak bisa lo layani → "sorry, nggak ada" → langgar PRD Constraint #5 (jangan generate inquiry yang berakhir unavailable). Konfirmasi ke klien dulu.
+- **`sewa mobil lepas kunci`** kalau Swift Rental **tidak** nyediain self-drive. Positioning lo chauffeur. Nge-rank ini = banjir inquiry yang nggak bisa lo layani → "sorry, nggak ada" → langgar PRD Constraint #5 (jangan generate inquiry yang berakhir unavailable). Konfirmasi ke klien dulu.
 - Kota jauh yang origin-nya bukan korridor lo (lihat §1.1).
 
 ---
@@ -130,11 +130,11 @@ Live site sekarang WP+Elementor; redesign = clean rebuild (PRD A.7). **Risiko te
 - **Secondary:** tambahin yang relevan (`Van rental agency`, `Airport shuttle service`, `Tour operator`) — selama akurat.
 
 ### 5.2 Konfigurasi alamat
-- Arasya punya HQ fisik (Selakopi Hijau, Bogor Barat). Kalau klien terima customer di sana → **storefront**, tampilkan pin. Kalau murni service-area → ikuti policy SAB (boleh hide address). **Jangan** pakai virtual office sebagai storefront (penyebab suspend #1).
+- Swift Rental punya HQ fisik (Jl. Contoh No. 123, Jakarta). Kalau klien terima customer di sana → **storefront**, tampilkan pin. Kalau murni service-area → ikuti policy SAB (boleh hide address). **Jangan** pakai virtual office sebagai storefront (penyebab suspend #1).
 
 ### 5.3 Review engine (ini mesin compounding-nya)
 - **Velocity & recency > volume.** Aliran review stabil tiap minggu ngalahin burst 50 lalu sepi. Ada momentum visibility di ~10 review pertama.
-- **Review justification:** minta customer **sebut layanan + rute/kota + kata "supir/driver"** di review ("supir Arasya nganter Jakarta–Bandung, ramah, mobil bersih"). Teks ini jadi sinyal relevance kuat yang ngonek-in lo ke query itu.
+- **Review justification:** minta customer **sebut layanan + rute/kota + kata "supir/driver"** di review ("supir Swift Rental nganter Jakarta–Bandung, ramah, mobil bersih"). Teks ini jadi sinyal relevance kuat yang ngonek-in lo ke query itu.
 - **Mekanik:** QR code link review di dalam mobil + template WA pasca-trip (langkah 7 booking flow PRD A.3 — saat pelunasan, momen kepuasan tertinggi).
 - **Balas SEMUA review** (yang positif & negatif, profesional). Bisnis yang balas review dapat lebih banyak klik.
 - **JANGAN** beli review / gate review / stuffing keyword di balasan (langgar policy + PRD Constraint #2 no-fake).
@@ -149,8 +149,8 @@ Live site sekarang WP+Elementor; redesign = clean rebuild (PRD A.7). **Risiko te
 - Konten: penawaran (mis. promo all-in rute populer), armada baru, tips musim (mudik/long weekend).
 
 ### 5.6 NAP consistency = sekalian anti-impersonation
-- Nama/Alamat/Telepon **identik** di GBP, website, dan semua citation. Pakai nomor WA kanonik (0821 2402 4281) + nama entity persis (PT. Ayomi Raya) — sama persis kayak Verified-Channel block PRD §8. Konsistensi ini *sekaligus* sinyal entity-trust ke Google **dan** proteksi impersonation. Dua burung, satu batu.
-- **JANGAN** stuffing keyword di nama GBP ("Arasya Rent Car Sewa Mobil Murah Bogor Jakarta") → suspend. Pakai nama legal/brand saja.
+- Nama/Alamat/Telepon **identik** di GBP, website, dan semua citation. Pakai nomor WA kanonik (0800 0000 0001) + nama entity persis (PT Swift Rental Indonesia (Demo)) — sama persis kayak Verified-Channel block PRD §8. Konsistensi ini *sekaligus* sinyal entity-trust ke Google **dan** proteksi impersonation. Dua burung, satu batu.
+- **JANGAN** stuffing keyword di nama GBP ("Swift Rental Car Template Sewa Mobil Murah Bogor Jakarta") → suspend. Pakai nama legal/brand saja.
 
 ### 5.7 Sync ke Bing Places
 - ChatGPT narik banyak data lokal dari Bing. Sync GBP → Bing Places biar lo muncul di local discovery via AI.
@@ -165,7 +165,7 @@ Tujuan: jadi **entity yang dikenali & jawaban yang dikutip** AI engines.
 - **Tulis konten dalam format ekstraktif:** Q&A eksplisit (FAQ rute, FAQ pricing), fakta terstruktur (tabel harga, durasi, kapasitas). LLM ngutip yang gampang di-ekstrak.
 - **Konsistensi entity di seluruh web:** nama/alamat/nomor sama persis di mana-mana → entity nggak ambigu → gampang dikutip.
 - **Hadir di sumber yang dibaca AI:** directory & listicle lokal kredibel (lihat §7).
-- **Monitor AI visibility:** cek manual tiap bulan — tanya ChatGPT/Perplexity/Gemini "sewa mobil dengan supir di Bogor/Jakarta ke Bandung" → apakah Arasya muncul/dikutip? Ini metrik authority baru 2026.
+- **Monitor AI visibility:** cek manual tiap bulan — tanya ChatGPT/Perplexity/Gemini "sewa mobil dengan supir di Bogor/Jakarta ke Bandung" → apakah Swift Rental muncul/dikutip? Ini metrik authority baru 2026.
 
 ---
 
@@ -215,7 +215,7 @@ Model cluster (bukan artikel random):
 | Authority | 6–12 | AI citation muncul, panduan ranking, brand search naik | **2x+ inquiry** tercapai realistis di sini |
 | Scale | 12+ | Ekspansi route set (hati-hati), brand-search flywheel | **3x** kalau eksekusi konsisten |
 
-> **Caveat jujur:** "full organik tanpa paid" = ramp lebih lambat. Brand search demand adalah flywheel — makin banyak orang nyari "arasya" by name, makin kuat prominence. Pertimbangkan apakah "organik" lo strict (no Google Ads sama sekali) atau boleh **Local Services Ads / GBP** sebagai akselerator awal sambil organik matang. LSA muncul di atas local pack untuk jasa, badge "Google Guaranteed" — ngebantu trust + lead di fase 0–6 saat organik belum compounding.
+> **Caveat jujur:** "full organik tanpa paid" = ramp lebih lambat. Brand search demand adalah flywheel — makin banyak orang nyari "swift-rental" by name, makin kuat prominence. Pertimbangkan apakah "organik" lo strict (no Google Ads sama sekali) atau boleh **Local Services Ads / GBP** sebagai akselerator awal sambil organik matang. LSA muncul di atas local pack untuk jasa, badge "Google Guaranteed" — ngebantu trust + lead di fase 0–6 saat organik belum compounding.
 
 ### 10.3 200%+ itu realistis HANYA kalau:
 - ✅ GBP + review engine jalan konsisten (bukan setup-lalu-ditinggal — profil yang diem 30+ hari kehilangan momentum).

@@ -8,7 +8,7 @@
 
 ## 9.1 The problem this solves
 
-Arasya's stated business problems #1 (slow quotation) and #3 (pricing inconsistency)
+Swift Rental's stated business problems #1 (slow quotation) and #3 (pricing inconsistency)
 are **the same problem**: pricing knowledge lives in one person's head, is re-derived
 by hand for every inquiry, and is therefore slow *and* inconsistent.
 
@@ -389,7 +389,7 @@ CRUD dashboard is Phase 1 and needs the rule-versioning schema in `07_Database_S
 ## 9.9 Estimate ≠ Quote ≠ Invoice
 
 The single most dangerous failure mode in this build: a number on a screen becomes a
-promise. Arasya's entire positioning is trust. A price that moves after the customer
+promise. Swift Rental's entire positioning is trust. A price that moves after the customer
 saw it does more damage than never showing a price at all.
 
 | | **Estimate** | **Quote** | **Invoice** |
@@ -445,7 +445,7 @@ instead of a five-message interrogation. **This — not the booking engine — i
 actually kills problem #1.**
 
 ```
-Halo Arasya, saya mau booking:
+Halo Swift Rental, saya mau booking:
 
 Rute      : Jakarta (Cibubur) → Bandung (Dago)
 Tanggal   : 12 Agustus 2026, jemput 07.00

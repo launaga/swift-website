@@ -1,5 +1,5 @@
 {
-  "name": "@arasya/api",
+  "name": "@swift-rental/api",
   "version": "0.1.0",
   "description": "ARSO API service layer — composes the pricing engine (ADR-006) with the Postgres schema. Phase 1, gated.",
   "type": "module",
