@@ -704,12 +704,12 @@ body{background:#0B0F1A}
       <div style="width:min(1200px,92vw);margin:0 auto;">
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;">
           <sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
-            <a href="{{ p.wa }}" target="_blank" rel="noopener" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,15,26,.1);">
-              <div style="aspect-ratio:16/9;background-image:repeating-linear-gradient(135deg,#EAEFF7 0 16px,#F4F7FC 16px 32px);position:relative;"><span style="position:absolute;left:12px;top:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#fff;background:var(--blue);padding:5px 10px;border-radius:999px;text-transform:uppercase;">{{ p.cat }}</span></div>
+            <a href="{{ p.href }}" onClick="{{ p.go }}" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;" style-hover="transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,15,26,.1);">
+              <div style="aspect-ratio:16/9;position:relative;overflow:hidden;background:#EAEFF7;"><img src="{{ p.img }}" alt="{{ p.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;"/><span style="position:absolute;left:12px;top:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#fff;background:var(--blue);padding:5px 10px;border-radius:999px;text-transform:uppercase;">{{ p.cat }}</span></div>
               <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
                 <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em;margin:0;">{{ p.title }}</h3>
                 <p style="font-size:13.5px;line-height:1.55;color:var(--muted);margin:10px 0 0;">{{ p.excerpt }}</p>
-                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;margin-top:16px;">Konsultasi via WA →</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;margin-top:16px;">Baca artikel →</span>
               </div>
             </a>
           </sc-for>
@@ -717,6 +717,31 @@ body{background:#0B0F1A}
         <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin:22px 0 0;">Artikel panduan adalah contoh struktur konten top-funnel. Isi final dapat disesuaikan oleh pengguna template.</p>
       </div>
     </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ BLOG DETAIL ============ -->
+  <sc-if value="{{ isBlogDetail }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <article>
+      <section style="background:#0B0F1A;color:#fff;padding:clamp(34px,5vw,62px) 0 clamp(42px,6vw,72px);">
+        <div style="width:min(920px,92vw);margin:0 auto;">
+          <a href="#blog" onClick="{{ goBlog }}" style="display:inline-flex;align-items:center;gap:7px;color:#9DB6E8;text-decoration:none;font:500 11.5px 'IBM Plex Mono';letter-spacing:.1em;text-transform:uppercase;">← Kembali ke Blog</a>
+          <div style="margin-top:24px;font:500 11px 'IBM Plex Mono';letter-spacing:.13em;text-transform:uppercase;color:#9DC0FF;">{{ post.cat }} · {{ post.readTime }}</div>
+          <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 0;max-width:15em;">{{ post.title }}</h1>
+          <p style="font-size:clamp(16px,1.8vw,19px);line-height:1.65;color:#B9C4D6;max-width:43em;margin:20px 0 0;">{{ post.excerpt }}</p>
+        </div>
+      </section>
+      <section style="background:#fff;padding:clamp(28px,5vw,56px) 0 clamp(56px,8vw,96px);">
+        <div style="width:min(920px,92vw);margin:0 auto;">
+          <img src="{{ post.img }}" alt="{{ post.title }}" style="width:100%;aspect-ratio:16/8.5;object-fit:cover;display:block;border-radius:20px;box-shadow:0 22px 55px rgba(11,15,26,.14);"/>
+          <div style="width:min(720px,92%);margin:clamp(32px,5vw,54px) auto 0;">
+            <sc-for list="{{ post.body }}" as="paragraph" hint-placeholder-count="4"><p style="font-size:16.5px;line-height:1.8;color:#3A4658;margin:0 0 22px;">{{ paragraph }}</p></sc-for>
+            <div style="margin-top:36px;padding:clamp(22px,4vw,32px);border-radius:18px;background:var(--paper-soft);border:1px solid var(--line);"><h2 style="font-family:'Bricolage Grotesque';font-size:24px;margin:0;">Butuh rekomendasi untuk perjalanan Anda?</h2><p style="color:var(--muted);line-height:1.6;margin:8px 0 18px;">Kirim rute, tanggal, dan jumlah penumpang. Tim kami akan membantu memilih kendaraan dan paket yang sesuai.</p><a href="{{ post.wa }}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;background:var(--blue);color:#fff;font-weight:600;padding:13px 20px;border-radius:10px;">Konsultasi via WhatsApp →</a></div>
+          </div>
+        </div>
+      </section>
+    </article>
   </main>
   </sc-if>
 
@@ -851,12 +876,12 @@ class Component extends DCLogic {
     {q:'Bagaimana memastikan ini Swift Rental Car Template yang resmi?', a:'Kami hanya bertransaksi lewat nomor WhatsApp resmi dan rekening yang tercantum. Abaikan nomor atau rekening lain.'}
   ];
   postsRaw = [
-    {cat:'Rute', title:'Estimasi Biaya Sewa Mobil Jakarta ke Bandung', excerpt:'Rincian tarif dua tier, rekomendasi unit, dan tips berangkat dari korridor kami.'},
-    {cat:'Panduan', title:'Beda Sewa Lepas Kunci vs Sewa dengan Supir', excerpt:'Mana yang cocok untuk kebutuhan Anda — keamanan, kenyamanan, dan tanggung jawab.'},
-    {cat:'Tips', title:'Tips Sewa Mobil untuk Mudik & Libur Panjang', excerpt:'Persiapan, pemilihan armada, dan cara memastikan booking aman di musim ramai.'},
-    {cat:'Panduan', title:'All-in vs 12 Jam: Mana yang Lebih Hemat?', excerpt:'Kapan tarif All-in lebih untung dan kapan Dalam Kota 12-jam jadi pilihan tepat.'},
-    {cat:'Armada', title:'Rekomendasi Armada untuk Perjalanan Jarak Jauh', excerpt:'Innova, Hiace, atau Elf? Memilih unit sesuai jumlah penumpang dan jarak.'},
-    {cat:'Panduan', title:'Checklist Sebelum Carter Mobil ke Luar Kota', excerpt:'Hal yang perlu dipastikan ke operator sebelum hari keberangkatan.'}
+    {slug:'jakarta-bandung', cat:'Rute', readTime:'5 menit baca', img:'assets/blog/blog-jakarta-bandung.jpeg', title:'Estimasi Biaya Sewa Mobil Jakarta ke Bandung', excerpt:'Rincian tarif dua tier, rekomendasi unit, dan tips berangkat dari koridor kami.', body:['Biaya perjalanan Jakarta–Bandung dipengaruhi oleh jenis kendaraan, durasi pemakaian, titik penjemputan, dan paket yang dipilih. Paket dalam kota cocok untuk penggunaan terbatas, sedangkan paket all-in memberi kepastian biaya untuk perjalanan antarkota.','Untuk 4–6 penumpang, MPV seperti Avanza, Innova Reborn, atau Zenix memberi ruang dan kenyamanan yang seimbang. Rombongan lebih besar dapat memilih Hiace agar seluruh penumpang dan bagasi tetap tertampung dengan baik.','Sebelum memesan, kirim tanggal, alamat jemput, tujuan akhir, jumlah penumpang, serta kebutuhan singgah. Informasi yang lengkap membantu operator memberikan estimasi yang akurat tanpa biaya yang mengejutkan.']},
+    {slug:'supir-vs-lepas-kunci', cat:'Panduan', readTime:'6 menit baca', img:'assets/blog/blog-supir-vs-lepaskunci.jpeg', title:'Beda Sewa Lepas Kunci vs Sewa dengan Supir', excerpt:'Mana yang cocok untuk kebutuhan Anda — keamanan, kenyamanan, dan tanggung jawab.', body:['Sewa lepas kunci memberi keleluasaan penuh, tetapi penyewa menanggung navigasi, parkir, kondisi kendaraan, dan risiko selama penggunaan. Persyaratan identitas dan deposit biasanya juga lebih ketat.','Sewa dengan supir lebih praktis untuk perjalanan bisnis, keluarga, bandara, dan antarkota. Driver memahami rute, titik istirahat, serta karakter kendaraan sehingga penumpang dapat fokus pada perjalanan.','Pilih berdasarkan tujuan, durasi, dan siapa yang akan mengemudi. Untuk jadwal padat atau rute yang belum dikenal, kendaraan dengan supir umumnya menjadi pilihan yang lebih nyaman dan terukur.']},
+    {slug:'mudik-libur-panjang', cat:'Tips', readTime:'5 menit baca', img:'assets/blog/blog-mudik.jpeg', title:'Tips Sewa Mobil untuk Mudik & Libur Panjang', excerpt:'Persiapan, pemilihan armada, dan cara memastikan booking aman di musim ramai.', body:['Musim mudik dan libur panjang memiliki permintaan tinggi. Pesan kendaraan lebih awal agar pilihan unit, jadwal, dan harga masih tersedia sesuai kebutuhan.','Sesuaikan kapasitas mobil dengan jumlah penumpang dan bagasi. Jangan hanya menghitung kursi; ruang koper, stroller, atau perlengkapan perjalanan juga menentukan kenyamanan.','Pastikan invoice mencantumkan unit, durasi, rute, fasilitas yang termasuk, biaya tambahan, serta kebijakan pembatalan. Simpan seluruh komunikasi melalui kanal resmi operator.']},
+    {slug:'all-in-vs-12-jam', cat:'Panduan', readTime:'5 menit baca', img:'assets/blog/blog-allin-vs-12jam.jpeg', title:'All-in vs 12 Jam: Mana yang Lebih Hemat?', excerpt:'Kapan tarif All-in lebih untung dan kapan Dalam Kota 12-jam jadi pilihan tepat.', body:['Paket 12 jam biasanya mencakup kendaraan dan driver, sementara BBM, tol, parkir, serta makan driver dibayar terpisah. Paket ini efisien untuk agenda dalam kota dengan jarak yang dapat diperkirakan.','Paket all-in menggabungkan sebagian besar komponen perjalanan ke dalam satu harga. Pilihan ini membantu mengendalikan anggaran untuk rute antarkota atau itinerary dengan banyak perpindahan.','Bandingkan total biaya, bukan hanya harga awal. Berikan itinerary sedetail mungkin agar operator dapat merekomendasikan paket yang benar-benar lebih hemat.']},
+    {slug:'armada-jarak-jauh', cat:'Armada', readTime:'6 menit baca', img:'assets/blog/blog-armada.jpeg', title:'Rekomendasi Armada untuk Perjalanan Jarak Jauh', excerpt:'Innova, Hiace, atau Elf? Memilih unit sesuai jumlah penumpang dan jarak.', body:['Untuk perjalanan jarak jauh, kenyamanan kursi, ruang kaki, kapasitas bagasi, dan kestabilan kendaraan sama pentingnya dengan jumlah kursi.','Innova cocok untuk keluarga kecil hingga menengah. Hiace menawarkan kabin lega bagi rombongan, sedangkan Elf Long ideal untuk jumlah penumpang lebih besar dengan koordinasi satu kendaraan.','Pertimbangkan durasi, kondisi rute, jumlah pemberhentian, dan kebutuhan lansia atau anak-anak. Operator dapat membantu memilih unit setelah menerima detail perjalanan yang lengkap.']},
+    {slug:'checklist-carter-luar-kota', cat:'Panduan', readTime:'5 menit baca', img:'assets/blog/blog-checklist.jpeg', title:'Checklist Sebelum Carter Mobil ke Luar Kota', excerpt:'Hal yang perlu dipastikan ke operator sebelum hari keberangkatan.', body:['Konfirmasi tanggal, jam jemput, alamat lengkap, rute, tujuan akhir, jumlah penumpang, dan estimasi bagasi sebelum invoice diterbitkan.','Tanyakan apa saja yang sudah termasuk: BBM, tol, parkir, makan dan penginapan driver, overtime, serta biaya penyeberangan bila ada.','Menjelang keberangkatan, pastikan nomor driver, pelat kendaraan, kontak admin, dan metode pelunasan sudah diterima melalui kanal resmi.']}
   ];
 
   state = {
@@ -864,7 +889,7 @@ class Component extends DCLogic {
     fleetFilter:'Semua', tier:'ai',
     estOrigin:'Bogor', estDest:'Jogja', estVeh:3, estDays:5, estTier:'ai',
     lightbox:null, openFaq:null,
-    formName:'', formMsg:''
+    formName:'', formMsg:'', postSlug:'jakarta-bandung'
   };
 
   fmt(n){ return 'Rp ' + Number(n).toLocaleString('id-ID'); }
@@ -888,7 +913,10 @@ class Component extends DCLogic {
     const applyHash = () => {
       const h = (location.hash||'').replace('#','');
       const pages = ['beranda','armada','travel','tentang','kontak','blog'];
-      if (pages.includes(h) && h !== this.state.page) this.setState({page:h, mobileNav:false});
+      if (h.startsWith('blog-')) {
+        const slug = h.slice(5);
+        if (this.postsRaw.some(p=>p.slug===slug)) this.setState({page:'blog-detail', postSlug:slug, mobileNav:false});
+      } else if (pages.includes(h) && h !== this.state.page) this.setState({page:h, mobileNav:false});
     };
     this._onHash = applyHash;
     window.addEventListener('hashchange', applyHash);
@@ -922,6 +950,8 @@ class Component extends DCLogic {
   goPage = (p) => (e) => { if(e) e.preventDefault(); window.scrollTo(0,0); try{ location.hash = p; }catch(_){}; this.setState({page:p, mobileNav:false}); };
   goHome = (e) => { this.goPage('beranda')(e); };
   goTravel = (e) => { this.goPage('travel')(e); };
+  goBlog = (e) => { this.goPage('blog')(e); };
+  goPost = (slug) => (e) => { if(e) e.preventDefault(); window.scrollTo(0,0); try{ location.hash='blog-'+slug; }catch(_){}; this.setState({page:'blog-detail', postSlug:slug, mobileNav:false}); };
   toggleNav = (e) => { if(e) e.preventDefault(); this.setState(s=>({mobileNav:!s.mobileNav})); };
   setLanguage = (lang) => (e) => { if(e) e.preventDefault(); localStorage.setItem('swift-lang', lang); if(window.SwiftLanguage) window.SwiftLanguage.set(lang); this.setState({lang}); };
   scrollArmada = (e) => {
@@ -1000,7 +1030,9 @@ class Component extends DCLogic {
     const whyus = this.whyusRaw.map(w => ({...w, iconHtml:{__html:w.icon}}));
     const gallery = this.galleryRaw.map((g,i)=>({...g, open:this.openLightbox(i)}));
     const faqs = this.faqsRaw.map((q,i)=>({...q, open:s.openFaq===i, toggle:this.toggleFaq(i), rot: s.openFaq===i?'rotate(45deg)':'rotate(0deg)'}));
-    const posts = this.postsRaw.map(p => ({...p, wa:this.wa(`Halo Swift Rental, saya mau tanya soal: ${p.title}\n(ref: blog)`)}));
+    const posts = this.postsRaw.map(p => ({...p, href:'#blog-'+p.slug, go:this.goPost(p.slug), wa:this.wa(`Halo Swift Rental, saya mau tanya soal: ${p.title}\n(ref: blog-${p.slug})`)}));
+    const selectedPost = this.postsRaw.find(p=>p.slug===s.postSlug) || this.postsRaw[0];
+    const post = {...selectedPost, wa:this.wa(`Halo Swift Rental, saya mau konsultasi setelah membaca: ${selectedPost.title}\n(ref: blog-${selectedPost.slug})`)};
 
     const navDefs = [
       {label:'Beranda', page:'beranda'},
@@ -1012,12 +1044,12 @@ class Component extends DCLogic {
     ];
     const headerDark = s.page==='beranda' && !s.scrolled ? false : false;
     const nav = navDefs.map(n => {
-      const active = (n.page===s.page) || (n.page==='armada' && false);
+      const active = (n.page===s.page) || (n.page==='blog' && s.page==='blog-detail');
       const go = this.goPage(n.page);
       return {label:n.label, go, weight: active?700:500, color: active?'#1452C4':'#3A4658', bg: active?'#EEF3FC':'transparent'};
     });
     const navMobile = navDefs.map(n => {
-      const active = n.page===s.page;
+      const active = n.page===s.page || (n.page==='blog' && s.page==='blog-detail');
       const go = this.goPage(n.page);
       return {label:n.label, go, bg: active?'#EEF3FC':'transparent'};
     });
@@ -1036,12 +1068,12 @@ class Component extends DCLogic {
 
     return {
       waMain: this.wa('Halo Swift Rental, saya mau booking unit mobil. Mohon dibantu yaa. Terima kasih.'),
-      isBeranda: s.page==='beranda', isArmada:s.page==='armada', isTravel: s.page==='travel', isTentang: s.page==='tentang', isKontak: s.page==='kontak', isBlog: s.page==='blog',
+      isBeranda: s.page==='beranda', isArmada:s.page==='armada', isTravel: s.page==='travel', isTentang: s.page==='tentang', isKontak: s.page==='kontak', isBlog: s.page==='blog', isBlogDetail:s.page==='blog-detail',
       headerBg: s.scrolled ? 'rgba(255,255,255,.92)' : 'rgba(255,255,255,.86)',
       headerBorder: s.scrolled ? '#E3E8F0' : 'rgba(227,232,240,.7)',
       headerPad: s.scrolled ? '10px 0' : '15px 0',
       headerText:'#0B0F1A', headerSub:'#5B6577',
-      goHome:this.goHome, goTravel:this.goTravel, scrollArmada:this.scrollArmada, toggleNav:this.toggleNav,
+      goHome:this.goHome, goTravel:this.goTravel, goBlog:this.goBlog, scrollArmada:this.scrollArmada, toggleNav:this.toggleNav,
       mobileNav:s.mobileNav, nav, navMobile,
       setLangId:this.setLanguage('id'), setLangEn:this.setLanguage('en'),
       idBg:s.lang==='id'?'#1452C4':'transparent', idColor:s.lang==='id'?'#fff':'#5B6577', enBg:s.lang==='en'?'#1452C4':'transparent', enColor:s.lang==='en'?'#fff':'#5B6577',
@@ -1059,7 +1091,7 @@ class Component extends DCLogic {
       dkBg: s.tier==='dk'?'#1452C4':'transparent', dkColor: s.tier==='dk'?'#fff':'#5B6577',
       aiBg: s.tier==='ai'?'#1452C4':'transparent', aiColor: s.tier==='ai'?'#fff':'#5B6577',
       // lists
-      services, routes, steps:this.stepsRaw, cancel:this.cancelRaw, whyus, gallery, faqs, posts, contacts: contacts.map(c=>({...c, iconHtml:{__html:c.icon}})),
+      services, routes, steps:this.stepsRaw, cancel:this.cancelRaw, whyus, gallery, faqs, posts, post, contacts: contacts.map(c=>({...c, iconHtml:{__html:c.icon}})),
       goTravelBtn:this.goTravel,
       // form
       formName:s.formName, formMsg:s.formMsg, setFormName:this.setFormName, setFormMsg:this.setFormMsg, formWa:this.wa(formMsg),
