@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Placeholder social-sharing image (1200x630 typical OG size).
+  Replace with a real PNG or JPG at assets/og-image.png before publishing.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Your Rental Company — Chauffeur-Driven Car Rental">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B0F1A"/>
+      <stop offset="1" stop-color="#1A2230"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.15" r="0.6">
+      <stop offset="0" stop-color="#2E6FE0" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#2E6FE0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g fill="#fff" font-family="'Inter Tight', system-ui, sans-serif">
+    <text x="80" y="240" font-size="72" font-weight="800" letter-spacing="-2">Your Rental Company</text>
+    <text x="80" y="320" font-size="34" font-weight="500" fill="#B9C4D6">Chauffeur-Driven Car Rental &amp; Airport Transfers</text>
+    <text x="80" y="560" font-size="20" font-weight="500" fill="#8FA1BC" letter-spacing="4">REPLACE THIS IMAGE BEFORE PUBLISHING</text>
+  </g>
+</svg>

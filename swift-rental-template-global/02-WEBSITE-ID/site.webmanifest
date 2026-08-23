@@ -1,0 +1,13 @@
+{
+  "name": "Arasya Rent Car",
+  "short_name": "Arasya",
+  "description": "Sewa mobil dengan supir di Bogor, Jakarta & Bandung.",
+  "lang": "id",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0B0F1A",
+  "theme_color": "#0B0F1A",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}

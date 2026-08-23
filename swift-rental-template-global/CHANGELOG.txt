@@ -1,0 +1,16 @@
+CHANGELOG
+================================================================
+
+v1.0.0 — 2026-08-22
+----------------------------------------------------------------
+- Initial global release.
+- English-first primary version (01-WEBSITE-EN).
+- Indonesian bonus localization (02-WEBSITE-ID).
+- Sanitized all business-identifying data to neutral placeholders.
+- New JSON-LD graph (WebSite + AutoRental + WebPage + FAQPage) in EN.
+- Added canonical URLs, hreflang alternates (en / id / x-default).
+- Added robots.txt, sitemap.xml, 404.html per language.
+- Added config.js documenting every value the buyer must replace.
+- Added placeholder social-sharing image (assets/og-image.svg).
+- Documentation: README, GETTING_STARTED, CUSTOMIZATION, SEO_SETUP,
+  FIGMA_LOCALIZATION_CHECKLIST, QUICKSTART_ID.

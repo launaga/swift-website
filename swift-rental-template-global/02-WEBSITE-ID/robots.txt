@@ -1,0 +1,7 @@
+# robots.txt — versi Indonesia (bonus)
+# Ganti https://example.com/ dengan domain produksi Anda sebelum publikasi.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml
