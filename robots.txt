@@ -1,4 +1,4 @@
-# Arasya Rent Car — robots.txt
+# SwiFt (Swift Rent Car) — robots.txt
 # Allow all reputable crawlers, including AI answer engines (SEO thesis: AI citation = conversion channel).
 
 User-agent: *

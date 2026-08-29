@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Arasya Rent Car sitemap.
+  SwiFt (Swift Rent Car) sitemap.
   The current site is a single-page app (sections navigated via in-page routing),
   so only the canonical homepage is a real, indexable URL today.
   As the SEO IA lands (/rute/*, /sewa/*, /layanan/*, /panduan/*), add those URLs here.
